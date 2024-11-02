@@ -1,0 +1,356 @@
+<body>
+    <div>
+        <div class="container text-center mt-4">
+            <h3>Application Setup Wizard</h3>
+        </div>
+        <hr>
+        <hr>
+        
+        <div class="container mt-4">
+            <div class="next_1">
+                <h6>Institute Info</h6>
+            <div class="row p-2">
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Name of your Institute" id="instituteName">
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Address" id="instituteAddress">
+                </div>
+            </div>
+            <div class="row p-2">
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Campus Name" id="campusName">
+                    <!-- <input type="number" class="form-control" placeholder="How many campus does it has...?" id="campusQty">
+                    <div id="campusNameIpDiv"></div> -->
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control" placeholder="How many shift does it has...?" id="shift">
+                    <div id="shiftNameIpDiv"></div>
+                </div>
+            </div>
+            <div class="container d-flex justify-content-end">
+                <button id="next_1" class="btn btn-outline-dark nextRevBtn">Next</button>
+            </div>
+            <hr>
+            </div>
+            <div class="next_2 hide">
+                <h6>Class Info</h6>
+            <div class="row p-2">
+                <div class="col">
+                    <input type="number" class="form-control" placeholder="How many class does it has...?" id="classQtyInput">
+                    <div id="classNameIpDiv"></div>
+                    
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="How many terms does it has...?" id="termsQtyInput">
+                    <div id="termsQtyIpDiv"></div>
+                </div>
+            </div>
+                <div class="container d-flex justify-content-end">
+                    <button id="prv_2" class="btn btn-outline-dark nextRevBtn">Back</button>
+                    <button id="next_2" class="btn btn-outline-dark nextRevBtn">Next</button>
+                </div>
+            </div>
+        </div>
+        <div class="next_3 hide" id="classDetailsDiv">
+            <div class="container-fluid text-center p-0 mt-2">
+                <h6>Class Details</h6>
+                <div id="generatedClassField">
+
+                </div>
+            </div>
+        </div>
+        <div class="hide" id="installDiv">
+            <div class="container d-flex justify-content-end">
+                <input type="hidden" name="classArrData" id="classArrData">
+                <input type="hidden" name="shiftArrData" id="shiftArrData">
+                <input type="hidden" name="termsArrData" id="termsArrData">
+                <input type="hidden" name="subjectArrData" id="subjectArrData">
+                <button id="installButton" class="btn btn-outline-dark">Install</button>
+            </div>
+        </div>
+        <hr>
+        <hr>
+    </div>
+
+    <script>
+        $(document).ready(() => {
+            
+            $("#next_1").click(() => {
+                $(".next_1").addClass("hide")
+                $(".next_2").removeClass("hide")
+            })
+            $("#prv_2").click(() => {
+                $(".next_1").removeClass("hide")
+                $(".next_2").addClass("hide")
+            })
+
+            $(`body`).on("click", `button[id="prv_3"]`, () => {
+                $(".next_3").addClass("hide")
+                $(".next_2").removeClass("hide")
+            })
+            
+            $("#campusQty").focusout(()=> {
+                $("#campusNameIpDiv").empty()
+                let qty = $("#campusQty").val()
+                let q = Number(qty)
+                if (q > 0) {
+                    $("#campusNameIpDiv").append(
+                    `<div class="container-fluid text-center p-0 mt-2">
+                        <h6>Add your campus</h6>`)
+                    let count = 1
+                for (let i = 0; i < q; i++) {
+                    $("#campusNameIpDiv").append(
+                        `<input type="text" class="form-control" placeholder="Name of Campus ${count}" id="campus_${count}">`) 
+                        count++
+                }
+                $("#campusNameIpDiv").append(
+                    `</div>`
+                )  
+                }
+                
+            })
+            
+            $("#shift").focusout(()=> {
+                $("#shiftNameIpDiv").empty()
+                let qty = $("#shift").val()
+                let q = Number(qty)
+                if (q > 0) {
+                    $("#shiftNameIpDiv").append(
+                    `<div class="container-fluid text-center p-0 mt-2">
+                        <h6>Add Shifts</h6>`)
+                    let count = 1
+                for (let i = 0; i < q; i++) {
+                    $("#shiftNameIpDiv").append(
+                        `<input type="text" class="form-control" placeholder="Name of Shift ${count}" id="shift_${count}">`) 
+                    count++
+                }
+                $("#shiftNameIpDiv").append(
+                    `</div>`
+                )  
+                }
+                
+            })
+        
+            $("#classQtyInput").focusout(()=> {
+                $("#classNameIpDiv").empty()
+                let qty = $("#classQtyInput").val()
+                let q = Number(qty)
+                if (q > 0) {
+                    $("#classNameIpDiv").append(
+                    `<div class="container-fluid text-center p-0 mt-2">
+                        <h6>Add Class</h6>`)
+                    let count = 1
+                for (let i = 0; i < q; i++) {
+                    $("#classNameIpDiv").append(
+                        `<input type="text" class="form-control classNameIp" placeholder="Name of Class ${count}" id="class_${count}">`) 
+                    count++
+                }
+                $("#classNameIpDiv").append(
+                    `</div>`
+                )  
+                }
+                
+            })
+            
+            $("#termsQtyInput").focusout(()=> {
+                $("#termsQtyIpDiv").empty()
+                let qty = $("#termsQtyInput").val()
+                let q = Number(qty)
+                if (q > 0) {
+                    $("#termsQtyIpDiv").append(
+                    `<div class="container-fluid text-center p-0 mt-2">
+                        <h6>Add Terms</h6>`)
+                    let count = 1
+                for (let i = 0; i < q; i++) {
+                    $("#termsQtyIpDiv").append(
+                        `<input type="text" class="form-control" placeholder="Name of Terms ${count}" id="term_${count}">`) 
+                    count++
+                }
+                $("#termsQtyIpDiv").append(
+                    `</div>`
+                )  
+                }
+                
+            })
+        
+
+            $(`body`).on("click", `button[id="next_2"]`, () => {
+                $(".next_3").removeClass("hide")
+                $(".next_2").addClass("hide")
+
+                let qty = $("#classQtyInput").val()
+                let count = 1;
+                let element = document.getElementById('readOnlyNameOfClass_1');
+                    if (element !== null) {
+                        // Element exists
+                        for (let i = 0; i < qty; i++) {
+                            let revisedSub = $(`#class_${count}`).val()
+                            $(`#readOnlyNameOfClass_${count}`).val(revisedSub)
+                            count++                
+                        }
+                    } else {
+                        // Element does not exist
+                        for (let i = 0; i < qty; i++) {
+                            let c = $(`#class_${count}`).val()
+                            $("#generatedClassField").append(`<div class="container" id="class_${count}_sub_details">
+                                <div class="container-fluid p-2 d-flex">
+                                    <input type="text" class="form-control p-2" id="readOnlyNameOfClass_${count}" value="${c}" readonly>
+                                    <input type="text" class="form-control p-2" countId="${count}" name="class_sub_qty_ip" id="class_${count}_sub_qty" placeholder="Quantity of subjects?">
+                                </div>
+                                <div id="class_${count}_single_sub_details"></div>
+                            </div>`)
+                            count++                
+                        }
+                        $("#generatedClassField").append(`
+                            <div class="container d-flex justify-content-end">
+                                <button id="prv_3" class="btn btn-outline-dark">Back</button>
+                                <button name="reviewButton" id="reviewButton" class="btn btn-outline-dark nextRevBtn">Next</button>
+                            </div>
+                        `)
+                    }
+                
+                // let c = $(`#class_${count}`).val()
+                // $("#generatedClassField").append(`<div class="container" id="class_${count}_sub_details">
+                //         <div class="container-fluid p-2 d-flex">
+                //             <input type="text" class="form-control p-2" id="readOnlyNameOfClass_${count}" value="${c}" readonly>
+                //             <input type="text" class="form-control p-2" countId="${count}" name="class_sub_qty_ip" id="class_${count}_sub_qty" placeholder="Quantity of subjects?">
+                //         </div>
+                //     </div>`)
+            })
+
+            $(document).on('change', `input[name="class_sub_qty_ip"]`, function() {
+               let sub_qty = $(this).val();
+               let classId = $(this).attr('countId')
+               let count = 1
+               $(`#class_${classId}_single_sub_details`).empty()
+               for (let i = 0; i < sub_qty; i++) {
+                $(`#class_${classId}_single_sub_details`).append(`
+                    <div class="container-fluid p-2 d-flex">
+                        <input type="text" class="form-control p-2 class_${classId}_subject_name" classId="class_${classId}" subjectId="${count}" id="class_${classId}_subject_${count}" placeholder="Name of Subject ${count}">
+                        <input type="text" class="form-control p-2" id="class_${classId}_subject_${count}_full_mark" subjectId="${count}" placeholder="Add Full Mark...?">
+                        <input type="text" class="form-control p-2" id="class_${classId}_subject_${count}_pass_mark" subjectId="${count}" placeholder="Add Pass Mark...?">
+                    </div>
+                `)
+                count++
+                }
+            });
+
+            $("#installButton").click(() => {
+                let name = $("#instituteName").val()
+                let addr = $("#instituteAddress").val()
+                let campusName = $("#campusName").val()
+                // let campusQty = $("#campusQty").val()
+                let shiftQty = $("#shift").val()
+                let classQty = $("#classQtyInput").val()
+                let termQty = $("#termsQtyInput").val()
+                // let campus = []
+                let shift = []
+                let _class = []
+                let terms = []
+                
+
+                function generateData(qty, idName, arr) {
+                    let c = 1;
+                    for (let i = 0; i < qty; i++) {
+                        let id = idName.replace("count", `${c}`)
+                        let val = $(`#${id}`).val()
+                        arr.push(val)
+                        c++
+                    }
+
+                }
+
+                // generateData(campusQty, `campus_count`, campus)
+                generateData(shiftQty, `shift_count`, shift)
+                generateData(classQty, `class_count`, _class)
+                generateData(termQty, `term_count`, terms)
+
+
+                // class_${count}_sub_qty
+                // id="class_${classId}_subject_${count}"
+                // id="class_${classId}_subject_${count}_full_mark"
+                // id="class_${classId}_subject_${count}_pass_mark"
+                let count = 1;
+                let subjectArray = []
+                for (let j = 0; j < classQty; j++) {
+                    let subQty = $(`#class_${count}_sub_qty`).val()
+                    let index = 1
+                    let allSubjects = []
+                    
+                    for (let Q = 0; Q < subQty; Q++) {
+                        let subName = $(`#class_${count}_subject_${index}`).val()
+                        let fullMark = $(`#class_${count}_subject_${index}_full_mark`).val()
+                        let passMark = $(`#class_${count}_subject_${index}_pass_mark`).val()
+                        let subData;
+                        if (index == subQty) {
+                            subData = [subName, fullMark, passMark]
+                        } else {
+                            subData = [subName, fullMark, passMark, "#"]
+                        }
+                        allSubjects.push(subData)
+                        index++
+                    }
+
+                    if (count == classQty) {
+                        subjectArray.push(allSubjects)
+                    } else {
+                        allSubjects.push("+")
+                        subjectArray.push(allSubjects)
+                    }
+                    
+                    count++
+                }
+                $("#classArrData").val(_class)
+                $("#shiftArrData").val(shift)
+                $("#termsArrData").val(terms)
+                $("#subjectArrData").val(subjectArray)
+                setTimeout(()=>{
+                        // let data = {cName : name, cAddress: addr, campus: campusName, shift: shift, _class: _class, terms: terms, subject: subjectArray}
+                        let classArrData = $("#classArrData").val()
+                        let shiftArrData = $("#shiftArrData").val()
+                        let termsArrData = $("#termsArrData").val()
+                        let subject = $("#subjectArrData").val()
+                        $.ajax({
+                        url: "/setup/enroll_Institute",
+                        type: "post",
+                        data: {cName : name, cAddress: addr, campus: campusName, shift: shiftArrData, _class: classArrData, terms: termsArrData, subject: subject},
+                        // contentType: 'application/json',
+                        // data: {cName : name, cAddress: addr, campus: campusName, shift: shift, _class: _class, terms: terms, subject: subjectArray},
+                        success: () => {
+
+                        }
+                    })
+                },3000)
+                
+                // id="campus_${count}">
+                // id="shift_${count}">
+                // id="class_${count}" // class name
+                // id="term_${count}"
+                // id="class_${count}_sub_qty" // class subject quantity
+                // classId="class_${classId}" 
+                // class="class_${classId}_subject_name"
+                // subjectId="${count}"
+                // id="class_${classId}_subject_${count}"
+                // id="class_${classId}_subject_${count}_full_mark"
+                // id="class_${classId}_subject_${count}_pass_mark"
+            })
+
+            $("body").on("click", `button[name="reviewButton"]`, (e) => {
+                
+                alert("Kindly review and confirm if the given information are all in order and edit if necessary!")
+                $(".next_1").removeClass("hide")
+                $(".next_2").removeClass("hide")
+                $(".next_3").removeClass("hide")
+                $("#next_1").addClass("hide")
+                $("#next_2").addClass("hide")
+                $("#prv_2").addClass("hide")
+                $("#prv_3").addClass("hide")
+                $("#reviewButton").addClass("hide")
+                $("#installDiv").removeClass("hide")
+                
+            })
+            
+        })  
+    </script>
+</body>

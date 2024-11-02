@@ -1,0 +1,17 @@
+id="instituteName"
+id="instituteAddress"
+id="campusQty"
+id="campus_${count}">
+id="shift" //shift quantity
+id="shift_${count}">
+id="classQtyInput"
+id="class_${count}" // class name
+id="termsQtyInput"
+id="term_${count}"
+id="class_${count}_sub_qty" // class subject quantity
+classId="class_${classId}" 
+class="class_${classId}_subject_name"
+subjectId="${count}"
+id="class_${classId}_subject_${count}"
+id="class_${classId}_subject_${count}_full_mark"
+id="class_${classId}_subject_${count}_pass_mark"

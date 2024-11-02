@@ -22,9 +22,11 @@ app.use('/uploadedFiles', express.static(__dirname + 'public/uploadedFiles'));
 
 // Routes
 const router = require('./src/routes/router.js');
+const setup = require('./src/routes/setup.js');
 
 // Using routers
 app.use('/', router);
+app.use('/setup', setup);
 
 app.listen(PORT, (err) => {
     if (err) console.log(err)
