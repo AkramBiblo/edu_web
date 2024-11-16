@@ -1,0 +1,153 @@
+<body>
+    <div class="container p-3">
+            <a class="btn btn-outline-info admin-button" href="/alhera2023admin">Admin Panel</a>
+          </div>
+    <div class="container d-flex justify-content-center p-2 f">
+        <h4>Nursery</h4>
+    </div>
+      <%- include('./partials/error.ejs') %>
+      <%- include('./partials/successMsg.ejs') %>
+    <form action="/result/update" method="post">
+        <div class="container border f p-3 mb-3" style="max-width: 500px;">
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="sid">SID</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="sid" class="form-control ip" name="sid">
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-lg-4">
+                    <h6><label for="">Select class</label></h6>
+                </div>
+                <div class="col-lg-8">
+                    <div class="form-group">
+                        <select class="form-control" id="sel1" name="cid">
+                            <!-- <option value="">Select class</option> -->
+                            <option value="99" selected>Nursery</option>
+                            <!-- <option value="100">K.G</option>
+                            <option value="1">Class 1</option>
+                            <option value="2">Class 2</option>
+                            <option value="3">Class 3</option>
+                            <option value="4">Class 4</option>
+                            <option value="5">Class 5</option> -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="arabic">Arabic</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="arabic" class="form-control ip" name="arabic">
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="islamiat">Islamiat</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="islamiat" class="form-control ip" name="islamiat">
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="bangla">Bangla</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="bangla" class="form-control ip" name="bangla">
+                </div>
+            </div>
+            
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="english">English</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="english" class="form-control ip" name="english">
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="math">Math</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="math" class="form-control ip" name="math">
+                </div>
+            </div>
+            
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="drawing">Drawing</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="drawing" class="form-control ip" name="drawing">
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="GK">General Knowledge</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="GK" class="form-control ip" name="GK">
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="AGM">AGM</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="AGM" class="form-control ip" name="AGM">
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="HR">Hand Writing</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="HR" class="form-control ip" name="HR">
+                </div>
+            </div>
+            <div id="resultSubmitDiv">
+                <div class="container-fluid d-flex justify-content-end">
+                    <h6 class="text-success">Result Submit Buttons</h6>
+                </div>
+                <div class="container-fluid mt-2 p-0 ip d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success m-1">1st Term</button>
+                    <button type="submit" formaction="/result/update/secondTerm" class="btn btn-success m-1">2nd term</button>
+                    <!-- <button type="submit" formaction="/result/update/thirdTerm" class="btn btn-success m-1">3rd term</button> -->
+                    <button type="submit" formaction="/result/update/annualTerm" class="btn btn-success m-1">Annual term</button>
+                    
+                </div>
+            </div>
+            
+            <div id="revisedSubmitButton">
+                <div class="container-fluid d-flex justify-content-end">
+                    <h6 class="text-dark">Revised Result Submit Buttons</h6>
+                </div>
+                
+                <div class="container-fluid mt-2 p-0 ip d-flex justify-content-end">
+                    <button formaction="/result/updateRevisedResult/First Term" class="btn btn-outline-dark m-1">1st Term</button>
+                    <button formaction="/result/updateRevisedResult/Mid Term" class="btn btn-outline-dark m-1">2nd term</button>
+                    <button formaction="/result/updateRevisedResult/Annual Term" class="btn btn-outline-dark m-1">Annual term</button>
+                </div>
+            </div>
+            
+        </div>
+    </form>
+    
+    <div class="container">
+        <button id="RevisedSwitchButton" class="btn btn-danger m-1">Revised</button>
+    </div>
+        <script>
+            $(document).ready(() => {
+                $("#revisedSubmitButton").hide()
+                $("#RevisedSwitchButton").click(() => {
+                    $("#revisedSubmitButton").toggle()
+                    $("#resultSubmitDiv").toggle()
+                })
+            })
+        </script>
+</body>

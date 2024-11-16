@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+  <link rel="stylesheet" href="otherstyle.css">
+  <title>File upload forms</title>
+  <style>
+    body {
+      background-image: url('home_img/bg6.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .nvd {
+      border-radius: 8px;
+    }
+  </style>
+
+</head>
+
+<body>
+
+
+
+  <div class="container bg-dark text-white border mt-3 pb-5">
+    <div class="row">
+      <div class="col-sm-10">
+        <h2>Welcome</h2>
+      </div>
+      <div class="col-sm-2">
+        <form method="POST">
+          <button name="logout" class="btn btn-success">Log Out</button>
+        </form>
+      </div>
+    </div><br>
+
+    <div class="container">
+      <h4 class="text-success">You can upload your files on your webpages from here</h4>
+      <br>
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#home">Home form</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#lights">Lights form</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#navigation">Navigation form</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#safety">Safety form</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#other">Other form</a>
+        </li>
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <!-- Home form -->
+        <div id="home" class="container tab-pane active"><br>
+          <h3>Upload files on home page</h3>
+          <div class="container">
+            <form enctype="multipart/form-data" action="homefileprocess.php" method="POST">
+              <div class="container mt-5">
+                <div class="row mt-3">
+                  <div class="col-lg-3">
+                    <h4><label for="producttype">Product Type</label></h4>
+                  </div>
+                  <div class="col-lg-9">
+                    <input type="text" class="form-control" name="producttype" placeholder="Product type" required>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-lg-3">
+                    <h4><label for="productcode">Product Code</label></h4>
+                  </div>
+                  <div class="col-lg-9">
+                    <input type="text" class="form-control" name="productcode" placeholder="Product Code" required>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-lg-3">
+                    <h4><label for="productname">Product Name</label></h4>
+                  </div>
+                  <div class="col-lg-9">
+                    <input type="text" class="form-control" name="productname" placeholder="Product Name" required>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-lg-3">
+                    <h4><label for="productdesc">Product Description</label></h4>
+                  </div>
+                  <div class="col-lg-9">
+                    <textarea class="form-control" name="productdesc" placeholder="Product Description..." style="height:200px"></textarea>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-sm-3">
+                    <h4><label for="home">Select file to upload: </label></h4>
+                  </div>
+                  <div class="col-sm-9">
+                    <div class="row">
+                      <div class="col">
+                        <!-- MAX_FILE_SIZE must precede the file input field -->
+                        <input type="hidden" name="MAX_FILE_SIZE" value="1000000" />
+                        <!-- Name of input element determines name in $_FILES array -->
+                        <input name="home" type="file" required>
+                      </div>
+                      <div class="col d-flex justify-content-end">
+                        <button name="home_submit_button" type="submit" class="btn btn-success mr-2">Add Item</button>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </form>
+            <!-- Edit form -->
+            <form enctype="multipart/form-data" action="edit.php" method="POST">
+              <div class="container mt-5">
+                <div class="row mt-3">
+                  <div class="col-sm-3">
+                    <h4><label for="home">Edit Item: </label></h4>
+                  </div>
+                  <div class="col-sm-9">
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control" name="productcode" placeholder="Product Code" required>
+                      <div class="input-group-append">
+                        <button name="home_edit_button" type="submit" class="btn btn-warning">Edit Item</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <!-- Remove form -->
+            <form enctype="multipart/form-data" action="homefileprocess.php" method="POST" onsubmit="return confirm('Are you sure you want to remove this item? Press Ok to confirm.');">
+              <div class="container mt-5">
+                <div class="row mt-3">
+                  <div class="col-sm-3">
+                    <h4><label for="home">Remove Item: </label></h4>
+                  </div>
+                  <div class="col-sm-9">
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control" name="productcode" placeholder="Product Code" required>
+                      <div class="input-group-append">
+                        <button name="home_remove_button" type="submit" class="btn btn-danger">Remove Item</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            
+          </div>
+        </div>
+        <!-- lights form -->
+        <div id="lights" class="container tab-pane fade"><br>
+          <h3>Upload files on lights page</h3>
+          <div class="container">
+            <form enctype="multipart/form-data" action="homefileprocess.php" method="POST">
+              <div class="container mt-5">
+                <div class="row mt-3">
+                  <div class="col-lg-3">
+                    <h4><label for="productcode">Product Code</label></h4>
+                  </div>
+                  <div class="col-lg-9">
+                    <input type="text" class="form-control" name="productcode" placeholder="Product Code" required>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-lg-3">
+                    <h4><label for="productname">Product Name</label></h4>
+                  </div>
+                  <div class="col-lg-9">
+                    <input type="text" class="form-control" name="productname" placeholder="Product Name" required>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-lg-3">
+                    <h4><label for="productprice">Product Price</label></h4>
+                  </div>
+                  <div class="col-lg-9">
+                    <input type="text" class="form-control" name="productprice" placeholder="Product Price" required>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-lg-3">
+                    <h4><label for="productdesc">Product Description</label></h4>
+                  </div>
+                  <div class="col-lg-9">
+                    <textarea class="form-control" name="productdesc" placeholder="Product Description..." style="height:200px"></textarea>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-sm-3">
+                    <h4><label for="lights">Select file to upload: </label></h4>
+                  </div>
+                  <div class="col-sm-9">
+                    <div class="row">
+                      <div class="col">
+                        <!-- MAX_FILE_SIZE must precede the file input field -->
+                        <input type="hidden" name="MAX_FILE_SIZE" value="1000000" />
+                        <!-- Name of input element determines name in $_FILES array -->
+                        <input name="lights" type="file" required>
+                      </div>
+                      <div class="col d-flex justify-content-end">
+                        <button name="lights_submit_button" type="submit" class="btn btn-success mr-2">Add Item</button>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </form>
+            <!-- Edit form -->
+            <form enctype="multipart/form-data" action="edit.php" method="POST">
+              <div class="container mt-5">
+                <div class="row mt-3">
+                  <div class="col-sm-3">
+                    <h4><label for="productcode">Edit Item: </label></h4>
+                  </div>
+                  <div class="col-sm-9">
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control" name="productcode" placeholder="Product Code" required>
+                      <div class="input-group-append">
+                        <button name="lights_edit_button" type="submit" class="btn btn-warning">Edit Item</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <!-- Remove form -->
+            <form enctype="multipart/form-data" action="homefileprocess.php" method="POST" onsubmit="return confirm('Are you sure you want to remove this item? Press Ok to confirm.');">
+              <div class="container mt-5">
+                <div class="row mt-3">
+                  <div class="col-sm-3">
+                    <h4><label for="home">Remove Item: </label></h4>
+                  </div>
+                  <div class="col-sm-9">
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control" name="productcode" placeholder="Product Code" required>
+                      <div class="input-group-append">
+                        <button name="lights_remove_button" type="submit" class="btn btn-danger">Remove Item</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            
+          </div>
+        </div>
+        <!-- navigation form -->
+        <div id="navigation" class="container tab-pane fade"><br>
+          <h3>Upload files on navigation page</h3>
+          <div class="container">
+            <form enctype="multipart/form-data" action="homefileprocess.php" method="POST">
+              <div class="container mt-5">
+                <div class="row mt-3">
+                  <div class="col-lg-3">
+                    <h4><label for="productcode">Product Code</label></h4>
+                  </div>
+                  <div class="col-lg-9">
+                    <input type="text" class="form-control" name="productcode" placeholder="Product Code" required>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-lg-3">
+                    <h4><label for="productname">Product Name</label></h4>
+                  </div>
+                  <div class="col-lg-9">
+                    <input type="text" class="form-control" name="productname" placeholder="Product Name" required>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-lg-3">
+                    <h4><label for="productprice">Product Price</label></h4>
+                  </div>
+                  <div class="col-lg-9">
+                    <input type="text" class="form-control" name="productprice" placeholder="Product Price" required>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-lg-3">
+                    <h4><label for="productdesc">Product Description</label></h4>
+                  </div>
+                  <div class="col-lg-9">
+                    <textarea class="form-control" name="productdesc" placeholder="Product Description..." style="height:200px"></textarea>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-sm-3">
+                    <h4><label for="navigation">Select file to upload: </label></h4>
+                  </div>
+                  <div class="col-sm-9">
+                    <div class="row">
+                      <div class="col">
+                        <!-- MAX_FILE_SIZE must precede the file input field -->
+                        <input type="hidden" name="MAX_FILE_SIZE" value="1000000" />
+                        <!-- Name of input element determines name in $_FILES array -->
+                        <input name="navigation" type="file" required>
+                      </div>
+                      <div class="col d-flex justify-content-end">
+                        <button name="navigation_submit_button" type="submit" class="btn btn-success mr-2">Add Item</button>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </form>
+            <!-- Edit form -->
+            <form enctype="multipart/form-data" action="edit.php" method="POST">
+              <div class="container mt-5">
+                <div class="row mt-3">
+                  <div class="col-sm-3">
+                    <h4><label for="productcode">Edit Item: </label></h4>
+                  </div>
+                  <div class="col-sm-9">
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control" name="productcode" placeholder="Product Code" required>
+                      <div class="input-group-append">
+                        <button name="navigation_edit_button" type="submit" class="btn btn-warning">Edit Item</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <!-- Remove form -->
+            <form enctype="multipart/form-data" action="homefileprocess.php" method="POST" onsubmit="return confirm('Are you sure you want to remove this item? Press Ok to confirm.');">
+              <div class="container mt-5">
+                <div class="row mt-3">
+                  <div class="col-sm-3">
+                    <h4><label for="home">Remove Item: </label></h4>
+                  </div>
+                  <div class="col-sm-9">
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control" name="productcode" placeholder="Product Code" required>
+                      <div class="input-group-append">
+                        <button name="navigation_remove_button" type="submit" class="btn btn-danger">Remove Item</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            
+          </div>
+        </div>
+        <!-- safety form -->
+        <div id="safety" class="container tab-pane fade"><br>
+          <h3>Upload files on safety page</h3>
+          <div class="container">
+            <form enctype="multipart/form-data" action="homefileprocess.php" method="POST">
+              <div class="container mt-5">
+                <div class="row mt-3">
+                  <div class="col-lg-3">
+                    <h4><label for="productcode">Product Code</label></h4>
+                  </div>
+                  <div class="col-lg-9">
+                    <input type="text" class="form-control" name="productcode" placeholder="Product Code" required>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-lg-3">
+                    <h4><label for="productname">Product Name</label></h4>
+                  </div>
+                  <div class="col-lg-9">
+                    <input type="text" class="form-control" name="productname" placeholder="Product Name" required>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-lg-3">
+                    <h4><label for="productprice">Product Price</label></h4>
+                  </div>
+                  <div class="col-lg-9">
+                    <input type="text" class="form-control" name="productprice" placeholder="Product Price" required>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-lg-3">
+                    <h4><label for="productdesc">Product Description</label></h4>
+                  </div>
+                  <div class="col-lg-9">
+                    <textarea class="form-control" name="productdesc" placeholder="Product Description..." style="height:200px"></textarea>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-sm-3">
+                    <h4><label for="safety">Select file to upload: </label></h4>
+                  </div>
+                  <div class="col-sm-9">
+                    <div class="row">
+                      <div class="col">
+                        <!-- MAX_FILE_SIZE must precede the file input field -->
+                        <input type="hidden" name="MAX_FILE_SIZE" value="1000000" />
+                        <!-- Name of input element determines name in $_FILES array -->
+                        <input name="safety" type="file" required>
+                      </div>
+                      <div class="col d-flex justify-content-end">
+                        <button name="safety_submit_button" type="submit" class="btn btn-success mr-2">Add Item</button>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </form>
+            <!-- Edit form -->
+            <form enctype="multipart/form-data" action="edit.php" method="POST">
+              <div class="container mt-5">
+                <div class="row mt-3">
+                  <div class="col-sm-3">
+                    <h4><label for="productcode">Edit Item: </label></h4>
+                  </div>
+                  <div class="col-sm-9">
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control" name="productcode" placeholder="Product Code" required>
+                      <div class="input-group-append">
+                        <button name="safety_edit_button" type="submit" class="btn btn-warning">Edit Item</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <!-- Remove form -->
+            <form enctype="multipart/form-data" action="homefileprocess.php" method="POST" onsubmit="return confirm('Are you sure you want to remove this item? Press Ok to confirm.');">
+              <div class="container mt-5">
+                <div class="row mt-3">
+                  <div class="col-sm-3">
+                    <h4><label for="home">Remove Item: </label></h4>
+                  </div>
+                  <div class="col-sm-9">
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control" name="productcode" placeholder="Product Code" required>
+                      <div class="input-group-append">
+                        <button name="safety_remove_button" type="submit" class="btn btn-danger">Remove Item</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            
+          </div>
+        </div>
+        <!-- other form -->
+        <div id="other" class="container tab-pane fade"><br>
+          <h3>Upload files on other page</h3>
+          <div class="container">
+            <form enctype="multipart/form-data" action="homefileprocess.php" method="POST">
+              <div class="container mt-5">
+                <div class="row mt-3">
+                  <div class="col-lg-3">
+                    <h4><label for="productcode">Product Code</label></h4>
+                  </div>
+                  <div class="col-lg-9">
+                    <input type="text" class="form-control" name="productcode" placeholder="Product Code" required>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-lg-3">
+                    <h4><label for="productname">Product Name</label></h4>
+                  </div>
+                  <div class="col-lg-9">
+                    <input type="text" class="form-control" name="productname" placeholder="Product Name" required>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-lg-3">
+                    <h4><label for="productprice">Product Price</label></h4>
+                  </div>
+                  <div class="col-lg-9">
+                    <input type="text" class="form-control" name="productprice" placeholder="Product Price" required>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-lg-3">
+                    <h4><label for="productdesc">Product Description</label></h4>
+                  </div>
+                  <div class="col-lg-9">
+                    <textarea class="form-control" name="productdesc" placeholder="Product Description..." style="height:200px"></textarea>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-sm-3">
+                    <h4><label for="other">Select file to upload: </label></h4>
+                  </div>
+                  <div class="col-sm-9">
+                    <div class="row">
+                      <div class="col">
+                        <!-- MAX_FILE_SIZE must precede the file input field -->
+                        <input type="hidden" name="MAX_FILE_SIZE" value="1000000" />
+                        <!-- Name of input element determines name in $_FILES array -->
+                        <input name="other" type="file" required>
+                      </div>
+                      <div class="col d-flex justify-content-end">
+                        <button name="other_submit_button" type="submit" class="btn btn-success mr-2">Add Item</button>
+                        <!-- <input class="btn btn-success" type="submit" value="Submit"> -->
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </form>
+            <!-- Edit form -->
+            <form enctype="multipart/form-data" action="edit.php" method="POST">
+              <div class="container mt-5">
+                <div class="row mt-3">
+                  <div class="col-sm-3">
+                    <h4><label for="productcode">Edit Item: </label></h4>
+                  </div>
+                  <div class="col-sm-9">
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control" name="productcode" placeholder="Product Code" required>
+                      <div class="input-group-append">
+                        <button name="other_edit_button" type="submit" class="btn btn-warning">Edit Item</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <!-- Remove form -->
+            <form enctype="multipart/form-data" action="homefileprocess.php" method="POST" onsubmit="return confirm('Are you sure you want to remove this item? Press Ok to confirm.');">
+              <div class="container mt-5">
+                <div class="row mt-3">
+                  <div class="col-sm-3">
+                    <h4><label for="home">Remove Item: </label></h4>
+                  </div>
+                  <div class="col-sm-9">
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control" name="productcode" placeholder="Product Code" required>
+                      <div class="input-group-append">
+                        <button name="other_remove_button" type="submit" class="btn btn-danger">Remove Item</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+  </div>
+
+
+  
+</body>
+
+</html>

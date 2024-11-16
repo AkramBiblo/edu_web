@@ -1,0 +1,26 @@
+<body>
+  <%- include("./partials/header.ejs") %>
+    <div class="hideInMobile" style="height: 100px;"></div>
+    <div class="container-fluid border p-4" style="max-width: 300px;border-radius: 10px;">
+        <!-- Form  -->
+            <div class="container">
+                <h4>Admin Login</h4>
+            </div>
+             
+                <%- include('./partials/error.ejs') %>
+            
+            <form action="/admin/login" method="POST">
+                <div class="container mt-5">
+                    <div class="row mt-3">
+                            <input type="text" class="form-control" name="campus" placeholder="Campus" required>
+                    </div>
+                    <div class="row mt-3">
+                            <input type="text" class="form-control" name="password" placeholder="Password" required>
+                    </div>
+                    <div class="row d-flex justify-content-start mt-4">
+                        <input class="btn btn-outline-dark mr-2" name="submit" type="submit" value="Login">
+                    </div>
+                </div>
+            </form>
+        </div> 
+</body>

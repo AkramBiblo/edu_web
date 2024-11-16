@@ -1,0 +1,82 @@
+<body>
+    <%- include('./partials/header.ejs') %> 
+    <% if (locals.message != null) { %>
+<div class="row text-center">
+    <div class="col">
+        <div class="container mt-4">
+            <%- include('./partials/successMsg.ejs') %>
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt-5"  style="max-width: 500px;">
+  <div class="row mt-3">
+      <div class="col-sm">
+          <div class="flex-column justify-content-end">
+              <div>
+                <% if (message.file) {%>
+                  <img style="border-radius: 8px; max-height: 150px;max-width: 150px;" src="/uploadedFiles/<%= message.file %>" alt="<%= message.file %>">
+                <%} %>
+                </div>
+          </div>
+          
+      </div>
+  </div>
+  <div class="row mt-3">
+      <div class="col-sm">
+          <h6><label for="fname" class="font-weight-bolder">Name :</label></h6>
+      </div>
+      <div class="col-sm p-1 d-flex justify-content-start">
+        <h6>
+            <%= message.name %>
+        </h6>
+      </div>
+  </div>
+  
+  <div class="row mt-3">
+      <div class="col-sm">
+          <h6><label for="address" class="font-weight-bolder">Address :</label></h6>
+      </div>
+      <div class="col-sm p-1 d-flex justify-content-start">
+        <h6>
+            <%= message.address %>
+        </h6>
+      </div>
+  </div>
+  <div class="row mt-3">
+      <div class="col-sm">
+          <h6><label for="institute" class="font-weight-bolder">Qualifications :</label></h6>
+      </div>
+      <div class="col-sm p-1 d-flex justify-content-start">
+        <h6><%= message.qualifications %></h6>
+      </div>
+  </div>
+  <div class="row mt-3">
+      <div class="col-sm">
+          <h6><label for="email" class="font-weight-bolder">Email :</label></h6>
+      </div>
+      <div class="col-sm p-1 d-flex justify-content-start">
+          <h6><%= message.email %></h6>
+      </div>
+  </div>
+  <div class="row mt-3">
+      <div class="col-sm">
+          <h6><label for="mobile" class="font-weight-bolder">Mobile :</label></h6>
+      </div>
+      <div class="col-sm p-1 d-flex justify-content-start">
+        <h6>
+            <%= message.mobile %>
+        </h6>
+      </div>
+  </div>
+<div class="row mt-3">
+    <div class="col-sm">
+        <h6><label for="courses" class="font-weight-bolder">Conduct attendance :</label></h6>
+    </div>
+    <div class="col-sm p-1 d-flex justify-content-start">
+      <a href="/classActivities">Get Attendance</a>
+    </div>
+</div>
+<% } %> 
+</body>

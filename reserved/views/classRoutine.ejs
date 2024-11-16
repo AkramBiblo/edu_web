@@ -1,0 +1,89 @@
+<body>
+    
+  <%- include("./partials/header.ejs") %>
+   
+    <div class="container d-column f">
+      <div class="container d-flex p-2 f">
+        <!-- <a class="btn btn-outline-info m-2" href="/img/download/<%= message[0] %>.jpg" download="Class routine">Download</a> -->
+        <a class="btn btn-outline-info m-2" onclick="takePrint()">Print</a>
+        <!-- <a class="btn btn-outline-info m-2" onclick="printDiv()">Print</a> -->
+      </div>
+      <div class="row" id="takePrint">
+        <div class="container d-flex justify-content-center">
+          <div class="col-4 d-flex justify-content-end logoDiv">
+            <img class="logo" src="/img/finallogo.jpg" alt="Logo">
+          </div>
+          <div class="col p0 headDiv">
+            <div class="container head headDiv">
+              <h1 class="_head" style="color:#009999; font-family: fantasy;">IQRA MODEL DAKHIL MADRASHA</h1>
+            </div>
+          </div>
+        </div>
+        <div class="container text-dark p-3 p">
+          <% if (locals.message != null) { %> 
+            <h2 id="classTitle" class="welcomeMsg" style="font-family: fantasy;"><%= message[0] %> Routine</h2>
+            <% } %> 
+        </div>
+        <table id="tbl" class="table table-bordered table-info table-striped">
+          <thead class="thead-dark text-center">
+              <th>Day</th>
+              <th>8 AM-9:10 AM</th>
+              <th>9:11 AM-10:10 AM</th>
+              <th>10:11 AM-10:39 AM</th>
+              <th>10:40 AM-11:50 AM</th>
+              <th>11:50 AM-1:00 PM</th>
+          </thead>
+          <tbody id="routineData" class=" text-center">
+            <% if (locals.message != null) { for (let i = 0; i < message.length; i++) { 
+                            if (i === 0) {
+                                continue
+                            };
+                            if (i === 1) {
+                                continue
+                            };
+                            
+                            switch (i) {
+                              case 0:
+                                day = "Sat";
+                                break;
+                              case 1:
+                                day = "Sun";
+                                break;
+                              case 2:
+                                day = "Mon";
+                                break;
+                              case 3:
+                                day = "Tue";
+                                break;
+                              case 4:
+                                day = "Wed";
+                                break;
+                              case 5:
+                                day = "Thu";
+                          }
+                            %>
+                            <tr><td><%= day %></td>
+                            <% const info = message[i];
+                            for (let i = 0; i < info.length; i++) {
+                                const elem = info[i];
+                            %>
+                                <td><%= elem %></td>
+                           <% } %>
+                          </tr>
+                        <% } } %> 
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      function takePrint() {
+            let result = document.getElementById('takePrint').innerHTML
+            let body = document.body.innerHTML
+            document.body.innerHTML = result
+            window.print()
+            document.body.innerHTML = body
+        }
+      </script>
+</body>

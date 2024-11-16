@@ -1,0 +1,175 @@
+<body>
+  <%- include('./partials/header.ejs') %> 
+  <div class="container text-center mt-4">
+    <h4>
+      <% if (locals.welcomeMsg !=null) {%>
+        <%=welcomeMsg%>
+          <%}%>
+    </h4>
+  </div>
+  <div class="container p-5 f">
+    <div class="row f">
+      <div class="col-md f">
+        <div class="container p-5 f">
+          <div class="container f text-center">
+            <h6>Query attendance</h6>
+          </div>
+          <div class="container f" id="queryMsg">
+
+          </div>
+          <form id="attdQuery f">
+            <div class="row mt-3 f">
+              <div class="form-check-inline f">
+                <label class="form-check-label">
+                  <input type="radio" id="m" class="form-check-input" name="optradio">Full months attendance
+                </label>
+              </div>
+              <div class="form-check-inline f">
+                <label class="form-check-label">
+                  <input type="radio" id="d" class="form-check-input" name="optradio">Single day
+                </label>
+              </div>
+            </div>
+            <div class="row mt-3" id="year"> 
+              <div class="col-lg-4 p-0">
+                  <h6><label for="paid">Input Year :</label></h6>
+              </div>
+              <div class="col-lg-8 p-0">
+                  <input type="text" id="ySelect" class="form-control paid" name="year" placeholder="Year" maxlength="4" required>
+              </div>
+          </div>
+            <div class="row mt-3 f" id="month">
+              <div class="col-lg-4 p-0">
+                <h6><label for="">Select month</label></h6>
+              </div>
+              <div class="col-lg-8 p-0 f">
+                <div class="form-group f">
+                  <select class="form-control" id="mSelect">
+                    <option value="">Select</option>
+                    <option value="1">Jan</option>
+                    <option value="2">Feb</option>
+                    <option value="3">Mar</option>
+                    <option value="4">Apr</option>
+                    <option value="5">May</option>
+                    <option value="6">Jun</option>
+                    <option value="7">Jul</option>
+                    <option value="8">Aug</option>
+                    <option value="9">Sep</option>
+                    <option value="10">Oct</option>
+                    <option value="11">Nov</option>
+                    <option value="12">Dec</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3 f" id="day">
+              <input type="date" class="form-control" name="date" id="QDate" required />
+            </div>
+            <div class="row mt-3 f">
+              <input type="text" class="form-control" name="sid" id="sid" placeholder="SID" required />
+            </div>
+            <div class="row mt-3 f">
+              <div class="col-lg-4 p-0 f">
+                <h6><label for="paid">Select class</label></h6>
+              </div>
+              <div class="col-lg-8 p-0 f">
+                <div class="form-group f">
+                  <select class="form-control" id="cid" name="cls">
+                    <option value="">Select class</option>
+                    <option value="99">Play</option>
+                    <option value="100">Nursery</option>
+                    <option value="1">Class 1</option>
+                    <option value="2">Class 2</option>
+                    <option value="3">Class 3</option>
+                    <option value="4">Class 4</option>
+                    <option value="5">Class 5</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-3 f">
+              <button type="button" campus="<%= locals.campus %>" name="AttdQSubmit" class="btn btn-success m-1">Search</button>
+              <button type="button" class="btn btn-success m-1" name="reset">Reset</button>
+              <input type="hidden" name="campus" value="<%= locals.campus %>">
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col f text-center">
+        <div class="container text-center">
+          <h4>Attendance</h4>
+        </div>
+        <div class="list-group">
+          <a href="/teachers/<%= locals.campus %>/class/99" class="list-group-item list-group-item-action list-group-item-info">Nursery</a>
+          <a href="/teachers/<%= locals.campus %>/class/100" class="list-group-item list-group-item-action list-group-item-warning">K.G</a>
+          <a href="/teachers/<%= locals.campus %>/class/1" class="list-group-item list-group-item-action list-group-item-primary">Class 1</a>
+          <a href="/teachers/<%= locals.campus %>/class/2" class="list-group-item list-group-item-action list-group-item-success">Class 2</a>
+          <a href="/teachers/<%= locals.campus %>/class/3" class="list-group-item list-group-item-action list-group-item-secondary">Class 3</a>
+          <a href="/teachers/<%= locals.campus %>/class/4" class="list-group-item list-group-item-action list-group-item-info">Class 4</a>
+          <a href="/teachers/<%= locals.campus %>/class/5" class="list-group-item list-group-item-action list-group-item-warning">Class 5</a>
+          <a href="/teachers/<%= locals.campus %>/class/6" class="list-group-item list-group-item-action list-group-item-primary">Class 6</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    $(document).ready(() => {
+
+      $('#month').hide()
+      $('#year').hide()
+      $('#day').hide()
+      $('#m').click(() => {
+        $('#day').hide()
+        $('#month').show()
+        $('#year').show()
+      })
+      $('#d').click(() => {
+        $('#month').hide()
+        $('#year').hide()
+        $('#day').show()
+      })
+
+      $('button').click((event) => {
+        let name = event.target.getAttribute('name')
+        let campus = event.target.getAttribute('campus')
+        if (name == 'AttdQSubmit') {
+          let date = $('#QDate').val()
+          let sid = $('#sid').val()
+          let cid = $('#cid').val()
+          let month = $('#mSelect').val()
+          let year = $('#ySelect').val()
+          $.ajax({
+            url: "/attendance/query",
+            type: "POST",
+            data: {
+              date: date,
+              sid: sid,
+              cid: cid,
+              m: month,
+              y: year,
+              campus: campus
+            },
+            async: false,
+            success: (data) => {
+              $('#queryMsg').empty()
+              $('#queryMsg').append(data)
+            }
+          })
+        } else if (name == 'reset') {
+          $('#queryMsg').empty()
+          $('#sid').val('')
+          $('#cid').val('')
+          $('#QDate').val('')
+          $('#mSelect').val('')
+          $('#ySelect').val('')
+        }
+
+      })
+
+
+    });
+  </script>
+</body>

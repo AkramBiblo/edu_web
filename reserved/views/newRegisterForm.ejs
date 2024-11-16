@@ -1,0 +1,550 @@
+<body>
+  <%- include("./partials/header.ejs") %>
+
+    <div class="container bg-info p-4">
+        <!-- Form  -->
+        <div class="container text-warning text-center">
+            <h1 class="welcomeMsg">Profile update form</h1>
+        </div>
+
+        <%- include('./partials/error.ejs') %>
+        <% if (locals.message != null) {%>
+        <div class="row p-3 mt-3">
+            <div class="col">
+                <div class="flex-column justify-content-end">
+                    <img style="border-radius: 8px; max-height: 150px;max-width: 150px;" src="/uploadedFiles/<%= message.result.file %>" alt="Profile picture">
+                </div>
+            </div>
+        </div>
+        <% } %> 
+    <form id="form" action="/register/new" method="POST">
+        <input type="hidden" name="campus" value="<%= message.result.campus %>">
+      <div class="row p-3 bg-info text-light">
+          <div class="col">
+            <div class="contianer text-center p-1">
+                <h5 class="">Personal Info</h5>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="sid">SID</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="sid" class="form-control ip" name="sid" value="<%if (locals.message != null) {%><%= message.result.sid%><% } %>" readonly>
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="roll">roll</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="roll" class="form-control ip" name="roll" value="<%if (locals.message != null) {%><%= message.result.roll%><% } %>">
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="nameEnglish">Full name in English</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="nameEnglish" class="form-control ip" name="nameEnglish" value="<%if (locals.message != null) {%><%= message.result.nameEnglish %><% } %>">
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="nameBangla">Full name in Bangla</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip" name="nameBangla" value="<%= message.result.nameBangla %>">
+                </div>
+            </div>
+            <div class="row mt-3 ip">
+                <div class="col-lg-4 ip">
+                    <h6><label for="previousClass">Previous Class</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip" name="previousClass" value="<%= message.result.previousClass %>">
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="gradePoint">Previous Grade Point</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip" name="gradePoint" value="<%= message.result.gradePoint %>">
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4">
+                    <h6><label for="previousInstitute">Previous Institute</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip" name="previousInstitute" value="<%= message.result.previousInstitute %>">
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="preferredClass">Preferred Class of Admission</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <div class="container-fluid p-0 d-flex">
+                        <input type="text" class="form-control ip" name="updatedPreferredClass" value="<%if (locals.message != null) {%><%= message.result.preferredClass %><% } %>" readonly>
+                        <input type="button" class="btn btn-outline-light" id="changeClass" value="Change Class">
+                        <input type="hidden" name="cid" value="<%= message.result.cid %>">
+                    </div>
+                    <div class="form-group hide" id="changeClassDiv">
+                        <select class="form-control" id="sel1" name="preferredClass">
+                            <option></option>
+                            <option>Nursery</option>
+                            <option>K.G</option>
+                            <option>Class 1</option>
+                            <option>Class 2</option>
+                            <option>Class 3</option>
+                            <option>Class 4</option>
+                            <option>Class 5</option>
+                            <option>Class 6</option>
+                            <option>Class 7</option>
+                            <option>Class 8</option>
+                            <option>Class 9</option>
+                            <option>Class 10</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3 ip">
+                <div class="col-lg-4 ip">
+                    <h6><label for="preferredSection">Preferred Section</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <div class="container-fluid p-0 d-flex">
+                        <input type="text" class="form-control ip" name="updatedPreferredSection" value="<%if (locals.message != null) {%><%= message.result.preferredSection %><% } %>" readonly>
+                        <input type="button" class="btn btn-outline-light" id="changeSection" value="Change Section">
+                    </div>
+                    <div class="form-group hide" id="changeSectionDiv">
+                        <select class="form-control" id="sel1" name="preferredSection">
+                            <option></option>
+                            <option>Hifz</option>
+                            <option>Academic</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3 ip">
+                <div class="col-lg-4 ip">
+                    <h6><label for="shift">Preferred Shift</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <div class="container-fluid p-0 d-flex">
+                        <input type="text" class="form-control ip" name="updatedShift"
+                            value="<%if (locals.message != null) {%><%= message.result.shift %><% } %>" readonly>
+                        <input type="button" class="btn btn-outline-light" id="changeShift" value="Change Section">
+                    </div>
+                    <div class="form-group hide" id="changeShiftDiv">
+                        <select class="form-control" id="sel1" name="shift">
+                            <option></option>
+                            <option>Morning Shift</option>
+                            <option>Afternoon Shift</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4">
+                    <h6><label for="dateOfBirth">Date of Birth</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip" name="dateOfBirth" value="<%= message.result.dateOfBirth %>">
+                </div>
+            </div>
+            <div class="row mt-3 ip">
+                <div class="col-lg-4 ip">
+                    <h6><label for="bloodGroup">Blood Group</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip" name="bloodGroup" value="<%= message.result.bloodGroup %>">
+                </div>
+            </div>
+          </div>
+          
+          <div class="col ">
+            <div class="contianer text-center p-1">
+                <h5 class="">Permanent Address</h5>
+            </div>
+            <div class="row mt-3">
+                <div class="col-lg-4">
+                    <h6><label for="vlg">Village</label></h6>
+                </div>
+                <div class="col-lg-8">
+                    <input type="text" class="form-control" name="vlg" placeholder="Village" value="<%= message.result.vlg %>">
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-lg-4">
+                    <h6><label for="po">Post Office</label></h6>
+                </div>
+                <div class="col-lg-8">
+                    <input type="text" class="form-control" name="po" placeholder="Post Office" value="<%= message.result.po %>">
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-lg-4">
+                    <h6><label for="ps">Upozilla/P.S</label></h6>
+                </div>
+                <div class="col-lg-8">
+                    <input type="text" class="form-control" name="ps" placeholder="Upozilla/P.S" value="<%= message.result.ps %>">
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-lg-4">
+                    <h6><label for="dist">District</label></h6>
+                </div>
+                <div class="col-lg-8">
+                    <input type="text" class="form-control" name="dist" placeholder="District" value="<%= message.result.dist %>">
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-lg-4">
+                    <h6><label for="addSame">Present address is same</label></h6>
+                </div>
+                <div class="col-lg-8">
+                    <div class="form-check">
+                        <label class="form-check-label">
+                          <input type="checkbox" id="addSame" onclick="myFunction()" class="form-check-input addSame" name="addSame" value="Present and Permanent address are same.">
+                        </label>
+                      </div>
+                </div>
+            </div>
+            <div class="container" id="pAddress" style="padding: 0;">
+                <div class="contianer text-center p-1">
+                    <h5 class="text-info">Present Address</h5>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-lg-4">
+                        <h6><label for="pvlg">Village</label></h6>
+                    </div>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" name="pvlg" placeholder="Village" value="<%= message.result.pvlg %>">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-lg-4">
+                        <h6><label for="ppo">Post Office</label></h6>
+                    </div>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" name="ppo" placeholder="Post Office" value="<%= message.result.ppo %>">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-lg-4">
+                        <h6><label for="pps">Upozilla/P.S</label></h6>
+                    </div>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" name="pps" placeholder="Upozilla/P.S" value="<%= message.result.pps %>">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-lg-4">
+                        <h6><label for="pdist">District</label></h6>
+                    </div>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" name="pdist" placeholder="District" value="<%= message.result.pdist %>">
+                    </div>
+                </div>
+            </div>
+          </div>
+      </div>
+      <hr>
+      <div class="contianer text-center p-1">
+        <h5 class="text-light">Parents Information</h5>
+       </div>
+      <div class="row bg-info text-light p-3">
+        <div class="col">
+            
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="fNameBangla">Fathers name in Bangla</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip" name="fNameBangla" value="<%= message.result.fNameBangla %>">
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="fNameEnglish">Fathers name in English</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip" name="fNameEnglish" value="<%if (locals.message != null) {%><%= message.result.fNameEnglish %><% } %>">
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="fNID">Fathers NID number</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip" name="fNID" value="<%= message.result.fNID %>">
+                </div>
+            </div>
+            <div class="row mt-3 ip">
+                <div class="col-lg-4 ip">
+                    <h6><label for="fOccupation">Fathers occupation</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip" name="fOccupation" value="<%= message.result.fOccupation %>">
+                </div>
+            </div>
+            <!-- <div class="row mt-3 ip">
+                <div class="col-lg-4 ip">
+                    <h6><label for="fMonthlyIncome">Fathers Monthly Income</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip" name="fMonthlyIncome" value="">
+                </div>
+            </div> -->
+            <div class="row mt-3 ip">
+                <div class="col-lg-4 ip">
+                    <h6><label for="fBloodGroup">Fathers blood group</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip" name="fBloodGroup" value="<%= message.result.fBloodGroup %>">
+                </div>
+            </div>
+            <div class="row mt-3 ip">
+                <div class="col-lg-4 ip">
+                    <h6><label for="fEQualification">Fathers educational qualification</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip" name="fEQualification" value="<%= message.result.fEQualification %>">
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="fMobile">Fathers mobile number</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip" name="fMobile" value="<%= message.result.fMobile %>">
+                </div>
+            </div>
+          </div>
+        <div class="col ">
+            <div class="row mt-3 ip">
+                <div class="col-lg-4 ip">
+                    <h6><label for="mNameBangla">Mothers name in Bangla</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip" name="mNameBangla" value="<%= message.result.mNameBangla %>">
+                </div>
+            </div>
+            <div class="row mt-3 ip">
+                <div class="col-lg-4 ip">
+                    <h6><label for="mNameEnglish">Mothers name in English</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip" name="mNameEnglish" value="<%= message.result.mNameEnglish %>">
+                </div>
+            </div>
+            <div class="row mt-3 ip">
+                <div class="col-lg-4 ip">
+                    <h6><label for="mNID">Mothers NID number</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip" name="mNID" value="<%= message.result.mNID %>">
+                </div>
+            </div>
+            <div class="row mt-3 ip">
+                <div class="col-lg-4 ip">
+                    <h6><label for="mOccupation">Mothers occupation</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip" name="mOccupation" value="<%= message.result.mOccupation %>">
+                </div>
+            </div>
+            <!-- <div class="row mt-3 ip">
+                <div class="col-lg-4 ip">
+                    <h6><label for="mMonthlyIncome">Mothers Monthly Income (if any)</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip" name="mMonthlyIncome" value="">
+                </div>
+            </div> -->
+            <div class="row mt-3 ip">
+                <div class="col-lg-4 ip">
+                    <h6><label for="mBloodGroup">Mothers blood group</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip" name="mBloodGroup" value="<%= message.result.mBloodGroup %>">
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="mEQualification">Mothers educational qualification</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip" name="mEQualification" value="<%= message.result.mEQualification %>">
+                </div>
+            </div>
+            <div class="row mt-3 ip">
+                <div class="col-lg-4 ip">
+                    <h6><label for="mMobile">Mothers mobile number</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip" name="mMobile" value="<%= message.result.mMobile %>">
+                </div>
+            </div>
+        </div>
+         
+      </div>
+      <div class="row text-light">
+          <div class="col">
+            <div class="contianer text-center p-1">
+                <h5 class="">Other Info</h5>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="residentialService">Residential service?</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <div class="form-check-inline">
+                        <label class="form-check-label" for="radio1">
+                          <input type="radio" class="form-check-input" id="radio1" name="residentialService" value="Yes">Yes
+                        </label>
+                      </div>
+                      <div class="form-check-inline">
+                        <label class="form-check-label" for="radio2">
+                          <input type="radio" class="form-check-input" id="radio2" name="residentialService" value="No">No
+                        </label>
+                      </div>
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="transportService">Transport service?</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <div class="form-check-inline">
+                        <label class="form-check-label" for="radio1">
+                          <input type="radio" class="form-check-input" id="radio1" name="transportService" value="Yes">Yes
+                        </label>
+                      </div>
+                      <div class="form-check-inline">
+                        <label class="form-check-label" for="radio2">
+                          <input type="radio" class="form-check-input" id="radio2" name="transportService" value="No">No
+                        </label>
+                      </div>
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="deasesQuery">Suffering from any major deases?</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <div class="form-check-inline">
+                        <label class="form-check-label" for="radio1">
+                          <input type="radio" class="form-check-input" id="radio1" name="deasesQuery" value="yes">Yes
+                        </label>
+                      </div>
+                      <div class="form-check-inline">
+                        <label class="form-check-label" for="radio2">
+                          <input type="radio" class="form-check-input" id="radio2" name="deasesQuery" value="No">No
+                        </label>
+                      </div>
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip" name="deasesDetailes" placeholder="Deases Details (If have any)">
+                </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="emergencyContact">Emergency contact number</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip" name="emergencyContact" value="<%if (locals.message != null) {%><%= message.result.emergencyContact %><% } %>" >
+                </div>
+            </div>
+
+            <div class="contianer text-center p-1">
+                <h5 class="text-light">Login Info</h5>
+            </div>
+            <div class="row mt-3 ip">
+                <div class="col-lg-4 ip">
+                    <h6><label for="password">Password</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip pass" id="password" name="password" value="<%if (locals.message != null) {%><%= message.result.password %><% } %>" >
+                </div>
+            </div>
+            <div class="row mt-3 ip">
+                <div class="col-lg-4 ip">
+                    <h6><label for="confirmPass">Confirm Password</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip conf_pass" id="confirmPass" name="confirmPass" >
+                </div>
+            </div>
+            <!-- <div class="row mt-3 ip">
+                <div class="col-lg-8 ip">
+                    <textarea type="text" class="form-control ip conf_pass" placeholder="Comment" name="comment" style="height: 100px;"></textarea>
+                </div>
+            </div>  -->
+            <!-- <div class="row ip d-flex justify-content-end mt-4 mr-3">
+                <input class="btn btn-success mr-2" onclick="submitForm()" name="submit" type="submit" value="Update">
+            </div> -->
+          </div>
+      </div>
+        
+    </form>
+    
+    <div class="row ip d-flex justify-content-end mt-4 mr-3">
+        <input class="btn btn-success mr-2" onclick="submitForm()" value="Update">
+    </div>
+   </div>
+    
+
+    <script>
+        document.getElementById('nameEnglish').addEventListener('blur', () => {
+            let val = $('#nameEnglish').val()
+            $('#uid').val(val)
+        })
+
+        function myFunction() {
+        // Get the checkbox
+        var checkBox = document.getElementById("addSame");
+        // Get the output text
+        var text = document.getElementById("pAddress");
+      
+        // If the checkbox is checked, display the output text
+        if (checkBox.checked == true){
+          text.style.display = "none";
+        } else {
+          text.style.display = "block";
+        }
+      } 
+
+      function gFunc() {
+        // Get the checkbox
+        var checkBox = document.getElementById("gChkBox");
+        // Get the output text
+        var text = document.getElementById("gDiv");
+      
+        // If the checkbox is checked, display the output text
+        if (checkBox.checked == true){
+          text.style.display = "none";
+        } else {
+          text.style.display = "block";
+        }
+      } 
+
+      function submitForm() {
+        let pass = $('#password').val()
+        let CP = $('#confirmPass').val()
+        if (pass !== CP) {
+            alert('Password did not match!')
+        } else {
+            $('form').submit()
+        }
+      }
+    </script>
+</body>

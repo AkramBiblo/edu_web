@@ -1,0 +1,164 @@
+<body>
+    <div class="container p-3">
+            <a class="btn btn-outline-info admin-button" href="/alhera2023admin">Admin Panel</a>
+          </div>
+    <div class="container d-flex justify-content-center p-2 f">
+        <h4>Class 4 - Class 5</h4>
+      </div>
+      <%- include('./partials/error.ejs') %>
+      <%- include('./partials/successMsg.ejs') %>
+    <form action="/result/update" method="post">
+        <div class="container f bg-warning p-3 mb-3" style="max-width: 500px;">
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="sid">SID</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="sid" class="form-control ip" name="sid" >
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="cid">CID</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="cid" class="form-control ip" name="cid" >
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="quranTazbeed">Quran Tazbeed</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="quranTazbeed" class="form-control ip" name="quranTazbeed" >
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="islamiat">Islamiat</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="islamiat" class="form-control ip" name="islamiat" >
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="hadith">Hadith</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="hadith" class="form-control ip" name="hadith" >
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="MTZT">M.T/Z.T</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="MTZT" class="form-control ip" name="MTZT" >
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="mizan">Mizan</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="mizan" class="form-control ip" name="mizan" >
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="arabic">Arabic</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="arabic" class="form-control ip" name="arabic" >
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="spokenArabic">Spoken Arabic</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="spokenArabic" class="form-control ip" name="spokenArabic" >
+                </div>
+            </div>
+             <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="bangla">Bangla</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="bangla" class="form-control ip" name="bangla" >
+                </div>
+            </div>
+             <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="english">English</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="english" class="form-control ip" name="english" >
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="spokenEnglish">Spoken English</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="spokenEnglish" class="form-control ip" name="spokenEnglish" >
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="math">Math</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="math" class="form-control ip" name="math" >
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="BGS">BGS</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="BGS" class="form-control ip" name="BGS" >
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="science">Science</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="science" class="form-control ip" name="science" >
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="computer">Computer</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="computer" class="form-control ip" name="computer" >
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="GK">General Knowledge</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="GK" class="form-control ip" name="GK" >
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="HR">Hand Writing</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="HR" class="form-control ip" name="HR" >
+                </div>
+            </div>
+            <div class="container-fluid mt-2 p-0 ip d-flex justify-content-end">
+                <button type="submit" class="btn btn-success m-1">1st Term</button>
+                <button type="submit" formaction="/result/update/secondTerm" class="btn btn-success m-1">2nd term</button>
+                <button type="submit" formaction="/result/update/annualTerm" class="btn btn-success m-1">Annual term</button>
+            </div>
+        </div>
+    </form>
+        
+</body>

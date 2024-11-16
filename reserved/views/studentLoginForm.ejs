@@ -1,0 +1,38 @@
+<body>
+    <%- include('./partials/header.ejs') %> 
+    <div class="container-fluid bg-warning border p-4" style="max-width: 300px;border-radius: 10px;">
+        <!-- Form  -->
+            <div class="container text-light">
+                <h4>Student Login</h4>
+            </div>
+             
+                <%- include('./partials/error.ejs') %>
+            
+            <form action="/student_login" method="POST">
+                <div class="container mt-5">
+                    <div class="row mt-3">
+                        <div class="form-group p-0">
+                        <select class="form-control" name="campus">
+                            <option value="">Select Campus</option>
+                            <option value="khulshi_campus">Khulshi Campus</option>
+                            <option value="kadamtali_campus">Kadamtali Campus</option>
+                            <option value="majhirghat_campus">Majhirghat Campus</option>
+                        </select>
+                        </div>
+                    </div> 
+                    <div class="row mt-3">
+                        <input type="text" class="form-control" name="sid" placeholder="Student ID" required>
+                    </div>
+                    <div class="row mt-3">
+                            <input type="text" class="form-control" name="password" placeholder="Password" required>
+                    </div>
+                    <div class="row d-flex justify-content-start mt-4">
+                        <input class="btn btn-success mr-2" name="submit" type="submit" value="Login">
+                        <a class="btn btn-success" href="/register/new">Ragister</a>
+                    </div>
+                </div>
+            </form>
+            
+        
+        </div> 
+</body>

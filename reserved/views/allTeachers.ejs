@@ -1,0 +1,53 @@
+<body style="background: url(/img/allstudents.jpg) no-repeat center fixed;
+background-size: cover;">
+  <%- include("./partials/header.ejs") %>
+
+<div class="container p-3 text-center">
+  <h1 class="welcomeMsg">Teachers</h1>
+</div>
+  <div class="container">
+    <div class="container p-3">
+      <a class="btn btn-outline-info" href="/teachers/add">Add a new teacher</a>
+      <a class="btn btn-outline-info admin-button" href="/alhera2023admin">Admin Panel</a>
+  </div>
+    
+    <div class="container">
+      <% if (locals.message != null) {%> 
+      <table class="table bg-dark text-light">
+        <thead class="thead-light">
+          <tr class="">
+            <th>Avatar</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Qualification</th>
+            <th>Email</th>
+            <th>Mobile</th>
+            <th>Courses</th>
+            <th>Remove teacher</th>
+          </tr>
+        </thead>
+        <tbody>
+            <% for (let teacher of message) {%>
+            <tr>
+                <td><img style="border-radius: 8px; max-height: 70px;max-width: 70px;" src="/uploadedFiles/<%= teacher.file %>" alt="Avatar"></td>
+                <td>
+                  <form action="/teachers/login" method="post">
+                    <input type="hidden" name="email" value="<%= teacher.email %>">
+                    <input type="hidden" name="password" value="<%= teacher.password %>">
+                    <input type="hidden" name="campus" value="<%= teacher.campus %>">
+                    <input class="btn btn-outline-info" type="submit" name="submit" value="<%= teacher.name %>">
+                  </form>
+                </td>
+                <td><%= teacher.address %></td>
+                <td><%= teacher.qualifications %></td>
+                <td><%= teacher.email %></td>
+                <td><%= teacher.mobile %></td>
+                <td><a class="btn btn-outline-danger" href="/teachers/remove/<%= teacher.campus %>/<%= teacher.id %>">Remove</a></td>
+            </tr>
+           <% } }%> 
+        </tbody>
+      </table>
+    </div>
+    
+  </div>
+</body>

@@ -1,0 +1,167 @@
+<body>
+    <%- include('./partials/header.ejs') %> 
+    <div class="container d-flex justify-content-center p-2 f">
+        <h1 class="_head" style="font-weight: bolder;font-family: poppins;">ADMISSION INFO</h1>
+    </div>
+    <div class="container">
+      <div class="row">
+      <div class="col-sm">
+        <div class="container">
+      <h5>Registration Process</h5>
+      <ul>
+        <li>Purchase prospectus from school reception</li>
+        <li>Fill the admission form</li>
+        <li>Submit the form at school reception latest by the date set by the school with the fixed registration fees.</li>
+      </ul>
+      <p><strong>Conditions:</strong></p>
+      <ul>
+        <li>Incomplete forms, Unsigned forms or forms which contain misinformation will not be accepted</li>
+        <li>Registration for your child does not guarantee him/her a place at the school</li>
+        <li>In case of losing a form, you will have to purchase one again</li>
+        <li>For each applicant, a separate form will need to be purchased, even in case of siblings</li>
+      </ul>
+    </div>
+      </div>
+      <div class="col">
+        <img class="img-fluid" src="/img/banner/admission.jpg" alt="Quran">
+      </div>
+    </div>
+    </div>
+
+    <div class="container-fluid showInMobile">
+       <div class="container-fluid">
+                <h5 class="examadd mt-4">Required Documents</h5>
+                <div class="container border d-column justify-content-center mt-2">
+                    <h6 class="admDisc">Students Document</h6>
+                        <ul>
+                            <li class="ftr_address">Passport size photo - 4 copies</li>
+                            <li class="ftr_address">Birth Certificate/Birth Vaccine Cards photocopy</li>
+                        </ul>
+                            
+                    <h6 class="admDisc">Parents Document</h6>    
+                        <ul>
+                            <li class="ftr_address">Father's passport size photo - 2 copies</li>
+                            <li class="ftr_address">Father's NID Cards photocopy</li>
+                            <li class="ftr_address">Mother's passport size photo - 2 copies</li>
+                            <li class="ftr_address">Mother's NID Cards photocopy</li>
+                        </ul>
+                </div>
+        </div>
+        <div class="container-fluid">
+                <h5 class="examadd mt-4">Uniform Info</h5>
+                <div class="container border d-column justify-content-center mt-2">
+                    <h6 class="admDisc">Boys Uniform Info</h6>
+                       <ul>
+                                    <li>Navy Blue colored Panjabi & Paijama with white cap</li>
+                                </ul>
+                            
+                    <h6 class="admDisc">Girls Uniform Info</h6>    
+                         <ul>
+                                   <li>White colored Hijab</li>
+                                    <li>Navy Blue Checked colored Borka</li>
+                                </ul>
+                </div>
+        </div>
+    </div>
+
+    <div class="container hideInMobile">
+      <div class="container d-flex justify-content-center">
+        <div class="container-fluid">
+            <!-- Nav tabs -->
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" data-toggle="tab" href="#ap">Requirements</a>
+            </li>
+            <li class="nav-item">
+              <!-- <a class="nav-link" data-toggle="tab" href="#admission_form">Admission Form</a> -->
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#uniform">Uniform Info</a>
+            </li>
+          </ul>
+          
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div class="tab-pane container active" id="ap">
+                <h2 class="examadd mt-4">Required Documents</h2>
+                <div class="container border d-column justify-content-center mt-4">
+                    <h5 class="admDisc">Students Document</h5>
+                        <ul>
+                            <li class="ftr_address">Passport size photo - 4 copies</li>
+                            <li class="ftr_address">Birth Certificate/Birth Vaccine Cards photocopy</li>
+                        </ul>
+                            
+                    <h5 class="admDisc">Parents Document</h5>    
+                        <ul>
+                            <li class="ftr_address">Father's passport size photo - 2 copies</li>
+                            <li class="ftr_address">Father's NID Cards photocopy</li>
+                            <li class="ftr_address">Mother's passport size photo - 2 copies</li>
+                            <li class="ftr_address">Mother's NID Cards photocopy</li>
+                        </ul>
+                </div>
+            </div>
+        
+            <!-- <div class="tab-pane container fade" id="admission_form">
+                <div class="container  mt-3 mb-3 text-center bg-warning border" style="max-width: 300px; padding: 20px; margin: auto; border-radius: 10px;">
+                    <div class="list-group">
+                        <a
+                          href="/register/new"
+                          class="list-group-item list-group-item-action list-group-item-success"
+                          >New admission form</a
+                        >
+                        <a
+                          href="/register/readmission"
+                          class="list-group-item list-group-item-action list-group-item-info"
+                          >Re-admission form</a
+                        >
+                    </div>
+                </div>
+            </div> -->
+        
+            <div class="tab-pane container fade" id="uniform">
+                <div class="container d-column f">
+                    <div id="accordion">
+        
+                        <div class="card f">
+                          <div class="card-header f">
+                            <a class="card-link" data-toggle="collapse" href="#collapseOne">
+                              Boys Uniform Info
+                            </a>
+                          </div>
+                          <div id="collapseOne" class="collapse show f" data-parent="#accordion">
+                            <div class="card-body f">
+                                <ul>
+                                    <li>Navy Blue colored Panjabi & Paijama with white cap</li>
+                                </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card f">
+                          <div class="card-header f">
+                            <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">
+                                Girls Uniform Info
+                            </a>
+                          </div>
+                          <div id="collapseThree" class="collapse f" data-parent="#accordion">
+                            <div class="card-body f">
+                                <ul>
+                                   <li>White colored Hijab</li>
+                                    <li>Navy Blue Checked colored Borka</li>
+                                </ul>
+                            </div>
+                          </div>
+                        </div>
+                      
+                      </div>
+                </div>
+                
+            </div>
+          </div>
+        
+        </div>
+      </div>
+    </div>
+    
+    <%- include('./partials/footer.ejs') %> 
+    
+</body>

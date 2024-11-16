@@ -1,0 +1,77 @@
+<body>
+    <%- include('./partials/header.ejs') %> 
+
+  <div class="container">
+    <div class="container text-center p-2 mt-3">
+      <h5 class="welcomeMsg">Notice & Announcements</h1>
+    </div>
+    <!-- <div class="container p-3">
+      <a class="btn btn-outline-info" href="/students/login">Back</a>
+    </div> -->
+  
+  <% if (locals.message != null) {%> 
+    <div class="container showInMobile">
+      <ul>
+          <% for (let i = 0; i < message.length; i++) {
+            const e = message[i];
+           %>
+           <hr>
+           <li>
+              <%= e.campus %>
+            </li>
+          <li>
+            <%= e.heading %>
+          </li>
+          <li>
+            <%= e.description %>
+          </li>
+          <li>
+            <%= e.date %>
+          </li>
+          <li>
+            <%= e.end %>
+          </li>
+          <li>
+            <td><a href="/uploadedFiles/<%= e.file %>" download>Download - <%= e.file %></a></td>
+          </li>
+            <% } %> 
+      </ul>
+    </div>
+  <div class="container hideInMobile">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr class="text-center">
+            <th>Campus</th>
+            <th>Heading</th>
+            <th>Description</th>
+            <th>Applicable from</th>
+            <th>Applicable until</th>
+            <th>File</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (let i = 0; i < message.length; i++) {
+            const e = message[i];
+           %>
+            <tr>
+                <td><%= e.campus %></td>
+                <td><%= e.heading %></td>
+                <td><%= e.description %></td>
+                <td><%= e.date %></td>
+                <td><%= e.end %></td>
+                <td><td><a href="/uploadedFiles/<%= e.file %>" download>Download - <%= e.file %></a></td></td>
+            </tr>
+            <% } %> 
+        </tbody>
+        
+      </table>
+    </div>
+    <% } else {%> 
+      <h1>No announcement available</h1>
+    
+    <% } %>   
+    
+  </div>
+    <%- include('./partials/footer.ejs') %> 
+
+</body>

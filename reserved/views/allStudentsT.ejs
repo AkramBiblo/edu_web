@@ -1,0 +1,152 @@
+<body
+  id="allStudents"
+  style="
+    background: url(/img/allstudents.jpg) no-repeat center fixed;
+    background-size: cover;
+  "
+>
+  <%- include("./partials/header.ejs") %>
+
+  <div class="container f p-3 text-center">
+    <h1 class="welcomeMsg">Class <% if (locals.cid != null) { %><%=cid%><%}%></h1>
+  </div>
+  <div class="container f pb-5">
+    <div class="container p-3 f">
+      <table class="table bg-dark text-light">
+        <thead class="thead-light">
+          <tr class="text-center">
+            <th>Avatar</th>
+            <th>SID</th>
+            <th>Name</th>
+            <th>Father name</th>
+            <th>Section</th>
+            <!-- <th>Roll No</th> -->
+            <th>Mobile</th>
+            <th class="bg-success">Present</th>
+            <th class="bg-warning">Leave</th>
+            <th class="bg-danger">Absent</th>
+            <th class="bg-danger">Total Presence</th>
+            <th class="bg-danger">Total Absence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (locals.message != null) { message.forEach(function(user) { %>
+          <tr class="text-center">
+            <td>
+              <img
+                style="border-radius: 8px; max-height: 70px; max-width: 70px"
+                src="/uploadedFiles/<%= user.file %>"
+                alt="Avatar"
+              />
+            </td>
+            <td><%= user.sid %></td>
+            <td>
+              <form action="/students/login" method="post">
+                <input
+                  type="hidden"
+                  name="name"
+                  value="<%= user.nameEnglish %>"
+                />
+                <input
+                  type="hidden"
+                  name="password"
+                  value="<%= user.password %>"
+                />
+                <input
+                  class="btn btn-info"
+                  type="submit"
+                  name="submit"
+                  value="<%= user.nameEnglish %>"
+                />
+              </form>
+            </td>
+  
+            <td><%= user.fNameEnglish %></td>
+            <td><%= user.preferredSection %></td>
+            <td><%= user.emergencyContact %></td>
+            <td>
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <button class="btn btn-outline-success text-light" cls="<%= user.cid %>" name="1" sid="<%= user.sid %>">
+                    Present
+                  </button>
+                </label>
+              </div>
+            </td>
+            <td>
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <button class="btn btn-outline-warning text-light" cls="<%= user.cid %>" name="2" sid="<%= user.sid %>">
+                    On Leave
+                  </button>
+                </label>
+              </div>
+            </td>
+            <td>
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <button class="btn btn-outline-danger text-light" cls="<%= user.cid %>" name="3" sid="<%= user.sid %>">
+                    Absent
+                  </button>
+                </label>
+              </div>
+            </td>
+            <td><%= user.presence %></td>
+            <td><%= user.absence%></td>
+          </tr>
+          <% })} %>
+        </tbody>
+      </table>
+    </div>
+    <div class="container d-flex justify-content-end">
+      <button name="submit" cls="<% if (locals.cid != null) { %><%=cid%><%}%>" class="btn btn-outline-success">Submit attendance</button>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(() => {
+     
+      let present = [];
+      let absent = [];
+      let leave = [];
+
+    $("button").click(function (event) {
+      let name = event.target.getAttribute("name");
+      let id = event.target.getAttribute("sid");
+      let cid = event.target.getAttribute("cls");
+      Number(name);
+      Number(cid);
+
+      if (name == "submit") {
+        event.target.classList.add('bg-success')
+        event.target.classList.add('text-light')
+        alert('Attendance submitted successfully!')
+        
+        $.ajax({
+          url: "/attendance/submit",
+          type: 'POST',
+          data: {
+            present: JSON.stringify ({ present }),
+            absent: JSON.stringify ({ absent }),
+            leave: JSON.stringify ({ leave }),
+            cls: JSON.stringify ({ cid })
+          },
+          dataType: 'json',
+          success: function (result) {},
+        });
+      } else if (name == 1) {
+        event.target.classList.add('bg-success')
+        present.push(id);
+      } else if (name == 3) {
+        event.target.classList.add('bg-danger')
+        absent.push(id);
+      } else {
+        event.target.classList.add('bg-warning')
+        leave.push(id);
+      }
+    });
+    })
+    
+
+  </script>
+</body>

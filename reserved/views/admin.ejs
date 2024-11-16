@@ -1,0 +1,44 @@
+<body>
+  <%- include("./partials/header.ejs") %>
+  <%- include("./partials/successMsg.ejs") %>
+  <div class="container f">
+    <div class="container text-dark text-center p-3 p">
+      <h2 class="welcomeMsg" style="font-family: fantasy;">Welcome to Admin
+        panel of <%= locals.campus %></h2>
+    </div>
+
+    <div class="container text-center bg-warning border" style="max-width:
+      300px; padding: 20px; margin: auto; border-radius:
+      10px;">
+      <div class="list-group">
+        <a href="/students/all/" class="list-group-item list-group-item-action
+          list-group-item-info">Students</a>
+        <a href="/teachers/all" class="list-group-item list-group-item-action
+          list-group-item-warning">Teachers</a>
+        <a href="/payment/update" class="list-group-item list-group-item-action
+          list-group-item-primary">Payment
+          Info</a>
+        <a class="list-group-item list-group-item-action
+          list-group-item-success" style="text-decoration: none;" href="/payment/expenses">Expenses</a>
+        <a href="/announce/form" class="list-group-item list-group-item-action
+          list-group-item-primary">Announce a
+          notice</a>
+        <a href="/classActivities" class="list-group-item list-group-item-action
+          list-group-item-secondary">Class
+          activities</a>
+        <a href="/result/updateResult" class="list-group-item
+          list-group-item-action list-group-item-info">Update
+          Result</a>
+        <a href="/register/new" class="list-group-item list-group-item-action list-group-item-warning">New Admission</a>
+        <a href="/register/readmission"
+          class="list-group-item list-group-item-action list-group-item-primary">Re-admission</a>
+        <a href="/teachers/add" class="list-group-item list-group-item-action
+          list-group-item-info">Add New Teacher</a>
+        <a href="/alhera2023admin/change_password/<%= locals.campus %>" class="list-group-item list-group-item-action
+                    list-group-item-light">Change Password</a>
+      </div>
+
+    </div>
+
+  </div>
+</body>

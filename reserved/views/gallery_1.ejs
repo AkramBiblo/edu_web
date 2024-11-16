@@ -1,0 +1,60 @@
+<body>
+    <%- include('./partials/header.ejs') %> 
+
+    <div class="container-fluid hideInMobile" id="galleryFrontDiv">
+    <div class="hideInMobile" style="height: 140px;"></div>
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col d-flex flex-wrap align-content-center">
+                <img class="img-fluid" style="border: 20px solid rgb(248, 246, 246); box-shadow: 2px 2px 2px 0px;" src="/img/banner/management-1.jpg" alt="Al-Hera">
+            </div>
+            <div class="col-1"></div>
+        </div>
+    </div>
+    <div class="container d-flex justify-content-center m-2" style="max-width: 450px; box-shadow: 2px 2px 5px;">
+        <img class="img-fluid rounded p-2 imgHoverEffect showInMobile" src="/img/banner/management-1.jpg" alt="Image">
+    </div>
+<!-- 
+    <div class="container">
+        <div class="row f">
+        
+            <div class="col-sm m-3" style="box-shadow: 2px 2px 5px;">
+                <img class="img-fluid rounded p-2" src="/img/gallery/4.jpg" alt="Image">
+            </div>
+            <div class="col m-3" style="box-shadow: 2px 2px 5px;">
+                <img class="img-fluid rounded p-2" src="/img/gallery/5.jpg" alt="Image">
+            </div>
+        </div>
+        <div class="row f">
+            
+            <div class="col-sm m-3" style="box-shadow: 2px 2px 5px;">
+                <img class="img-fluid rounded p-2" src="/img/gallery/6.jpg" alt="Image">
+            </div>
+            <div class="col m-3" style="box-shadow: 2px 2px 5px;">
+                <img class="img-fluid rounded p-2" src="/img/gallery/7.jpg" alt="Image">
+            </div>
+        </div>
+        <div class="row f">
+            
+            <div class="col-sm m-3" style="box-shadow: 2px 2px 5px;">
+                <img class="img-fluid rounded p-2" src="/img/gallery/2.jpg" alt="Image">
+            </div>
+            <div class="col m-3" style="box-shadow: 2px 2px 5px;">
+                <img class="img-fluid rounded p-2" src="/img/gallery/3.jpg" alt="Image">
+            </div>
+        </div>
+    </div> -->
+    <div class="container-fluid d-flex justify-content-center flex-wrap align-content-stretch">
+        
+        <% let p = 1; for (let i = 0; i < 12; i++) { p++ %>
+            <div class="container d-flex justify-content-center m-2 imgHoverDiv" style="max-width: 450px; box-shadow: 2px 2px 5px;">
+                
+                <img class="img-fluid rounded p-2 imgHoverEffect" src="/img/banner/<%=p%>.jpg" alt="Image">
+               
+            </div>
+            <% } %> 
+    </div>
+
+    <%- include('./partials/footer.ejs') %> 
+
+</body>

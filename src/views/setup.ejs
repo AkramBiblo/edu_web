@@ -5,68 +5,86 @@
         </div>
         <hr>
         <hr>
-        
-        <div class="container mt-4">
-            <div class="next_1">
-                <h6>Institute Info</h6>
-            <div class="row p-2">
-                <div class="col">
-                    <input type="text" class="form-control" placeholder="Name of your Institute" id="instituteName">
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" placeholder="Address" id="instituteAddress">
-                </div>
+        <div class="container d-flex justify-content-center">
+            <div class="loader hide"></div>
+        </div>
+        <div class="container">
+            <div id="progressBarDiv" class="hide">
+                <div id="myProgress">
+                    <div id="myBar" style="font-size: 10px;">0%</div>
+                  </div>
             </div>
-            <div class="row p-2">
-                <div class="col">
-                    <input type="text" class="form-control" placeholder="Campus Name" id="campusName">
-                    <!-- <input type="number" class="form-control" placeholder="How many campus does it has...?" id="campusQty">
-                    <div id="campusNameIpDiv"></div> -->
-                </div>
-                <div class="col">
-                    <input type="number" class="form-control" placeholder="How many shift does it has...?" id="shift">
-                    <div id="shiftNameIpDiv"></div>
-                </div>
+        </div>
+        <div class="container">
+            <div id="successMsgDiv" class="text-center hide">
+                <p>Campus setup completed successfully!</p>
+                <button onclick="window.location.assign('/admin')" class="btn btn-outline-dark hide" id="exitButton">Close</button>
             </div>
-            <div class="container d-flex justify-content-end">
-                <button id="next_1" class="btn btn-outline-dark nextRevBtn">Next</button>
-            </div>
-            <hr>
-            </div>
-            <div class="next_2 hide">
-                <h6>Class Info</h6>
-            <div class="row p-2">
-                <div class="col">
-                    <input type="number" class="form-control" placeholder="How many class does it has...?" id="classQtyInput">
-                    <div id="classNameIpDiv"></div>
-                    
+        </div>
+        <div id="documentDiv">
+            <div class="container mt-4">
+                <div class="next_1">
+                    <h6>Institute Info</h6>
+                <div class="row p-2">
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="Name of your Institute" id="instituteName">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="Address" id="instituteAddress">
+                    </div>
                 </div>
-                <div class="col">
-                    <input type="text" class="form-control" placeholder="How many terms does it has...?" id="termsQtyInput">
-                    <div id="termsQtyIpDiv"></div>
+                <div class="row p-2">
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="Campus Name" id="campusName">
+                        <!-- <input type="number" class="form-control" placeholder="How many campus does it has...?" id="campusQty">
+                        <div id="campusNameIpDiv"></div> -->
+                    </div>
+                    <div class="col">
+                        <input type="number" class="form-control" placeholder="How many shift does it has...?" id="shift">
+                        <div id="shiftNameIpDiv"></div>
+                    </div>
                 </div>
-            </div>
                 <div class="container d-flex justify-content-end">
-                    <button id="prv_2" class="btn btn-outline-dark nextRevBtn">Back</button>
-                    <button id="next_2" class="btn btn-outline-dark nextRevBtn">Next</button>
+                    <button id="next_1" class="btn btn-outline-dark nextRevBtn">Next</button>
+                </div>
+                <hr>
+                </div>
+                <div class="next_2 hide">
+                    <h6>Class Info</h6>
+                <div class="row p-2">
+                    <div class="col">
+                        <input type="number" class="form-control" placeholder="How many class does it has...?" id="classQtyInput">
+                        <div id="classNameIpDiv"></div>
+                        
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="How many terms does it has...?" id="termsQtyInput">
+                        <div id="termsQtyIpDiv"></div>
+                    </div>
+                </div>
+                    <div class="container d-flex justify-content-end">
+                        <button id="prv_2" class="btn btn-outline-dark nextRevBtn">Back</button>
+                        <button id="next_2" class="btn btn-outline-dark nextRevBtn">Next</button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="next_3 hide" id="classDetailsDiv">
-            <div class="container-fluid text-center p-0 mt-2">
-                <h6>Class Details</h6>
-                <div id="generatedClassField">
-
+            <div class="next_3 hide" id="classDetailsDiv">
+                <div class="container-fluid text-center p-0 mt-2">
+                    <h6>Class Details</h6>
+                    <div id="generatedClassField">
+    
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="hide" id="installDiv">
-            <div class="container d-flex justify-content-end">
-                <input type="hidden" name="classArrData" id="classArrData">
-                <input type="hidden" name="shiftArrData" id="shiftArrData">
-                <input type="hidden" name="termsArrData" id="termsArrData">
-                <input type="hidden" name="subjectArrData" id="subjectArrData">
-                <button id="installButton" class="btn btn-outline-dark">Install</button>
+            <div class="hide" id="installDiv">
+                <div class="container d-flex justify-content-end">
+                    <input type="hidden" name="classArrData" id="classArrData">
+                    <input type="hidden" name="shiftArrData" id="shiftArrData">
+                    <input type="hidden" name="termsArrData" id="termsArrData">
+                    <input type="hidden" name="subjectArrData" id="subjectArrData">
+                    <input type="hidden" name="database" id="database" value="<%= locals.database %>">
+                    <button id="installButton" class="btn btn-outline-dark">Install</button>
+                </div>
             </div>
         </div>
         <hr>
@@ -237,6 +255,16 @@
             });
 
             $("#installButton").click(() => {
+                let documentHeight = $(document).height()
+                let top = documentHeight / 2
+                $("#documentDiv").hide();
+                $(".loader").removeClass("hide");
+                setTimeout(() => {
+                    $(".loader").addClass("hide");
+                $('#progressBarDiv').removeClass("hide");
+                move()
+                }, 5000)
+                
                 let name = $("#instituteName").val()
                 let addr = $("#instituteAddress").val()
                 let campusName = $("#campusName").val()
@@ -311,29 +339,18 @@
                         let shiftArrData = $("#shiftArrData").val()
                         let termsArrData = $("#termsArrData").val()
                         let subject = $("#subjectArrData").val()
+                        let database = $("#database").val()
                         $.ajax({
                         url: "/setup/enroll_Institute",
                         type: "post",
-                        data: {cName : name, cAddress: addr, campus: campusName, shift: shiftArrData, _class: classArrData, terms: termsArrData, subject: subject},
-                        // contentType: 'application/json',
-                        // data: {cName : name, cAddress: addr, campus: campusName, shift: shift, _class: _class, terms: terms, subject: subjectArray},
+                        data: {cName : name, cAddress: addr, campus: campusName, shift: shiftArrData, _class: classArrData, terms: termsArrData, subject: subject, database: database},
                         success: () => {
 
                         }
                     })
                 },3000)
                 
-                // id="campus_${count}">
-                // id="shift_${count}">
-                // id="class_${count}" // class name
-                // id="term_${count}"
-                // id="class_${count}_sub_qty" // class subject quantity
-                // classId="class_${classId}" 
-                // class="class_${classId}_subject_name"
-                // subjectId="${count}"
-                // id="class_${classId}_subject_${count}"
-                // id="class_${classId}_subject_${count}_full_mark"
-                // id="class_${classId}_subject_${count}_pass_mark"
+                
             })
 
             $("body").on("click", `button[name="reviewButton"]`, (e) => {
@@ -351,6 +368,29 @@
                 
             })
             
+            var i = 0;
+            function move() {
+            if (i == 0) {
+                i = 1;
+                var elem = document.getElementById("myBar");
+                var width = 0;
+                var id = setInterval(frame, 2000);
+                function frame() {
+                if (width >= 100) {
+                    
+                    clearInterval(id);
+                    i = 0;
+                    $("#successMsgDiv").removeClass('hide')
+                    $("#exitButton").removeClass('hide')
+                } else {
+                    width++;
+                    elem.style.width = width + "%";
+                    elem.innerHTML = width + "%";
+                }
+                }
+            }
+            
+            }
         })  
     </script>
 </body>

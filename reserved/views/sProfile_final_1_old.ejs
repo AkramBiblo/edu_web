@@ -1,0 +1,1300 @@
+<body id="body">
+    <!-- Complete and Final Student profile with Blank Highest mark -->
+<%- include("./partials/header.ejs") %>
+    <% if (locals.message !=null) { %>
+        <div class="container mt-3">
+            <% if (message.result.editButton !=='' ) { %>
+                <div class="container text-info text-center">
+                    <form action="/students/updateProfile" method="POST">
+                        <input type="hidden" name="sid"
+                            value="<% if (locals.message != null) {%><%= message.result.sid %><%}%>">
+                        <input type="hidden" name="campus"
+                            value="<% if (locals.message != null) {%><%= message.result.campus %><%}%>">
+                        <button class="btn btn-outline-info" type="submit">
+                            <%= message.result.editButton %>
+                        </button>
+                    </form>
+                </div>
+                <% } %>
+                    
+                    <div class="container-fluid border mt-3 f p-2">
+                        <% if (message.result.file == '' ) { %>
+                            <form action="/register/studentPictures" method="POST" enctype="multipart/form-data">
+                                <div class="flex-column justify-content-end">
+                                    <div>
+                                        <h6>Upload Profile picture</h6>
+                                    </div>
+                                    <div class="flex-column justify-content-end">
+                                        <div>
+                                            <img style="border-radius: 50%; max-height: 100px;max-width: 100px;" src="/img/profile.png" alt="pic">
+                                        </div>
+                                        <div class="mt-2">
+                                            <input type="file" name="avatar">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="container ip mt-4">
+                                    <input type="hidden" name="sid" value="<%= message.result.sid %>">
+                                    <input type="hidden" name="campus" value="<%= message.result.campus %>">
+                                    <input class="btn btn-success mr-2" name="submit" type="submit" value="Upload">
+                                </div>
+                            </form>
+                    
+                            <% } else { %>
+                                <div class="row p-3 mt-3">
+                                    <div class="col">
+                                        <div class="flex-column justify-content-end">
+                                            <img style="border-radius: 8px; max-height: 150px;max-width: 150px;"
+                                                src="/uploadedFiles/<%= message.result.file %>" alt="<%= message.result.file %>">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            <% } %>
+                    </div>
+        </div>
+
+        <div class="container pb-5">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#personal">Personal Info</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#parentsInfo">Parents Info</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#addr">Address</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#Other">Other Info</a>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" campus="<%=message.result.campus%>" name="payment"
+                        sid="<%=message.result.sid%>" data-toggle="tab" href="#pay">Payment Info</button>
+                </li>
+                <li class="nav-item">
+                    <button id="getResult" class="nav-link" name="result" campus="<%=message.result.campus%>"
+                        cid="<%=message.result.cid%>" sid="<%=message.result.sid%>" data-toggle="tab"
+                        href="#result">Result</button>
+                </li>
+                <li class="nav-item">
+                    <button name="notifyButton"
+                        addr="/announce/noticeBoard/<%=message.result.campus%>/<%=message.result.sid%>" type="button"
+                        class="nav-link btn btn-info" data-toggle="tab" href="#notice">
+                        Notice <% if (message.result.notify> 0) { %>
+                            <span class="badge badge-light" id="notify">
+                                <%= message.result.notify %>
+                            </span>
+                            <% } %>
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane container p active" id="personal">
+                    <div class="contianer mt-3">
+                        <h5 class="text-success">Personal Info :</h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="name">SID :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.sid_ %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="name">Name in English :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.nameEnglish %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="fName">Name in Bangla :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.nameBangla %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="mobile">Class :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <!-- <%= message.result.preferredClass %> -->
+                                    <% let Pclass= ""; 
+                                                switch (message.result.preferredClass) {
+                                                    case "Class 6":
+                                                        Pclass = "Class 6";
+                                                        break;
+                                                    case "Class 5":
+                                                        Pclass = "Standard Five";
+                                                        break;
+                                                    case "Class 4":
+                                                        Pclass = "Standard Four";
+                                                        break;
+                                                    case "Class 3":
+                                                        Pclass = "Standard Three";
+                                                        break;
+                                                    case "Class 2":
+                                                        Pclass = "Standard Two";
+                                                        break;
+                                                    case "Class 1":
+                                                        Pclass = "Standard One";
+                                                        break;
+                                                    case "Nursery":
+                                                        Pclass = "Nursery";
+                                                        break;
+                                                    case "K.G":
+                                                        Pclass = "K.G";
+                                                        break;                
+                                                    } %>
+                                                    <%= Pclass %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="db">Grade Points :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.gradePoint %>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="nid">Previous Institute :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.previousInstitute %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="mName">Previous Class :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <h6>
+                                        <%= message.result.previousClass %>
+                                    </h6>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="mobile">Preferred Section :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.preferredSection %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="mobile">Date of Birth :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.dateOfBirth %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="mobile">Blood Group :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.bloodGroup %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane container p fade" id="parentsInfo">
+                    <div class="contianer mt-3">
+                        <h5 class="text-success">Parents Info :</h5>
+                    </div>
+
+                    <div class="container-fluid border mt-3 f">
+                        <% if (message.result.FPIC !=='' ) { %>
+                            <div class="row p-3 mt-3">
+                                <div class="col">
+                                    <div class="flex-column justify-content-end">
+                                        <img style="border-radius: 8px; max-height: 150px;max-width: 150px;"
+                                            src="/uploadedFiles/<%= message.result.FPIC %>" alt="Fathers Picture">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="flex-column justify-content-end">
+                                        <img style="border-radius: 8px; max-height: 150px;max-width: 150px;"
+                                            src="/uploadedFiles/<%= message.result.MPIC %>" alt="Mothers Picture">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="container">
+                            <a class="btn btn-outline-info m-2" href="/uploadedFiles/<%= message.result.MNIDIMG %>.jpg" download="Mother's NID">Download</a>
+                        </div> -->
+
+                            <% } else { %>
+                                <form action="/register/parentsPictures" method="POST" enctype="multipart/form-data">
+                                    <div class="flex-column justify-content-end">
+                                        <div>
+                                            <h6>Upload parents pictures</h6>
+                                        </div>
+                                        <div class="mt-2 d-column">
+                                            <div class="container d-flex">
+                                                Fathers Pic - <input type="file" name="photos" required>
+                                                Mothers Pic - <input type="file" name="photos">
+                                            </div>
+                                            <div class="container d-flex mt-2">
+                                                Fathers NID - <input type="file" name="photos">
+                                                Mothers NID - <input type="file" name="photos">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container ip mt-4">
+                                        <input type="hidden" name="sid" value="<%= message.result.sid %>">
+                                        <input type="hidden" name="campus" value="<%= message.result.campus %>">
+                                        <input class="btn btn-success mr-2" name="submit" type="submit" value="Upload">
+                                    </div>
+                                </form>
+                                <% } %>
+                    </div>
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="name">Fathers name (Bangla) :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.fNameBangla %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="fName">Fathers name (English) :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.fNameEnglish %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="mName">Fathers NID :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <h6>
+                                        <%= message.result.fNID %>
+                                    </h6>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="db">Fathers Occupation :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.fOccupation %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="nid">Fathers Monthly Income :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.fMonthlyIncome %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="mobile">Fathers Blood Group :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.fBloodGroup %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="mobile">Fathers Educational Qualification :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.fEQualification %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="mobile">Fathers Mobile No :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.fMobile %>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="mobile">Mothers name (Bangla) :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.mNameBangla %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="mobile">Mothers name (English) :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.mNameEnglish %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="mobile">Mothers NID :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.mNID %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="mobile">Mothers Occupation :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.mOccupation %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="mobile">Mothers Monthly Income :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.mMonthlyIncome %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="mobile">Mothers Blood Group :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.mBloodGroup %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="mobile">Mothers Educational Qualification :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.mEQualification %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="mobile">Mothers Mobile No :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.mMobile %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane container p fade" id="addr">
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="contianer mt-3">
+                                <h5 class="text-success">Permanent Address</h5>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="vlg">Village :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.vlg %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="po">Post Office :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.po %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="ps">Upozilla/P.S :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.ps %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="dist">District :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.dist %>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col">
+                            <% if (message.result.addressAreSame) {%>
+                                <div class="container p-0 mt-3">
+
+                                    <strong>Note:</strong>&nbsp;<%= message.result.addressAreSame %>
+
+                                </div>
+                                <% } else {%>
+                                    <div class="contianer mt-3">
+                                        <h5 class="text-success">Present Address</h5>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-sm">
+                                            <h6><label for="vlg">Village :</label></h6>
+                                        </div>
+                                        <div class="col">
+                                            <%= message.result.pvlg %>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-sm">
+                                            <h6><label for="po">Post Office :</label></h6>
+                                        </div>
+                                        <div class="col">
+                                            <%= message.result.ppo %>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-sm">
+                                            <h6><label for="ps">Upozilla/P.S :</label></h6>
+                                        </div>
+                                        <div class="col">
+                                            <%= message.result.pps %>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-sm">
+                                            <h6><label for="dist">District :</label></h6>
+                                        </div>
+                                        <div class="col">
+                                            <%= message.result.pdist %>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="tab-pane container p fade" id="Other">
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="contianer mt-3">
+                                <h5 class="text-success">Other Info</h5>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="eduQua">Emergency contact number :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.emergencyContact %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="institute">Residential service :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.residentialService %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="prof">Transport service :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.transportService %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="natn">Major deases :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.deasesQuery %>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h6><label for="rlg">Deases Details :</label></h6>
+                                </div>
+                                <div class="col">
+                                    <%= message.result.deasesDetailes %>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+                    <div class="tab-pane container p fade" id="pay">
+                        <div class="container p-3">
+                            <table class="table table-bordered">
+                                <thead class="thead-dark">
+                                    <th>Date</th>
+                                    <th class="text-center">Amount</th>
+                                    <th class="text-center">Description</th>
+                                    <th class="text-center">Status</th>
+                                </thead>
+                                <tbody id="paymentInfo">
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane container p fade border" id="result">
+                        <div class="container mt-3">
+                            <button onclick="takePrint()" class="btn btn-outline-info">Print</button>
+                        </div>
+                        <div id="takePrint">
+                            <div class="row">
+                                <div class="col align-self-end">
+                                    <table class="d-flex">
+                                        <thead>
+                                            <th></th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="conainer p-0">
+                                                        <% if (locals.message) { %>
+                                                        <img class="align-self-end" src="/uploadedFiles/<%= message.result.file %>"
+                                                            alt="<%= message.result.file %>" alt="Quran" height="150px" width="auto">
+                                                           <% } %>
+                                                        </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <!-- <div class="container">
+                                        <img class="align-self-end" src="/img/studentPhoto.jpg" alt="Quran" height="150px" width="auto">
+                                    </div> -->
+                                </div>
+                                <div class="col">
+                                    <table class="d-flex justify-content-center">
+                                        <thead>
+                                            <th></th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="conainer text-center p-0">
+                                                        <img src="/img/logo.png" alt="Quran" height="200px" width="auto">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col text-center align-self-end">
+                                    <!-- <table class="table table-sm table-bordered" style="font-size: 12px;">
+                                        <thead class="thead-dark">
+                                            <th class="text-center">Letter Grade</th>
+                                            <th class="text-center">Marks</th>
+                                            <th class="text-center">Point Grade</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>A+</td>
+                                                <td>80-100</td>
+                                                <td>4.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>A</td>
+                                                <td>75-79</td>
+                                                <td>3.75</td>
+                                            </tr>
+                                            <tr>
+                                                <td>A-</td>
+                                                <td>70-74</td>
+                                                <td>3.50</td>
+                                            </tr>
+                                            <tr>
+                                                <td>B+</td>
+                                                <td>65-69</td>
+                                                <td>3.25</td>
+                                            </tr>
+                                            <tr>
+                                                <td>B</td>
+                                                <td>60-64</td>
+                                                <td>3.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>B-</td>
+                                                <td>55-59</td>
+                                                <td>2.75</td>
+                                            </tr>
+                                            <tr>
+                                                <td>C+</td>
+                                                <td>50-54</td>
+                                                <td>2.50</td>
+                                            </tr>
+                                            <tr>
+                                                <td>C</td>
+                                                <td>45-49</td>
+                                                <td>2.25</td>
+                                            </tr>
+                                            <tr>
+                                                <td>D</td>
+                                                <td>40-44</td>
+                                                <td>2.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>F</td>
+                                                <td>00-32</td>
+                                                <td>0.00</td>
+                                            </tr>
+                                    
+                                        </tbody>
+                                    </table> -->
+                                </div>
+                            </div>
+                            <div class="conainer text-center p-0">
+                                <h4 style="text-decoration: underline;">ACADEMIC TRANSCRIPT</h4>
+                            </div>
+                            <hr>
+                            <table class="table-sm">
+                                <thead>
+                                    <th>
+                                        <tr></tr>
+                                        <tr></tr>
+                                        <tr></tr>
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <p><strong>Name:</strong>
+                                                <%= message.result.nameEnglish %>
+                                            </p>
+                                            <p><strong>SID:</strong>
+                                                <%= message.result.sid %>
+                                            </p>
+                                            <p><strong>Class:</strong>
+                                                
+                                                <% let Pclass= ""; 
+                                                switch (message.result.preferredClass) {
+                                                    case "Class 6":
+                                                        Pclass = "Class 6";
+                                                        break;
+                                                    case "Class 5":
+                                                        Pclass = "Standard Five";
+                                                        break;
+                                                    case "Class 4":
+                                                        Pclass = "Standard Four";
+                                                        break;
+                                                    case "Class 3":
+                                                        Pclass = "Standard Three";
+                                                        break;
+                                                    case "Class 2":
+                                                        Pclass = "Standard Two";
+                                                        break;
+                                                    case "Class 1":
+                                                        Pclass = "Standard One";
+                                                        break;
+                                                    case "Nursery":
+                                                        Pclass = "Nursery";
+                                                        break;
+                                                    case "K.G":
+                                                        Pclass = "K.G";
+                                                        break;                
+                                                    } %>
+                                                    <%= Pclass %>
+                                            </p>
+                                            <p><strong>Class:</strong>
+                                                <%= message.result.shift %>
+                                            </p>
+                                        </td>
+                                        <td style="width: 300px;"></td>
+                                        <td>
+                                            <p><strong>Fathers name:</strong>
+                                                <%= message.result.fNameEnglish %>
+                                            </p>
+                                            <p><strong>Mothers name:</strong>
+                                                <%= message.result.mNameEnglish %>
+                                            </p>
+                                            <p><strong>Session:</strong></p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="container-fluid p-0">
+
+                                <table class="table table-sm table-bordered">
+                                    <thead class="thead-dark text-center">
+                                        <th class="text-center">Subject</th>
+                                        <th class="text-center">Full Mark</th>
+                                        <th class="text-center">Highest Mark</th>
+                                        <th class="text-center">1st Term</th>
+                                        <th class="text-center">L.G</th>
+                                        <th class="text-center">G.P</th>
+                                        <th class="text-center">2nd Term</th>
+                                        <th class="text-center">L.G</th>
+                                        <th class="text-center">G.P</th>
+                                        <th class="text-center">Anual Term</th>
+                                        <th class="text-center">L.G</th>
+                                        <th class="text-center">G.P</th>
+                                    </thead>
+
+                                    <tbody id="marksheet">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="row">
+                                
+                                <div class="col-5">
+                                    <div class="container">
+                                        <h6>Attendance Info</h6>
+                                    </div>
+                                    <table class="table table-sm table-bordered">
+                                        <thead class="thead-dark">
+                                            <th class="text-center">Description</th>
+                                            <th class="text-center">1st Term</th>
+                                            <th class="text-center">2nd Term</th>
+                                            <th class="text-center">Anual Term</th>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr>
+                                                <td>Total Class</td>
+                                                <td id="TCFT"></td>
+                                                <td id="TCST"></td>
+                                                <td id="TCAT"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Total Attendance</td>
+                                                <td id="TPFT"></td>
+                                                <td id="TPST"></td>
+                                                <td id="TPAT"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Total Leaves</td>
+                                                <td id="TLFT"></td>
+                                                <td id="TLST"></td>
+                                                <td id="TLAT"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Total Absence</td>
+                                                <td id="TAFT"></td>
+                                                <td id="TAST"></td>
+                                                <td id="TAAT"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    
+                                   
+                                </div>
+                                <div class="col">
+                                    <div class="container-fluid">
+                                        <h6>Moral & Behavior Evaluation</h6>
+                                    </div>
+                                    <div class="container-fluid">
+                                        <table class="table table-sm table-bordered">
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="checkbox" class="form-check-input" value="">Excellent
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="checkbox" class="form-check-input" value="">Good
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="checkbox" class="form-check-input" value="">Average
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="checkbox" class="form-check-input" value="">Poor
+                                                        </label>
+                                                    </div>
+                                                    
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="container-fluid">
+                                        <h6>Co-Curricular Activities</h6>
+                                    </div>
+                                    <div class="container-fluid">
+                                        <table class="table table-sm table-bordered">
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="checkbox" class="form-check-input" value="">Sports
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="checkbox" class="form-check-input" value="">Cultural Function
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="checkbox" class="form-check-input" value="">Scout/BNCC
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="checkbox" class="form-check-input" value="">Math Olympiad
+                                                        </label>
+                                                    </div>
+                                
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr></tr>
+                                            <tr></tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style="padding-right: 10px;">Result Status</td>
+                                                <td>
+                                                    <div style="padding: 0px 20px 0px 20px;"></div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Section Position</td>
+                                                <td></td>
+                                            </tr>
+                                            <!-- <tr>
+                                                                                        <td>GPA Obtained</td>
+                                                                                        <td></td>
+                                                                                    </tr> -->
+                                            <tr>
+                                                <td>Failed Subject</td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-4">
+                                    <div>
+                                        <table class="table table-sm table-bordered">
+                                            <thead>
+                                                    <tr class="text-center">
+                                                        <th>Terms</th>
+                                                        <th>Letter Grade</th>
+                                                        <th>Grade Point</th>
+                                                    </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>First Term</td>
+                                                    <td class="text-center"><span id="firstTermGrade"></span></td>
+                                                    <td class="text-center"><span id="firstTermGradeP"></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Second Term</td>
+                                                    <td class="text-center"><span id="secondTermGrade"></span></td>
+                                                    <td class="text-center"><span id="secondTermGradeP"></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Annual Term</td>
+                                                    <td class="text-center"><span id="annualTermGrade"></span></td>
+                                                    <td class="text-center"><span id="annualTermGradeP"></span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <h6>Comment :</h6>
+                                    <div style="border: 2px solid black; width: 320px; padding: 13%;"></div>
+                                </div>
+                            </div>
+                            <div class="container-fluid FinalAcquiredGradeDiv hide p-0">
+                                <h3>Final Obtained Letter Grade: <span class="FinalAcquiredGrade"></span></h3>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(() => {
+                $("#topMargin").hide()
+                $('button').click((event) => {
+                    let name = event.target.getAttribute('name')
+                    let addr = event.target.getAttribute('addr')
+                    let sid = event.target.getAttribute('sid')
+                    let cid = event.target.getAttribute('cid')
+                    let campus = event.target.getAttribute('campus')
+
+                    if (name == 'notifyButton') {
+                        $('#notify').hide()
+                        window.location.replace(`${addr}`)
+                    } else if (name == 'payment') {
+                        $.ajax({
+                            url: '/payment/info',
+                            type: 'POST',
+                            data: {
+                                sid: sid,
+                                campus: campus
+                            },
+                            success: (data) => {
+                                $('#paymentInfo').empty()
+                                for (let i = 0; i < data.length; i++) {
+                                    const info = data[i];
+
+                                    $('#paymentInfo').append(`<tr>
+                                <td>${info.date}</td>
+                                <td class="text-center">${info.amount}</td>
+                                <td class="text-center">${info.paymentDisc}</td>
+                                <td class="text-center">${info.status}</td>
+                                </tr>`)
+                                }
+                            }
+                        })
+                    }
+                    else if (name == 'result') {
+
+                        $.ajax({
+                            url: `/result/display/${sid}`,
+                            type: 'POST',
+                            data: { cid: cid, campus: campus },
+                            success: (data) => {
+
+                                let FM = data.getFM;
+                                let totalMark = 0;
+                                for (let i = 0; i < FM.length; i++) {
+                                    const e = FM[i];
+                                    Number(e)
+                                    totalMark += e
+                                }
+
+                                let PM = data.getPM;
+                                let subjects = data.getSub;
+                                if (data.first_term_allMarks.length <= 0) {
+
+                                    $('#marksheet').empty()
+                                    for (let i = 0; i < subjects.length; i++) {
+                                        let fullM = FM[i]
+                                        let passM = PM[i]
+                                        let s = subjects[i]
+                                        
+                                        $('#marksheet').append(`<tr>
+                                            <td><strong>${s}</strong></td>
+                                            <td class="text-center">${fullM}</td>
+                                            <td class="text-center"></td>
+                                            </tr>`)
+                                    }
+
+                                } else if (data.second_term_allMarks.length <= 0) {
+
+                                    let f = data.first_term_allMarks;
+                                    let lg = data.first_term_allMarks[3][0]
+                                    let gp = data.first_term_allMarks[4][0]
+                                    $('#marksheet').empty()
+                                    $(".letterGradeHead").removeClass('hide')
+                                    $(".firstTermGradeDiv").removeClass('hide')
+                                    for (let i = 0; i < subjects.length; i++) {
+                                        let fullM = FM[i]
+                                        let passM = PM[i]
+                                        let s = subjects[i]
+                                        let FTR = f[0][i]
+                                        let FLG = lg[i]
+                                        let FGP = gp[i]
+                                        $('#marksheet').append(`<tr>
+                                        <td><strong>${s}</strong></td>
+                                        <td class="text-center">${fullM}</td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center">${FTR}</td>
+                                        <td class="text-center">${FLG}</td>
+                                        <td class="text-center">${FGP}</td>
+                                        </tr>`)
+                                    }
+                                    $('#marksheet').append(`<tr class="text-center">
+                                        <td><strong>Total Mark</strong></td>
+                                        <td><strong>${totalMark}</strong></td>
+                                        <td><strong></strong></td>
+                                        <td><strong>${f[2]}</strong></td>
+                                        </tr>`)
+                                    $('#firstTermGrade').text(`${f[1]}`)
+                                    $('#firstTermGradeP').text(`${f[5]}`)
+                                    // $('#marksheet').append(`<tr class="text-center">
+                                    //         <td><strong>Grade Obtained</strong></td>
+                                    //         <td><strong></strong></td>
+                                    //         <td><strong></strong></td>
+                                    //         <td><strong>${f[1]}</strong></td>
+                                    //         </tr>`)
+
+                                } else if (data.annual_term_allMarks.length <= 0) {
+                                    let f = data.first_term_allMarks;
+                                    let flg = data.first_term_allMarks[3][0]
+                                    let fgp = data.first_term_allMarks[4][0]
+                                    let st = data.second_term_allMarks;
+                                    let slg = data.second_term_allMarks[3][0]
+                                    let sgp = data.second_term_allMarks[4][0]
+                                    $('#marksheet').empty()
+                                    $(".letterGradeHead").removeClass('hide')
+                                    $(".firstTermGradeDiv").removeClass('hide')
+                                    $(".secondTermGradeDiv").removeClass('hide')
+
+                                    for (let i = 0; i < subjects.length; i++) {
+                                        let fullM = FM[i]
+                                        let passM = PM[i]
+                                        let s = subjects[i]
+                                        let FTR = f[0][i]
+                                        let STR = st[0][i]
+                                        let FLG = flg[i]
+                                        let FGP = fgp[i]
+                                        let SLG = slg[i]
+                                        let SGP = sgp[i]
+                                        $('#marksheet').append(`<tr>
+                                        <td><strong>${s}</strong></td>
+                                        <td class="text-center">${fullM}</td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center">${FTR}</td>
+                                        <td class="text-center">${FLG}</td>
+                                        <td class="text-center">${FGP}</td>
+                                        <td class="text-center">${STR}</td>
+                                        <td class="text-center">${SLG}</td>
+                                        <td class="text-center">${SGP}</td>
+                                        </tr>`)
+                                    }
+                                    $('#marksheet').append(`<tr class="text-center">
+                                        <td><strong>Total Mark</strong></td>
+                                        <td class="text-center"><strong>${totalMark}</strong></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"><strong>${f[2]}</strong></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"><strong>${st[2]}</strong></td>
+                                        </tr>`)
+                                    $('#firstTermGrade').text(`${f[1]}`)
+                                    $('#firstTermGradeP').text(`${f[5]}`)
+                                    $('#secondTermGrade').text(`${st[1]}`)
+                                    $('#secondTermGradeP').text(`${st[5]}`)
+                                    // $('#marksheet').append(`<tr class="text-center">
+                                    //         <td><strong>Grade Obtained</strong></td>
+                                    //         <td></td>
+                                    //         <td></td>
+                                    //         <td class="text-center"><strong>${f[1]}</strong></td>
+                                    //         <td class="text-center"><strong>${st[1]}</strong></td>
+                                    //         </tr>`)   
+                                }
+                                else {
+                                    let f = data.first_term_allMarks;
+                                    let st = data.second_term_allMarks;
+                                    let a = data.annual_term_allMarks;
+                                    let flg = data.first_term_allMarks[3][0]
+                                    let fgp = data.first_term_allMarks[4][0]
+                                    let slg = data.second_term_allMarks[3][0]
+                                    let sgp = data.second_term_allMarks[4][0]
+                                    let alg = data.annual_term_allMarks[3][0]
+                                    let asgp = data.annual_term_allMarks[4][0]
+                                    let grandTotal = 0
+                                    $('#marksheet').empty()
+                                    $(".letterGradeHead").removeClass('hide')
+                                    $(".firstTermGradeDiv").removeClass('hide')
+                                    $(".secondTermGradeDiv").removeClass('hide')
+                                    $(".annualTermGradeDiv").removeClass('hide')
+                                    for (let i = 0; i < subjects.length; i++) {
+                                        let fullM = FM[i]
+                                        let passM = PM[i]
+                                        let s = subjects[i]
+                                        let FTR = f[0][i]
+                                        let STR = st[0][i]
+                                        let ATR = a[0][i]
+                                        let FLG = flg[i]
+                                        let FGP = fgp[i]
+                                        let SLG = slg[i]
+                                        let SGP = sgp[i]
+                                        let ALG = slg[i]
+                                        let AGP = sgp[i]
+                                        $('#marksheet').append(`<tr>
+                                        <td><strong>${s}</strong></td>
+                                        <td class="text-center">${fullM}</td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center">${FTR}</td>
+                                        <td class="text-center">${FLG}</td>
+                                        <td class="text-center">${FGP}</td>
+                                        <td class="text-center">${STR}</td>
+                                        <td class="text-center">${SLG}</td>
+                                        <td class="text-center">${SGP}</td>
+                                        <td class="text-center">${ATR}</td>
+                                        <td class="text-center">${ALG}</td>
+                                        <td class="text-center">${AGP}</td>
+                                        </tr>`)
+                                        
+                                    }
+                                    grandTotal += Number(f[5]) + Number(st[5]) + Number(a[5])
+
+                                    let finalGPA = grandTotal / 3;
+                                    finalGPA = finalGPA.toFixed(2)
+                                    // let arraySearch = FM.includes(50)
+                                    // let len = Number(a[0].length)
+                                    // let actualGrade = devidedGrade / len
+                                    let calculatedGrade
+
+                                    if (finalGPA > 3.99) {
+                                        calculatedGrade = 'A+'
+                                    } else if (finalGPA > 3.74 && finalGPA <= 3.99) {
+                                        calculatedGrade = 'A'
+                                    } else if (finalGPA > 3.49 && finalGPA <= 3.74) {
+                                        calculatedGrade = 'A-'
+                                    } else if (finalGPA > 3.24 && finalGPA <= 3.49) {
+                                        calculatedGrade = 'B+'
+                                    } else if (finalGPA > 2.99 && finalGPA <= 3.24) {
+                                        calculatedGrade = 'B'
+                                    } else if (finalGPA > 2.74 && finalGPA <= 2.99) {
+                                        calculatedGrade = 'B-'
+                                    } else if (finalGPA > 2.49 && finalGPA <= 2.74) {
+                                        calculatedGrade = 'C+'
+                                    } else if (finalGPA > 2.24 && finalGPA <= 2.49) {
+                                        calculatedGrade = 'C'
+                                    } else if (finalGPA > 1.99 && finalGPA <= 2.24) {
+                                        calculatedGrade = 'D'
+                                    } else if (finalGPA <= 1.99) {
+                                        calculatedGrade = 'F'
+                                    }
+
+                                    $('#marksheet').append(`<tr class="text-center">
+                                        <td><strong>Total Mark</strong></td>
+                                        <td class="text-center"><strong>${totalMark}</strong></td>
+                                        <td></td>
+                                        <td class="text-center"><strong>${f[2]}</strong></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"><strong>${st[2]}</strong></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"><strong>${a[2]}</strong></td>
+                                        </tr>`)
+                                    $('#firstTermGrade').text(`${f[1]}`)
+                                    $('#firstTermGradeP').text(`${f[5]}`)
+                                    $('#secondTermGrade').text(`${st[1]}`)
+                                    $('#secondTermGradeP').text(`${st[5]}`)
+                                    $('#annualTermGrade').text(`${a[1]}`)
+                                    $('#annualTermGradeP').text(`${a[5]}`)
+                                    $('.FinalAcquiredGrade').text(calculatedGrade)
+                                    $('.FinalAcquiredGradeDiv').removeClass('hide')
+                                    // $('#marksheet').append(`<tr class="text-center">
+                                    //         <td><strong>Grade Obtained</strong></td>
+                                    //         <td></td>
+                                    //         <td></td>
+                                    //         <td class="text-center"><strong>${f[1]}</strong></td>
+                                    //         <td class="text-center"><strong>${st[1]}</strong></td>
+                                    //         <td class="text-center"><strong>${a[1]}</strong></td>
+                                    //         </tr>`)
+                                }
+
+                                $('#totalMark').text(totalMark)
+                                let FTA = data.FTermAttendance;
+                                let STA = data.STermAttendance;
+                                let ATA = data.ATermAttendance;
+                                if (FTA.length > 0) {
+                                    let TC = FTA[0] // data.TC;
+                                    let TP = FTA[1] // data.presence;
+                                    let TL = FTA[2] // data.leaves;
+                                    let TA = FTA[3] // data.absence;
+                                    $('#TCFT').text(TC)
+                                    $('#TPFT').text(TP)
+                                    $('#TLFT').text(TL)
+                                    $('#TAFT').text(TA)
+                                }
+                                if (STA.length > 0) {
+                                    let TC = STA[0] // data.TC;
+                                    let TP = STA[1] // data.presence;
+                                    let TL = STA[2] // data.leaves;
+                                    let TA = STA[3] // data.absence;
+                                    $('#TCST').text(TC)
+                                    $('#TPST').text(TP)
+                                    $('#TLST').text(TL)
+                                    $('#TAST').text(TA)
+                                }
+                                if (TTA.length > 0) {
+                                    let TC = STA[0] // data.TC;
+                                    let TP = STA[1] // data.presence;
+                                    let TL = STA[2] // data.leaves;
+                                    let TA = STA[3] // data.absence;
+                                    $('#TCST').text(TC)
+                                    $('#TPST').text(TP)
+                                    $('#TLST').text(TL)
+                                    $('#TAST').text(TA)
+                                }
+                                if (ATA.length > 0) {
+                                    let TC = ATA[0] // data.TC;
+                                    let TP = ATA[1] // data.presence;
+                                    let TL = ATA[2] // data.leaves;
+                                    let TA = ATA[3] // data.absence;
+                                    $('#TCAT').text(TC)
+                                    $('#TPAT').text(TP)
+                                    $('#TLAT').text(TL)
+                                    $('#TAAT').text(TA)
+                                }
+
+                            }
+                        })
+
+                    }
+                })
+            })
+
+            function takePrint() {
+                $("#topMargin").show()
+                let result = document.getElementById('takePrint').innerHTML
+                let body = document.body.innerHTML
+                document.body.innerHTML = result
+                window.print()
+                document.body.innerHTML = body
+            }
+        </script>
+</body>

@@ -1,0 +1,256 @@
+<body id="allStudents"
+  style="
+    background: url(/img/allstudents.jpg) no-repeat center fixed;
+    background-size: cover;
+  "
+> 
+
+  <%- include("./partials/header.ejs") %>
+
+  <div class="container p-3 text-center">
+    <h3 class="welcomeMsg">Result Sheet</h3>
+  </div>
+  <div class="container">
+    <!-- <a class="btn btn-outline-info" href="/register/new">Add a new student</a> -->
+    <a class="btn btn-outline-info admin-button" href="/alhera2023admin">Admin Panel</a>
+    <button onclick="takePrint()" class="btn btn-outline-info">Print</button>
+    <button onclick="refresh()" class="btn btn-outline-info">Refresh</button>
+  </div>
+  <!-- <form action="/result/generateRS" method="POST"> -->
+    <div class="container mt-3 d-flex">
+      <div class="form-group p-2 mt-1">
+        <input type="number" name="year" id="year" placeholder="Year">
+      </div>
+      <div class="form-group p-2">
+        <select class="form-control" id="term" name="term">
+            <option value="">Select Term</option>
+            <option value="First Term">First Term</option>
+            <option value="Mid Term">Mid Term</option>
+            <option value="Annual Term">Annual Term</option>
+        </select>
+        </div>
+        
+        <div class="form-group p-2">
+          <select class="form-control" id="class" name="class">
+              <option>Select Class</option>
+              <option value="N">Nursery</option>
+              <option value="KG">K.G</option>
+              <option value="C1">Standard I</option>
+              <option value="C2">Standard II</option>
+              <option value="C3">Standard III</option>
+              <option value="C4">Standard IV</option>
+              <option value="C5">Standard V</option>
+              <option value="C6">Class 6</option>
+              <!-- <option value="7">Class 7</option>
+              <option value="8">Class 8</option>
+              <option value="9">Class 9</option>
+              <option value="10">Class 10</option> -->
+          </select>
+      </div>
+      <div class="form-group p-2">
+        <select class="form-control" id="shift" name="shift">
+            <option value="">Select Shift</option>
+            <option value="Morning Shift">Morning Shift</option>
+            <option value="Afternoon Shift">Afternoon Shift</option>
+        </select>
+        </div>
+
+      <div class="form-group p-2">
+        <button class="btn btn-outline-dark" name="generateButton" type="button">Generate Result Sheet</button>
+      </div>
+     </div>
+  <!-- </form> -->
+   
+   <div id="resultSheetDiv" class="table-responsive">
+    <div class="container text-center" style="margin-top: -10px;" id="nameDiv">
+      <h5 style="font-weight: bolder;font-size: 28px;font-family: poppins;color: rgb(219, 13, 205);">AL-HERA IDEAL
+          MADRASAH [AIM]</h5>
+  </div>
+    <div class="container text-center">
+      <h4 id="resulHead"></h4>
+     </div>
+    <table class="table table-sm table-bordered">
+      <thead style="font-size: 12px;" class="text-center">
+        <tr id="subjectHead">
+            
+        </tr>
+      </thead>
+      <tbody id="studentData">
+        
+      </tbody>
+  </table>
+   </div>
+   
+  <script>
+    $(document).ready(() => {
+      $("table").hide()
+      $("#nameDiv").hide()
+      $('button').click((e) => {
+        let name = e.target.getAttribute('name')
+        if (name == 'generateButton') {
+          $("#subjectHead").empty()
+          $("#studentData").empty()
+            let term = $('#term').val()
+            let c = $('#class').val()
+            let shift = $('#shift').val()
+            let year = $('#year').val()
+            let campus = getCookie('campus')
+
+            $.ajax({
+                url: `/result/getResultSheet`,
+                type: "POST",
+                data: {
+                  // year: year,
+                  term: term,
+                  class: c,
+                  shift: shift,
+                  campus: campus},
+                success: (data) => {
+                  let cls;
+                  switch(c) {
+                      case 'N':
+                        cls = "Nursery"
+                        break;
+                      case 'KG':
+                        cls = "K.G"
+                        break;
+                      case 'C1':
+                        cls = "Standard I"
+                        break;
+                      case 'C2':
+                          cls = "Standard II"
+                          break;
+                      case 'C3':
+                          cls = "Standard III"
+                          break;
+                      case 'C4':
+                          cls = "Standard IV"
+                          break;
+                      case 'C5':
+                          cls = "Standard V"
+                          break;
+                      case 'C6':
+                          cls = "Class 6"
+                          break;
+                    }
+                  $("#resulHead").text(`${cls} - ${term} Result Sheet ${year}`)
+                  $("table").show()
+                  $("#nameDiv").show()
+                  $("#subjectHead").append(`<th>Rank</th>`)
+                  $("#subjectHead").append(`<th>Name</th>`)
+                  for (let i = 0; i < data[0][0].length; i++) {
+                      let subject = data[0][0][i];
+                      
+                      $("#subjectHead").append(`<th>${subject}</th>`)
+                      $("#subjectHead").append(`<th>GP</th>`)
+                      
+                    }
+                    $("#subjectHead").append(`<th>T.Marks</th>`)
+                    $("#subjectHead").append(`<th>A.G.P</th>`)
+                    $("#subjectHead").append(`<th>TCGPA</th>`)
+                    $("#subjectHead").append(`<th>LG</th>`)
+
+                  for (let j = 0; j < data.length; j++) {
+                    const e = data[j];
+                    let rank = j + 1
+                    let name = e[2]
+                        let mark = e[3]
+                        let gp = e[4]
+                        let totalMark = e[5]
+                        let addGPA = e[6]
+                        let GPA = e[7]
+                        let LG = e[8]
+                        $("#studentData").append(`<tr>`)
+                          $("#studentData").append(`<td class="text-center">${rank}</td>`)
+                          $("#studentData").append(`<td>${name}</td>`)
+                        for (let m = 0; m < mark.length; m++) {
+                          let sMark = mark[m];
+                          let sGp = gp[m]
+                          $("#studentData").append(`<td class="text-center">${sMark}</td>`)
+                          $("#studentData").append(`<td class="text-center">${sGp}</td>`)
+                        }
+                        $("#studentData").append(`<td class="text-center">${totalMark}</td>`)
+                        $("#studentData").append(`<td class="text-center">${addGPA}</td>`)
+                        $("#studentData").append(`<td class="text-center">${GPA}</td>`)
+                        $("#studentData").append(`<td class="text-center">${LG}</td>`)
+
+                        $("#studentData").append(`</tr>`)
+
+                  }
+                    
+                }
+            })
+        } else if (name == 'remove') {
+          let sid = e.target.getAttribute("sid")
+          let name = e.target.getAttribute("sname")
+          let c = e.target.getAttribute("campus")
+          if (confirm(`Are you sure that you want to remove this student (Name: ${name} & SID: ${sid}) ?`)) {
+            $.ajax({
+              url: "/students/removeProfile",
+              type: "post",
+              data: { sid: sid, campus: c }
+            })
+            location.reload();
+          }
+        }
+    })
+
+        function getCookie(cname) {
+          let name = cname + "=";
+          let decodedCookie = decodeURIComponent(document.cookie);
+          let ca = decodedCookie.split(';');
+          for(let i = 0; i <ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+              c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+              return c.substring(name.length, c.length);
+            }
+          }
+          return "";
+        }
+
+    })
+    
+    function takePrint() {
+              
+                // $("#PRINTLAYOUT").attr("href","/css/landscape.css")
+                // $(".hideInPrint").hide()
+                $("#resultSheetDiv").css("transform", "rotate(-90deg)")
+                // $("body").css("transform", "rotate(90deg)")
+                let result = document.getElementById('resultSheetDiv').innerHTML
+                let body = document.body.innerHTML
+                document.body.innerHTML = result
+
+                var css = '@page { size: landscape; }',
+                      head = document.head || document.getElementsByTagName('head')[0],
+                      style = document.createElement('style');
+
+                  style.type = 'text/css';
+                  style.media = 'print';
+
+                  if (style.styleSheet){
+                    style.styleSheet.cssText = css;
+                  } else {
+                    style.appendChild(document.createTextNode(css));
+                  }
+
+                  head.appendChild(style);
+
+                window.print()
+                location.reload()
+                // document.body.innerHTML = body
+                // $("#PRINTLAYOUT").attr("href","/css/portrait.css")
+            }
+          
+          function refresh() {
+            location.reload();
+          }
+</script>
+<style>
+  /* @page {
+      size: landscape;
+  } */
+</style>
+</body>

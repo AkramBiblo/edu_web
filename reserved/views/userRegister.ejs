@@ -1,0 +1,156 @@
+<body>
+    <%- include('./partials/header.ejs') %> 
+
+    <div class="container bg-info p-5 f mt-4" style="max-width: 600px;">
+        <!-- Form  -->
+        <div class="container text-warning text-center">
+            <h4 class="welcomeMsg">Register</h4>
+        </div>
+
+        <%- include('./partials/error.ejs') %>
+        <%- include('./partials/successMsg.ejs') %>
+        
+            <form action="/register/addNewStudent" method="POST" enctype="multipart/form-data">
+                <div class="row bg-info p-3 mt-3">
+                    <div class="col">
+                        <div class="flex-column justify-content-end">
+                            <div>
+                                <img style="border-radius: 50%; max-height: 100px;max-width: 100px;"
+                                    src="/img/profile.png" alt="pic">
+                            </div>
+                            <div class="mt-2">
+                                <input type="file" name="avatar">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container p-3 bg-info text-light">
+                    <div class="row ip mt-3">
+                        <div class="col-lg-4 ip">
+                            <h6><label for="sid">Student ID</label></h6>
+                        </div>
+                        <div class="col-lg-8 ip">
+                            <input type="text" id="sid" class="form-control ip" name="sid" required>
+                        </div>
+                    </div>
+                    <div class="row ip mt-3">
+                        <div class="col-lg-4 ip">
+                            <h6><label for="roll">Roll No</label></h6>
+                        </div>
+                        <div class="col-lg-8 ip">
+                            <input type="text" id="roll" class="form-control ip" name="roll">
+                        </div>
+                    </div>
+                    <div class="row ip mt-3">
+                        <div class="col-lg-4 ip">
+                            <h6><label for="nameEnglish">Full name in English</label></h6>
+                        </div>
+                        <div class="col-lg-8 ip">
+                            <input type="text" id="nameEnglish" class="form-control ip" name="nameEnglish" placeholder="" required>
+                        </div>
+                    </div>
+                    <div class="row ip mt-3">
+                        <div class="col-lg-4 ip">
+                            <h6><label for="fNameEnglish">Fathers name in English</label></h6>
+                        </div>
+                        <div class="col-lg-8 ip">
+                            <input type="text" class="form-control ip" name="fNameEnglish"required>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="form-group p-0">
+                        <select class="form-control" name="campus">
+                            <option value="">Select Campus</option>
+                            <option value="khulshi_campus">Khulshi Campus</option>
+                            <option value="kadamtali_campus">Madarbari Campus</option>
+                            <option value="majhirghat_campus">Majhirghat Campus</option>
+                        </select>
+                        </div>
+                    </div>
+                    <div class="row ip mt-3">
+                        <div class="col-lg-4 ip">
+                            <h6><label for="preferredClass">Preferred Class of Admission</label></h6>
+                        </div>
+                        <div class="col-lg-8 ip">
+                            <div class="form-group">
+                                <select class="form-control" id="sel1" name="preferredClass">
+                                    <option>Nursery</option>
+                                    <option>K.G</option>
+                                    <option>Class 1</option>
+                                    <option>Class 2</option>
+                                    <option>Class 3</option>
+                                    <option>Class 4</option>
+                                    <option>Class 5</option>
+                                    <option>Class 6</option>
+                                    <option>Class 7</option>
+                                    <option>Class 8</option>
+                                    <option>Class 9</option>
+                                    <option>Class 10</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-3 ip">
+                        <div class="col-lg-4 ip">
+                            <h6><label for="preferredSection">Preferred Section</label></h6>
+                        </div>
+
+                        <div class="col-lg-8 ip">
+                            <div class="form-check-inline">
+                                <label class="form-check-label" for="radio1">
+                                    <input type="radio" class="form-check-input" id="radio1" name="preferredSection"
+                                        value="Hifz & Academic">Part time Hifz & Academic
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label" for="radio2">
+                                    <input type="radio" class="form-check-input" id="radio2" name="preferredSection"
+                                        value="Only Academic">Only Academic
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3 ip">
+                        <div class="col-lg-4 ip">
+                            <h6><label for="shift">Shift Preference</label></h6>
+                        </div>
+                    
+                        <div class="col-lg-8 ip">
+                            <div class="form-check-inline">
+                                <label class="form-check-label" for="radio3">
+                                    <input type="radio" class="form-check-input" id="radio3" name="shift"
+                                        value="Morning Shift">Morning Shift
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label" for="radio4">
+                                    <input type="radio" class="form-check-input" id="radio4" name="shift"
+                                        value="Afternoon Shift">Afternoon Shift
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row ip mt-3">
+                        <div class="col-lg-4 ip">
+                            <h6><label for="emergencyContact">Emergency contact number</label></h6>
+                        </div>
+                        <div class="col-lg-8 ip">
+                            <input type="text" class="form-control ip" name="emergencyContact" required>
+                        </div>
+                    </div>
+                    <div class="row mt-3 ip">
+                        <div class="col-lg-4 ip">
+                            <h6><label for="password">Password</label></h6>
+                        </div>
+                        <div class="col-lg-8 ip">
+                            <input type="password" class="form-control ip pass" name="password" required>
+                        </div>
+                    </div>
+                    <div class="row d-flex justify-content-end mt-4 mr-3">
+                        <input class="btn btn-success mr-2" name="submit" type="submit" value="Ragister">
+                    </div>
+            </form>
+    </div>
+
+</body>

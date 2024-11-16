@@ -1,0 +1,47 @@
+<body>
+  <%- include("./partials/header.ejs") %>
+
+    <div class="container">
+        <div class="container text-center">
+            <h4>Class Activities</h4>
+        </div>
+        <div class="container">
+            <h6>Attendance</h6>
+        </div>
+        <div class="container">
+            <% if (locals.message != null) {%> 
+            <table class="table bg-dark text-light">
+              <thead class="thead-light">
+                <tr>
+                  <th>Avatar</th>
+                  <th>Name</th>
+                  <th>Roll No</th>
+                  <th>Attended</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% message.forEach(function(user) { %>
+                  <tr>
+                      <td><img style="border-radius: 8px; max-height: 70px;max-width: 70px;" src="/uploadedFiles/<%= user.file %>" alt="Avatar"></td>
+                      <td>
+                          <form action="/students/login" method="post">
+                            <input type="hidden" name="name" value="<%= user.nameEnglish %>">
+                            <input type="hidden" name="password" value="<%= user.password %>">
+                            <input class="btn btn-info" type="submit" name="submit" value="<%= user.nameEnglish %>">
+                          </form>
+                      </td>
+                      <td><%= user.roll %></td>
+                      <td><div class="form-check">
+                        <label class="form-check-label">
+                          <input type="checkbox" class="form-check-input" value="yes">
+                        </label>
+                      </div></td>
+                      <!-- <td><a class="btn btn-danger" href="/attendance/add/<%= user.roll %>">attended</a></td> -->
+                  </tr>
+                 <%   
+                }) } %> 
+              </tbody>
+            </table>
+          </div>
+    </div>
+</body>

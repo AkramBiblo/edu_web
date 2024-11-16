@@ -1,0 +1,298 @@
+<body>
+    <%- include('./partials/header.ejs') %> 
+    <div class="container bg-info p-4">
+        <!-- Form  -->
+        <div class="container text-warning text-center">
+            <h1 class="welcomeMsg">Re-admission form</h1>
+        </div>
+
+        <%- include('./partials/error.ejs') %>
+    
+        <div class="row">
+            <div class="col-md mt-3" style="max-width: 800px;">
+                <div class="row ip mt-3">
+                    <div class="col-lg-4 ip text-light">
+                        <h6><label for="SID">Search by SID to readmit the student.</label></h6>
+                    </div>
+                    <div class="col-lg-8 ip">
+                        <input type="text" id="SID" class="form-control ip" name="SID" required>
+                    </div>
+                </div>
+                <div class="container p-3 d-flex justify-content-end">
+                    <button id="search" class="btn btn-success">Search</button>
+                </div>
+            </div>
+            <div class="col"></div>
+        </div>
+    <form action="/register/update" method="POST">
+        <input type="hidden" id="hiddenSid" name="sid">
+        <div class="row bg-info p-3 mt-3">
+            <div class="col">
+                <div class="flex-column justify-content-end">
+                    <div id="imgDiv">
+                        <img style="border-radius: 8px; max-height: 150px;max-width: 150px;" id="profilePic" alt="Profile Pic">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="row mt-3">
+                    <div class="col-lg-4 ip text-light">
+                        <h6><label for="name">Name</label></h6>
+                    </div>
+                    <div class="col-lg-8">
+                        <input type="text" id="name" class="form-control" name="name">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="row ip mt-3">
+                    <div class="col-lg-4 ip text-light">
+                        <h6><label for="preferredClass">Preferred Class of Admission</label></h6>
+                    </div>
+                    <div class="col-lg-8 ip">
+                        <div class="form-group">
+                            <select class="form-control" id="preferredClass" name="preferredClass">
+                              <option>Select class</option>
+                              <option>Nursery</option>
+                              <option>Play</option>
+                              <option>Class 1</option>
+                              <option>Class 2</option>
+                              <option>Class 3</option>
+                              <option>Class 4</option>
+                              <option>Class 5</option>
+                              <option>Class 6</option>
+                              <option>Class 7</option>
+                              <option>Class 8</option>
+                              <!-- <option>Class 9</option>
+                              <option>Class 10</option> -->
+                            </select>
+                          </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="row p-3 bg-info text-light">
+            <div class="col">
+                <div class="contianer text-center p-1">
+                    <h5 class="">Permanent Address</h5>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-lg-4">
+                        <h6><label for="vlg">Village</label></h6>
+                    </div>
+                    <div class="col-lg-8">
+                        <input type="text" id="vlg" class="form-control" name="vlg" placeholder="Village" value="" required>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-lg-4">
+                        <h6><label for="po">Post Office</label></h6>
+                    </div>
+                    <div class="col-lg-8">
+                        <input type="text" id="po" class="form-control" name="po" placeholder="Post Office" value="" required>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-lg-4">
+                        <h6><label for="ps">Upozilla/P.S</label></h6>
+                    </div>
+                    <div class="col-lg-8">
+                        <input type="text" id="ps" class="form-control" name="ps" placeholder="Upozilla/P.S" value="" required>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-lg-4">
+                        <h6><label for="dist">District</label></h6>
+                    </div>
+                    <div class="col-lg-8">
+                        <input type="text" id="dist" class="form-control" name="dist" placeholder="District" value="" required>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="container" id="pAddress" style="padding: 0;">
+                    <div class="contianer text-center p-1">
+                        <h5 class="text-light">Present Address</h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <h6><label for="addSame">Present address is same</label></h6>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                  <input type="checkbox" id="addSame" onclick="myFunction()" class="form-check-input addSame" name="addSame" value="Present and Permanent address are same.">
+                                </label>
+                              </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-lg-4">
+                            <h6><label for="pvlg">Village</label></h6>
+                        </div>
+                        <div class="col-lg-8">
+                            <input type="text" id="pvlg" class="form-control" name="pvlg" placeholder="Village" value="">
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-lg-4">
+                            <h6><label for="ppo">Post Office</label></h6>
+                        </div>
+                        <div class="col-lg-8">
+                            <input type="text" id="ppo" class="form-control" name="ppo" placeholder="Post Office" value="">
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-lg-4">
+                            <h6><label for="pps">Upozilla/P.S</label></h6>
+                        </div>
+                        <div class="col-lg-8">
+                            <input type="text" id="pps" class="form-control" name="pps" placeholder="Upozilla/P.S" value="">
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-lg-4">
+                            <h6><label for="pdist">District</label></h6>
+                        </div>
+                        <div class="col-lg-8">
+                            <input type="text" id="pdist" class="form-control" name="pdist" placeholder="District" value="">
+                        </div>
+                    </div>
+            </div>
+            </div>
+        </div>
+        
+      <div class="row p-3 text-light">
+          <div class="col">
+            <div class="contianer p-1">
+                <h5 class="">Other Info</h5>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="residentialService">Need Residential service?</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <div class="form-check-inline">
+                        <label class="form-check-label" for="radio1">
+                          <input type="radio" class="form-check-input" id="radio1" name="residentialService" value="Yes">Yes
+                        </label>
+                      </div>
+                      <div class="form-check-inline">
+                        <label class="form-check-label" for="radio2">
+                          <input type="radio" class="form-check-input" id="radio2" name="residentialService" value="No">No
+                        </label>
+                      </div>
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="transportService">Need Transport service?</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <div class="form-check-inline">
+                        <label class="form-check-label" for="radio1">
+                          <input type="radio" class="form-check-input" id="radio1" name="transportService" value="Yes">Yes
+                        </label>
+                      </div>
+                      <div class="form-check-inline">
+                        <label class="form-check-label" for="radio2">
+                          <input type="radio" class="form-check-input" id="radio2" name="transportService" value="No">No
+                        </label>
+                      </div>
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="deasesQuery">Suffering from any major deases?</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <div class="form-check-inline">
+                        <label class="form-check-label" for="radio1">
+                          <input type="radio" class="form-check-input" id="radio1" name="deasesQuery" value="yes">Yes
+                        </label>
+                      </div>
+                      <div class="form-check-inline">
+                        <label class="form-check-label" for="radio2">
+                          <input type="radio" class="form-check-input" id="radio2" name="deasesQuery" value="No">No
+                        </label>
+                      </div>
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-8 ip">
+                    <input type="text" class="form-control ip" name="deasesDetailes" placeholder="Deases Details (If have any)" value="">
+                </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="emergencyContact">Emergency contact number</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="emergencyContact" class="form-control ip" name="emergencyContact" value="" required>
+                </div>
+            </div>
+            <div class="row ip d-flex justify-content-end mt-4 mr-3">
+                <button class="btn btn-success mr-2" name="submit" type="submit">Update</button>
+            </div>
+          </div>
+      </div>
+    </form>
+   </div>
+    
+
+    <script>
+       $("#imgDiv").hide()
+        $('#search').click((e) => {
+            let SID = $('#SID').val()
+            $("#imgDiv").show()
+            $.ajax({
+                url: `/register/readmission/${SID}`,
+                type: 'POST',
+                success: (data) => {
+                    $('#profilePic').show()
+                    $('#profilePic').attr('src', `/uploadedFiles/${data.file}`)
+                    $('#emergencyContact').val(data.emergencyContact)
+                    $('#vlg').val(data.vlg)
+                    $('#po').val(data.po)
+                    $('#ps').val(data.ps)
+                    $('#dist').val(data.dist)
+                    $('#hiddenSid').val(data.sid)
+                    $('#name').val(data.nameEnglish)
+                }
+            })
+        })
+
+        function myFunction() {
+        // Get the checkbox
+        var checkBox = document.getElementById("addSame");
+        // Get the output text
+        var text = document.getElementById("pAddress");
+      
+        // If the checkbox is checked, display the output text
+        if (checkBox.checked == true){
+          text.style.display = "none";
+        } else {
+          text.style.display = "block";
+        }
+      } 
+
+      function gFunc() {
+        // Get the checkbox
+        var checkBox = document.getElementById("gChkBox");
+        // Get the output text
+        var text = document.getElementById("gDiv");
+      
+        // If the checkbox is checked, display the output text
+        if (checkBox.checked == true){
+          text.style.display = "none";
+        } else {
+          text.style.display = "block";
+        }
+      } 
+    </script>
+</body>

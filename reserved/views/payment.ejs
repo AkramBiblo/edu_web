@@ -1,0 +1,213 @@
+<body>
+  <%- include("./partials/header.ejs") %>
+
+    <div class="container text-dark text-center p-3 p">
+        <h3 class="welcomeMsg">Payment Info</h3>
+    </div>
+    <div class="container-fluid p-5">
+        <a class="btn btn-outline-info admin-button" href="/alhera2023admin">Admin Panel</a>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <div class="col-xl-12 col-lg-6 col-md-6">
+                    <div class="container-fluid f bg-warning border p-4 mb-2 payment_form" style="max-width: 400px;">
+                        <div class="container text-light">
+                            <h4>Payment form</h4>
+                        </div>
+
+                        <%- include('./partials/error.ejs') %>
+                            <%- include('./partials/successMsg.ejs') %>
+                            <form action="/payment/pay" method="POST">
+                                <div class="container mt-5">
+                                  <div class="row mt-3">
+                                    <input type="text" class="form-control" name="name" placeholder="name" required />
+                                  </div>
+                                  <div class="row mt-3">
+                                    <input type="text" class="form-control" name="sid" placeholder="SID" required />
+                                  </div>
+                                  <div class="row mt-3">
+                                    <div class="col-lg-4 p-0">
+                                      <h6><label for="">Select class</label></h6>
+                                    </div>
+                                    <div class="col-lg-8 p-0">
+                                      <div class="form-group">
+                                        <select class="form-control" id="sel1" name="cls">
+                                          <option value="">Select class</option>
+                                          <option value="99">Nursery</option>
+                                          <option value="100">K.G</option>
+                                          <option value="1">Class 1</option>
+                                          <option value="2">Class 2</option>
+                                          <option value="3">Class 3</option>
+                                          <option value="4">Class 4</option>
+                                          <option value="5">Class 5</option>
+                                          <option value="6">Class 6</option>
+                                          <!-- <option value="7">Class 7</option> -->
+                                          <!-- <option value="8">Class 8</option> -->
+                                          <!-- <option value="9">9</option>
+                                                  <option value="10">10</option> -->
+                                        </select>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="row mt-3">
+                                    <input type="text" class="form-control" name="paymentDisc" placeholder="Description" required />
+                                  </div>
+                                  <div class="row mt-3">
+                                    <div class="col-lg-4 p-0">
+                                      <h6><label for="paid">Total Paid</label></h6>
+                                    </div>
+                                    <div class="col-lg-8 p-0">
+                                      <input type="text" class="form-control paid" name="paid" placeholder="Amount" required />
+                                    </div>
+                                  </div>
+                                  <div class="row mt-3">
+                                    <div class="col-lg-4 p-0">
+                                      <h6><label for="paymentStatus">Payment Status</label></h6>
+                                    </div>
+                                    <div class="col-lg-8 p-0">
+                                      <div class="form-group">
+                                        <select class="form-control" name="paymentStatus">
+                                          <option value="Cash">Cash</option>
+                                          <option value="Bank">Bank</option>
+                                          <option value="Mobile Banking">Mobile Banking</option>
+                                        </select>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <!-- <div class="row mt-3">
+                                    <div class="col-lg-4 p-0">
+                                      <h6><label for="paymentStatus">Payment Status</label></h6>
+                                    </div>
+                                    <div class="col-lg-8">
+                                      <div class="form-check-inline">
+                                        <label class="form-check-label">
+                                          <input type="radio" class="form-check-input" value="cash" name="paymentStatus" />Cash
+                                        </label>
+                                      </div>
+                                      <div class="form-check-inline">
+                                        <label class="form-check-label">
+                                          <input type="radio" class="form-check-input" value="mobile banking" name="paymentStatus" />Mobile
+                                          Banking
+                                        </label>
+                                      </div>
+                                    </div>
+                                  </div> -->
+                                  <div class="row d-flex justify-content-start mt-4">
+                                    <input class="btn btn-success mr-2" name="pay" type="submit" value="Update" />
+                                  </div>
+                                </div>
+                            </form>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="container p-5 f bg-warning p-4 mt-2 mb-2" style="max-width: 400px;">
+                        <div class="container f text-center">
+                            <h6>Query payments</h6>
+                        </div>
+                        <form>
+                            <div class="row mt-3">
+                                <div class="col-lg-4 p-0">
+                                    <h6><label for="paid">Input Year :</label></h6>
+                                </div>
+                                <div class="col-lg-8 p-0">
+                                    <input type="text" id="ySelect" class="form-control paid" name="year"
+                                        placeholder="Year" maxlength="4" required>
+                                </div>
+                            </div>
+                            <div class="row mt-3" id="month">
+                                <div class="col-lg-4 p-0">
+                                    <h6><label for="">Select month</label></h6>
+                                </div>
+                                <div class="col-lg-8 p-0">
+                                    <div class="form-group">
+                                        <select class="form-control" id="mSelect">
+                                            <option value="">Select</option>
+                                            <option value="1">Jan</option>
+                                            <option value="2">Feb</option>
+                                            <option value="3">Mar</option>
+                                            <option value="4">Apr</option>
+                                            <option value="5">May</option>
+                                            <option value="6">Jun</option>
+                                            <option value="7">Jul</option>
+                                            <option value="8">Aug</option>
+                                            <option value="9">Sep</option>
+                                            <option value="10">Oct</option>
+                                            <option value="11">Nov</option>
+                                            <option value="12">Dec</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <button type="button" class="btn btn-success" name="payQuery">Search</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-8 p-4 border text-center">
+
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>CID</th>
+                        <th>SID</th>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="tBody">
+
+                </tbody>
+
+            </table>
+            <div class="container">
+                <h4>Total payments : <span id="tExp"></span></h4>
+            </div>
+            <div class="container" id="noExpMsg">
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('button').click((event) => {
+            let name = event.target.getAttribute('name')
+            if (name == 'payQuery') {
+                let month = $('#mSelect').val()
+                let year = $('#ySelect').val()
+                $.ajax({
+                    url: `/payment/payQuery/${month}/${year}`,
+                    type: "GET",
+                    async: false,
+                    success: (data) => {
+                        if (data.length > 1) {
+                            let queryData = data[0]
+                            let tPay = data[1]
+                            $('#tBody').empty()
+                            $('#tExp').empty()
+                            $('#noExpMsg').empty()
+                            for (let i = 0; i < queryData.length; i++) {
+                                const element = queryData[i];
+                                $('#tBody').append(element)
+                            }
+                            $('#tExp').text(tPay)
+                        } else {
+                            $('#noExpMsg').empty()
+                            $('#tBody').empty()
+                            $('#tExp').empty()
+                            $('#noExpMsg').append(data[0])
+                        }
+                    }
+                })
+            }
+        })
+    </script>
+
+</body>

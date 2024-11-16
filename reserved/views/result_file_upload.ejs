@@ -1,0 +1,41 @@
+<body>
+    <%- include('./partials/header.ejs') %> 
+    <div class="container-fluid p-5">
+        <a class="btn btn-outline-info admin-button" href="/alhera2023admin">Admin Panel</a>
+    </div>
+    <div class="container-fluid bg-warning border p-4" style="max-width: 300px;border-radius: 10px;">
+        <!-- Form  -->
+            <div class="container text-light">
+                <h4>Result file upload form</h4>
+            </div>
+             
+                <%- include('./partials/error.ejs') %>
+                <%- include('./partials/successMsg.ejs') %>
+            
+            <form action="/register/result_file_upload" method="POST" enctype="multipart/form-data">
+                <div class="container mt-5">
+                    <div class="row mt-3">
+                        <div class="form-group p-0">
+                        <select class="form-control" name="campus">
+                            <option value="">Select Campus</option>
+                            <option value="khulshi_campus">Khulshi Campus</option>
+                            <option value="kadamtali_campus">Kadamtali Campus</option>
+                            <option value="majhirghat_campus">Majhirghat Campus</option>
+                        </select>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <input type="text" class="form-control" name="sid" placeholder="Student ID" required>
+                    </div>
+                    <div class="row mt-3">
+                        <input type="file" name="Result" required>
+                    </div>
+                    <div class="row d-flex justify-content-start mt-4">
+                        <input class="btn btn-success mr-2" name="submit" type="submit" value="Upload">
+                    </div>
+                </div>
+            </form>
+            
+        
+        </div> 
+</body>

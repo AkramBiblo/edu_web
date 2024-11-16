@@ -1,0 +1,260 @@
+<body
+  id="allStudents"
+  style="
+    background: url(/img/allstudents.jpg) no-repeat center fixed;
+    background-size: cover;
+  "
+>
+  <%- include("./partials/header.ejs") %>
+
+  <div class="container f p-3 text-center">
+    <%  if(locals.cid == 99){%>
+       <h1 class="welcomeMsg">Nursery</h1>
+        <%} else  if(locals.cid == 100) {%> 
+          <h1 class="welcomeMsg">Play</h1>
+        <%} else {%>
+          <h1 class="welcomeMsg">Class <% if (locals.cid != null) { %><%=cid%><%}%></h1>
+          <% } %> 
+  </div>
+  
+
+  <div class="container f pb-5">
+    <div class="container">
+    <a href="/classActivities" class="btn btn-outline-info">Class activities</a>
+    <button id="mShift" class="btn btn-outline-dark" type="button">Morning Shift</button>
+    <button id="aShift" class="btn btn-outline-dark" type="button">Afternoon Shift</button>
+  </div>
+    <div class="container p-3 f">
+      <table class="table">
+        <thead class="thead-light">
+          <tr class="text-center">
+            <th>Avatar</th>
+            <th>SID</th>
+            <th>Name</th>
+            <th>Mobile</th>
+            <th class="bg-success">Present</th>
+            <th class="bg-danger">Absent</th>
+            <th>TP</th>
+            <th>TA</th>
+          </tr>
+        </thead>
+        <tbody id="morningShift">
+          <% if (locals.message != null) {let std = 1;
+          message.forEach(function(user) {
+            if (user.shift == "Morning Shift") {
+          %>
+          <tr>
+            <td>
+              <img
+                style="border-radius: 8px; max-height: 70px; max-width: 70px"
+                src="/uploadedFiles/<%= user.file %>"
+                alt="Avatar"
+              />
+            </td>
+            <td><%= user.sid %></td>
+            <td>
+              <form action="/students/login" method="post">
+                <input
+                  type="hidden"
+                  name="name"
+                  value="<%= user.nameEnglish %>"
+                />
+                <input
+                  type="hidden"
+                  name="campus"
+                  value="<%= locals.campus %>"
+                />
+                <input
+                  type="hidden"
+                  name="password"
+                  value="<%= user.password %>"
+                />
+                <input
+                  class="btn btn-outline-dark"
+                  type="submit"
+                  name="submit"
+                  value="<%= user.nameEnglish %>"
+                />
+              </form>
+            </td>
+            <td><%= user.emergencyContact %></td>
+            <td>
+              <div class="form-check-inline">
+                <label class="form-check-label" for="radio1">
+                    <input type="radio" attdType="present" name="attendance<%= std %>" class="form-check-input" id="radio1"
+                      value="<%=user.sid%>">Present
+                </label>
+              </div>
+            </td>
+            <td>
+              <div class="form-check-inline">
+                <label class="form-check-label" for="radio2">
+                    <input type="radio" attdType="absent" name="attendance<%= std %>" class="form-check-input" id="radio2"
+                    value="<%=user.sid%>">Absent
+                </label>
+            </div>
+            </td>
+            <td><%= user.presence %></td>
+            <td><%= user.absence%></td>
+          </tr>
+          <% std++ }})} %>
+        </tbody>
+        <tbody id="afternoonShift">
+          <% if (locals.message !=null) {let std=1; message.forEach(function(user) { 
+            if (user.shift == "Afternoon Shift") {
+            %>
+            <tr>
+              <td>
+                <img style="border-radius: 8px; max-height: 70px; max-width: 70px" src="/uploadedFiles/<%= user.file %>"
+                  alt="Avatar" />
+              </td>
+              <td>
+                <%= user.sid %>
+              </td>
+              <td>
+                <form action="/students/login" method="post">
+                  <input type="hidden" name="name" value="<%= user.nameEnglish %>" />
+                  <input type="hidden" name="campus" value="<%= locals.campus %>" />
+                  <input type="hidden" name="password" value="<%= user.password %>" />
+                  <input class="btn btn-outline-dark" type="submit" name="submit" value="<%= user.nameEnglish %>" />
+                </form>
+              </td>
+              <td>
+                <%= user.emergencyContact %>
+              </td>
+              <td>
+                <div class="form-check-inline">
+                  <label class="form-check-label" for="radio1">
+                    <input type="radio" attdType="present" name="attendance<%= std %>" class="form-check-input" id="radio1"
+                      value="<%=user.sid%>">Present
+                  </label>
+                </div>
+              </td>
+              <td>
+                <div class="form-check-inline">
+                  <label class="form-check-label" for="radio2">
+                    <input type="radio" attdType="absent" name="attendance<%= std %>" class="form-check-input" id="radio2"
+                      value="<%=user.sid%>">Absent
+                  </label>
+                </div>
+              </td>
+              <td>
+                <%= user.presence %>
+              </td>
+              <td>
+                <%= user.absence%>
+              </td>
+            </tr>
+            <% std++ }})} %>
+        </tbody>
+      </table>
+     
+      <div id="hideAfterSubmission">
+        <div class="container d-flex justify-content-end">
+        <button name="submit" campus="<%= locals.campus %>" cls="<% if (locals.cid != null) { %><%=cid%><%}%>" class="btn btn-outline-success submitBox">Submit attendance</button>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+<script>
+  let d = new Date()
+     let h = d.getHours()
+     if (h < 9 || h > 10) {
+      function getCookie(cname) {
+  let name = cname + "=";
+  let ca = document.cookie.split(';');
+  for(let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+function checkCookie() {
+  let user = getCookie("username");
+  if (user != "") {
+    $('.submitBox').hide()
+  }
+}
+
+}
+  $(document).ready(() => {
+     $("#morningShift").hide()
+    $("#afternoonShift").hide()
+
+    $("#mShift").click(() => {
+    $("#afternoonShift").hide()
+     $("#morningShift").show()
+    })
+
+    $("#aShift").click(() => {
+     $("#morningShift").hide()
+      $("#afternoonShift").show()
+    })
+
+     let present = [];
+     let absent = [];
+
+     function removeTheIdFromAbsent(v) {
+      let indexOfid = absent.indexOf(v)
+        absent = absent.splice(indexOfid,indexOfid)
+     }
+
+     function removeTheIdFromPresent(v) {
+      let indexOfid = present.indexOf(v)
+      present = present.splice(indexOfid,indexOfid)
+     }
+
+     $(":radio").click((event) => {
+    let val = event.target.getAttribute("value");
+    let attdType = event.target.getAttribute("attdType");
+    if (attdType == 'present') {
+      if (absent.includes(val) == true) {
+        removeTheIdFromAbsent(val)
+      }
+       present.push(val);
+     } else if (attdType == 'absent') {
+      if (present.includes(val) == true) {
+        removeTheIdFromPresent(val)
+      }
+       absent.push(val);
+     }
+  })  
+
+   $("button").click(function (event) {
+     let name = event.target.getAttribute("name");
+     let id = event.target.getAttribute("value");
+     let cid = event.target.getAttribute("cls");
+     Number(name);
+     Number(cid);
+
+     if (name == "submit") {
+      document.getElementById("hideAfterSubmission").style.display = 'none';
+      event.target.classList.add('bg-success')
+       event.target.classList.add('text-light')
+      let campus = event.target.getAttribute("campus");
+
+       alert('Attendance submitted successfully!')
+       $.ajax({
+         url: "/attendance/submit",
+         type: 'POST',
+         data: {
+           present: JSON.stringify ({ present }),
+           absent: JSON.stringify ({ absent }),
+           cls: JSON.stringify ({ cid }),
+           campus: campus
+         },
+         dataType: 'json',
+         success: function (result) {},
+       });
+     }
+   });
+   })
+</script>
+</body>

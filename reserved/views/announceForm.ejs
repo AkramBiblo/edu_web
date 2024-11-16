@@ -1,0 +1,90 @@
+<body>
+  <%- include("./partials/header.ejs") %>
+
+    <div class="container p-3">
+        <a class="btn btn-outline-info admin-button" href="/alhera2023admin">Admin Panel</a>
+      </div>
+
+    <div style="max-width: 500px;" class="container bg-warning mt-2 mb-2 border p-4">
+        <div class="container">
+            <h4>Post your new announcement</h4>
+        </div>
+
+       
+        <%- include('./partials/error.ejs') %>
+        <%- include('./partials/successMsg.ejs') %>
+        <div class="container border p-3 mt-3">
+            <form action="/announce/fileUpload" method="POST" enctype="multipart/form-data">
+                <div class="row mt-3">
+                    <div class="col-lg-4">
+                        <h6><label for="heading">Heading</label></h6>
+                    </div>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" name="heading" required>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-lg-6">
+                        <h6><label for="heading">Upload Announce File</label></h6>
+                    </div>
+                    <div class="col-lg-6">
+                        <input class="mt-2" type="file" name="Announce">
+                    </div>
+                </div>
+                <div class="container-fluid d-flex justify-content-center mt-2">
+                    <input class="btn btn-outline-dark mr-2" name="submit" type="submit" value="Upload">
+                    <input formaction="/announce/uploadPublicFile" type="submit" class="btn btn-outline-dark mr-2" name="submit" value="Upload for Public">
+                </div>
+            </form>
+        </div>
+        
+        <form action="/announce/new" method="POST">
+            <div class="container mt-5">
+                
+                <div class="row mt-3">
+                    <div class="col-lg-4">
+                        <h6><label for="heading">Heading</label></h6>
+                    </div>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" name="heading" required>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-lg-4">
+                        <h6><label for="description">Description</label></h6>
+                    </div>
+                    <div class="col-lg-8">
+                        <textarea class="form-control" rows="5" name="description" id="comment"></textarea>
+                        <!-- <input type="text" class="form-control" name="description" placeholder="Description" required> -->
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-lg-4">
+                        <h6><label for="date">Applicable from</label></h6>
+                    </div>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" name="date" required>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-lg-4">
+                        <h6><label for="end">Applicable until</label></h6>
+                    </div>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" name="end">
+                    </div>
+                </div>
+                
+                <div class="row d-flex justify-content-end mt-4 mr-3">
+                    <input class="btn btn-success mr-2" name="submit" type="submit" value="Post">
+                    <input formaction="/announce/publicPost" type="submit" class="btn btn-success mr-2" name="submit" value="Public Post">
+                </div>
+                
+            </div>
+        </form>
+        
+    </div>
+
+
+</body>
+

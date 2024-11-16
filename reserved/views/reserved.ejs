@@ -1,0 +1,644 @@
+<body
+  id="allStudents"
+  style="
+    background: url(/img/allstudents.jpg) no-repeat center fixed;
+    background-size: cover;
+  "
+>
+  <div class="container p-3 text-center">
+    <h1 class="welcomeMsg">All students</h1>
+  </div>
+
+  <div class="container p-3 f">
+    <table class="table bg-dark text-light">
+      <thead class="thead-light">
+        <tr class="text-center">
+          <th>Avatar</th>
+          <th>Name</th>
+          <th>Father name</th>
+          <th>Section</th>
+          <th>Roll No</th>
+          <th class="bg-success">Present</th>
+          <th class="bg-danger">Absent</th>
+          <th id="status">Payment Info</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (locals.message != null) { message.forEach(function(user) { %>
+        <tr class="text-center">
+          <td>
+            <img
+              style="border-radius: 8px; max-height: 70px; max-width: 70px"
+              src="/uploadedFiles/<%= user.file %>"
+              alt="Avatar"
+            />
+          </td>
+          <td>
+            <form action="/students/login" method="post">
+              <input
+                type="hidden"
+                name="name"
+                value="<%= user.nameEnglish %>"
+              />
+              <input
+                type="hidden"
+                name="password"
+                value="<%= user.password %>"
+              />
+              <input
+                class="btn btn-info"
+                type="submit"
+                name="submit"
+                value="<%= user.nameEnglish %>"
+              />
+            </form>
+          </td>
+
+          <td><%= user.fNameEnglish %></td>
+          <td><%= user.preferredSection %></td>
+          <td><%= user.roll %></td>
+          <td>
+            <div class="form-check-inline">
+              <label class="form-check-label">
+                <button class="btn btn-outline-success text-light" cls="<%= user.cid %>" name="1" sid="<%= user.sid %>">
+                  Present
+                </button>
+              </label>
+            </div>
+          </td>
+          <td>
+            <div class="form-check-inline">
+              <label class="form-check-label">
+                <button class="btn btn-outline-danger text-light" cls="<%= user.cid %>" sid="<%= user.sid %>">
+                  Absent
+                </button>
+              </label>
+            </div>
+          </td>
+          <td>
+              <button class="btn btn-outline-info" sid="<%= user.sid %>" name="payment">Payment info : </button>
+          </td>
+        </tr>
+        <% })} %>
+      </tbody>
+    </table>
+  </div>
+  <div class="container d-flex justify-content-end">
+    <button name="submit" cls="<% if (locals.cid != null) { %><%=cid%><%}%>" class="btn btn-outline-success">Submit attendance</button>
+  </div>
+
+  <script>
+    $(document).ready(() => {
+     
+      let present = [];
+      let absent = [];
+
+    $("button").click(function (event) {
+      let name = event.target.getAttribute("name");
+      let id = event.target.getAttribute("sid");
+      let cid = event.target.getAttribute("cls");
+      Number(name);
+      Number(cid);
+
+      if (name == "payment") {
+        $.ajax({
+          url: "/payment/info",
+          type: 'POST',
+          data: {
+            id: id
+          },
+          success: function (result) {
+            var payment = Number(result);
+
+            if (payment >= 2000) {
+              event.target.setAttribute('class', 'btn btn-success')
+              event.target.append(payment)
+            } else {
+              event.target.setAttribute('class', 'btn btn-danger')
+              event.target.append(payment)
+            }
+            
+          },
+        });
+      }
+
+      if (name == "submit") {
+        event.target.classList.add('bg-success')
+        event.target.classList.add('text-light')
+        alert('Attendance submitted successfully!')
+        
+        $.ajax({
+          url: "/attendance/submit",
+          type: 'POST',
+          data: {
+            present: JSON.stringify ({ present }),
+            absent: JSON.stringify ({ absent }),
+            cls: JSON.stringify ({ cid })
+          },
+          dataType: 'json',
+          success: function (result) {},
+        });
+      } else if (name > 0) {
+        event.target.classList.add('bg-success')
+        present.push(id);
+      } else {
+        event.target.classList.add('bg-danger')
+        absent.push(id);
+      }
+    });
+    })
+    
+
+  </script>
+</body>
+
+
+<form id="form" action="/register/new" method="POST">
+       <input type="hidden" name="sid" value="<%= message.result.sid %>">
+     <div class="row p-3 bg-info text-light">
+         <div class="col">
+           <div class="contianer text-center p-1">
+               <h5 class="">Personal Info</h5>
+           </div>
+           <div class="row ip mt-3">
+               <div class="col-lg-4 ip">
+                   <h6><label for="sid">SID</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" id="sid" class="form-control ip" name="sid" value="<% if (locals.message != null) {%><%= message.result.sid%><% } %>" readonly>
+               </div>
+           </div>
+           <div class="row ip mt-3">
+               <div class="col-lg-4 ip">
+                   <h6><label for="nameEnglish">Full name in English</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" id="nameEnglish" class="form-control ip" name="nameEnglish" value="<% if (locals.message != null) {%> <%= message.result.nameEnglish %><% } %>" readonly>
+               </div>
+           </div>
+           <div class="row ip mt-3">
+               <div class="col-lg-4 ip">
+                   <h6><label for="nameBangla">Full name in Bangla</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip" name="nameBangla" required>
+               </div>
+           </div>
+           <div class="row mt-3 ip">
+               <div class="col-lg-4 ip">
+                   <h6><label for="previousClass">Previous Class</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip" name="previousClass">
+               </div>
+           </div>
+           <div class="row ip mt-3">
+               <div class="col-lg-4 ip">
+                   <h6><label for="gradePoint">Previous Grade Point</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip" name="gradePoint">
+               </div>
+           </div>
+           <div class="row ip mt-3">
+               <div class="col-lg-4">
+                   <h6><label for="previousInstitute">Previous Institute</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip" name="previousInstitute">
+               </div>
+           </div>
+           <div class="row ip mt-3">
+               <div class="col-lg-4 ip">
+                   <h6><label for="preferredClass">Preferred Class of Admission</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip" value="<% if (locals.message != null) {%> <%= message.result.preferredClass %><% } %>" readonly>
+               </div>
+           </div>
+           <div class="row mt-3 ip">
+               <div class="col-lg-4 ip">
+                   <h6><label for="preferredSection">Preferred Section</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip" value="<% if (locals.message != null) {%> <%= message.result.preferredSection %><% } %>" readonly>
+               </div>
+           </div>
+           <div class="row ip mt-3">
+               <div class="col-lg-4">
+                   <h6><label for="dateOfBirth">Date of Birth</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip" name="dateOfBirth" required>
+               </div>
+           </div>
+           <div class="row mt-3 ip">
+               <div class="col-lg-4 ip">
+                   <h6><label for="bloodGroup">Blood Group</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip" name="bloodGroup">
+               </div>
+           </div>
+         </div>
+          
+         <div class="col ">
+           <div class="contianer text-center p-1">
+               <h5 class="">Permanent Address</h5>
+           </div>
+           <div class="row mt-3">
+               <div class="col-lg-4">
+                   <h6><label for="vlg">Village</label></h6>
+               </div>
+               <div class="col-lg-8">
+                   <input type="text" class="form-control" name="vlg" placeholder="Village" required>
+               </div>
+           </div>
+           <div class="row mt-3">
+               <div class="col-lg-4">
+                   <h6><label for="po">Post Office</label></h6>
+               </div>
+               <div class="col-lg-8">
+                   <input type="text" class="form-control" name="po" placeholder="Post Office" required>
+               </div>
+           </div>
+           <div class="row mt-3">
+               <div class="col-lg-4">
+                   <h6><label for="ps">Upozilla/P.S</label></h6>
+               </div>
+               <div class="col-lg-8">
+                   <input type="text" class="form-control" name="ps" placeholder="Upozilla/P.S" required>
+               </div>
+           </div>
+           <div class="row mt-3">
+               <div class="col-lg-4">
+                   <h6><label for="dist">District</label></h6>
+               </div>
+               <div class="col-lg-8">
+                   <input type="text" class="form-control" name="dist" placeholder="District" required>
+               </div>
+           </div>
+           <div class="row mt-3">
+               <div class="col-lg-4">
+                   <h6><label for="addSame">Present address is same</label></h6>
+               </div>
+               <div class="col-lg-8">
+                   <div class="form-check">
+                       <label class="form-check-label">
+                         <input type="checkbox" id="addSame" onclick="myFunction()" class="form-check-input addSame" name="addSame" value="Present and Permanent address are same.">
+                       </label>
+                     </div>
+               </div>
+           </div>
+           <div class="container" id="pAddress" style="padding: 0;">
+               <div class="contianer text-center p-1">
+                   <h5 class="text-info">Present Address</h5>
+               </div>
+               <div class="row mt-3">
+                   <div class="col-lg-4">
+                       <h6><label for="pvlg">Village</label></h6>
+                   </div>
+                   <div class="col-lg-8">
+                       <input type="text" class="form-control" name="pvlg" placeholder="Village">
+                   </div>
+               </div>
+               <div class="row mt-3">
+                   <div class="col-lg-4">
+                       <h6><label for="ppo">Post Office</label></h6>
+                   </div>
+                   <div class="col-lg-8">
+                       <input type="text" class="form-control" name="ppo" placeholder="Post Office">
+                   </div>
+               </div>
+               <div class="row mt-3">
+                   <div class="col-lg-4">
+                       <h6><label for="pps">Upozilla/P.S</label></h6>
+                   </div>
+                   <div class="col-lg-8">
+                       <input type="text" class="form-control" name="pps" placeholder="Upozilla/P.S">
+                   </div>
+               </div>
+               <div class="row mt-3">
+                   <div class="col-lg-4">
+                       <h6><label for="pdist">District</label></h6>
+                   </div>
+                   <div class="col-lg-8">
+                       <input type="text" class="form-control" name="pdist" placeholder="District">
+                   </div>
+               </div>
+           </div>
+         </div>
+     </div>
+     <hr>
+     <div class="contianer text-center p-1">
+       <h5 class="text-light">Parents Information</h5>
+      </div>
+     <div class="row bg-info text-light p-3">
+       <div class="col">
+            
+           <div class="row ip mt-3">
+               <div class="col-lg-4 ip">
+                   <h6><label for="fNameBangla">Fathers name in Bangla</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip" name="fNameBangla" required>
+               </div>
+           </div>
+           <div class="row ip mt-3">
+               <div class="col-lg-4 ip">
+                   <h6><label for="fNameEnglish">Fathers name in English</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip" name="fNameEnglish" value="<% if (locals.message != null) {%> <%= message.result.fNameEnglish %><% } %>" readonly>
+               </div>
+           </div>
+           <div class="row ip mt-3">
+               <div class="col-lg-4 ip">
+                   <h6><label for="fNID">Fathers NID number</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip" name="fNID">
+               </div>
+           </div>
+           <div class="row mt-3 ip">
+               <div class="col-lg-4 ip">
+                   <h6><label for="fOccupation">Fathers occupation</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip" name="fOccupation">
+               </div>
+           </div>
+           <div class="row mt-3 ip">
+               <div class="col-lg-4 ip">
+                   <h6><label for="fMonthlyIncome">Fathers Monthly Income</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip" name="fMonthlyIncome">
+               </div>
+           </div>
+           <div class="row mt-3 ip">
+               <div class="col-lg-4 ip">
+                   <h6><label for="fBloodGroup">Fathers blood group</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip" name="fBloodGroup">
+               </div>
+           </div>
+           <div class="row mt-3 ip">
+               <div class="col-lg-4 ip">
+                   <h6><label for="fEQualification">Fathers educational qualification</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip" name="fEQualification" required>
+               </div>
+           </div>
+           <div class="row ip mt-3">
+               <div class="col-lg-4 ip">
+                   <h6><label for="fMobile">Fathers mobile number</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip" name="fMobile" required>
+               </div>
+           </div>
+         </div>
+       <div class="col ">
+           <div class="row mt-3 ip">
+               <div class="col-lg-4 ip">
+                   <h6><label for="mNameBangla">Mothers name in Bangla</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip" name="mNameBangla" required>
+               </div>
+           </div>
+           <div class="row mt-3 ip">
+               <div class="col-lg-4 ip">
+                   <h6><label for="mNameEnglish">Mothers name in English</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip" name="mNameEnglish" required>
+               </div>
+           </div>
+           <div class="row mt-3 ip">
+               <div class="col-lg-4 ip">
+                   <h6><label for="mNID">Mothers NID number</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip" name="mNID">
+               </div>
+           </div>
+           <div class="row mt-3 ip">
+               <div class="col-lg-4 ip">
+                   <h6><label for="mOccupation">Mothers occupation</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip" name="mOccupation" required>
+               </div>
+           </div>
+           <div class="row mt-3 ip">
+               <div class="col-lg-4 ip">
+                   <h6><label for="mMonthlyIncome">Mothers Monthly Income (if any)</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip" name="mMonthlyIncome">
+               </div>
+           </div>
+           <div class="row mt-3 ip">
+               <div class="col-lg-4 ip">
+                   <h6><label for="mBloodGroup">Mothers blood group</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip" name="mBloodGroup">
+               </div>
+           </div>
+           <div class="row mt-3">
+               <div class="col-lg-4 ip">
+                   <h6><label for="mEQualification">Mothers educational qualification</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip" name="mEQualification" required>
+               </div>
+           </div>
+           <div class="row mt-3 ip">
+               <div class="col-lg-4 ip">
+                   <h6><label for="mMobile">Mothers mobile number</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip" name="mMobile" required>
+               </div>
+           </div>
+       </div>
+         
+     </div>
+     <div class="row text-light">
+         <div class="col">
+           <div class="contianer text-center p-1">
+               <h5 class="">Other Info</h5>
+           </div>
+           <div class="row ip mt-3">
+               <div class="col-lg-4 ip">
+                   <h6><label for="residentialService">Do you want to take Residential service?</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <div class="form-check-inline">
+                       <label class="form-check-label" for="radio1">
+                         <input type="radio" class="form-check-input" id="radio1" name="residentialService" value="Yes">Yes
+                       </label>
+                     </div>
+                     <div class="form-check-inline">
+                       <label class="form-check-label" for="radio2">
+                         <input type="radio" class="form-check-input" id="radio2" name="residentialService" value="No">No
+                       </label>
+                     </div>
+               </div>
+           </div>
+           <div class="row ip mt-3">
+               <div class="col-lg-4 ip">
+                   <h6><label for="transportService">Do you want to take Transport service?</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <div class="form-check-inline">
+                       <label class="form-check-label" for="radio1">
+                         <input type="radio" class="form-check-input" id="radio1" name="transportService" value="Yes">Yes
+                       </label>
+                     </div>
+                     <div class="form-check-inline">
+                       <label class="form-check-label" for="radio2">
+                         <input type="radio" class="form-check-input" id="radio2" name="transportService" value="No">No
+                       </label>
+                     </div>
+               </div>
+           </div>
+           <div class="row ip mt-3">
+               <div class="col-lg-4 ip">
+                   <h6><label for="deasesQuery">Are you suffering from any major deases?</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <div class="form-check-inline">
+                       <label class="form-check-label" for="radio1">
+                         <input type="radio" class="form-check-input" id="radio1" name="deasesQuery" value="yes">Yes
+                       </label>
+                     </div>
+                     <div class="form-check-inline">
+                       <label class="form-check-label" for="radio2">
+                         <input type="radio" class="form-check-input" id="radio2" name="deasesQuery" value="No">No
+                       </label>
+                     </div>
+               </div>
+           </div>
+           <div class="row ip mt-3">
+               <div class="col-lg-4 ip">
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip" name="deasesDetailes" placeholder="Deases Details (If have any)">
+               </div>
+           </div>
+         </div>
+         <div class="col">
+           <div class="row ip mt-3">
+               <div class="col-lg-4 ip">
+                   <h6><label for="emergencyContact">Emergency contact number</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip" name="emergencyContact" value="<% if (locals.message != null) {%> <%= message.result.emergencyContact %><% } %>" readonly>
+               </div>
+           </div>
+
+           <div class="contianer text-center p-1">
+               <h5 class="text-light">Login Info</h5>
+           </div>
+           <div class="row mt-3 ip">
+               <div class="col-lg-4 ip">
+                   <h6><label for="password">Password</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip pass" id="password" name="password" value="<% if (locals.message != null) {%><%= message.result.password %><% } %>" required>
+               </div>
+           </div>
+           <div class="row mt-3 ip">
+               <div class="col-lg-4 ip">
+                   <h6><label for="confirmPass">Confirm Password</label></h6>
+               </div>
+               <div class="col-lg-8 ip">
+                   <input type="text" class="form-control ip conf_pass" id="confirmPass" name="confirmPass" required>
+               </div>
+           </div>
+            <div class="row mt-3 ip">
+               <div class="col-lg-8 ip">
+                   <textarea type="text" class="form-control ip conf_pass" placeholder="Comment" name="comment" style="height: 100px;"></textarea>
+               </div>
+           </div> 
+            <div class="row ip d-flex justify-content-end mt-4 mr-3">
+               <input class="btn btn-success mr-2" onclick="submitForm()" name="submit" type="submit" value="Update">
+           </div>
+         </div>
+     </div>
+        
+    </form>
+
+
+    <tr>
+        <td>
+            <h5>Name of Student &nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
+                <strong>
+                    <%= message.result.nameEnglish %>
+                </strong>
+            </h5>
+            <h5>Father'S Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
+                <strong>
+                    <%= message.result.fNameEnglish %>
+                </strong>
+            </h5>
+            <h5>Mother'S Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
+                <strong>
+                    <%= message.result.mNameEnglish %>
+                </strong>
+            </h5>
+            <h5>Student ID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
+                <strong>
+                    <%= message.result.sid %>
+                </strong>
+            </h5>
+            <h5>Class
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
+    
+                <% let Pclass="" ; switch (message.result.preferredClass) { case "Class 6" : Pclass="Class Six" ; break;
+                    case "Class 5" : Pclass="Standard V" ; break; case "Class 4" : Pclass="Standard IV" ; break;
+                    case "Class 3" : Pclass="Standard III" ; break; case "Class 2" : Pclass="Standard II" ; break;
+                    case "Class 1" : Pclass="Standard I" ; break; case "Nursery" : Pclass="Nursery" ; break; case "K.G" :
+                    Pclass="K.G" ; break; } %>
+                    <strong>
+                        <%= Pclass %>
+                    </strong>
+            </h5>
+        </td>
+        <td style="width: 300px;"></td>
+        <td>
+            <h5>Exam
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
+                <strong>
+                    <%= message.result.nameEnglish %>
+                </strong>
+            </h5>
+            <h5>Year / Session &nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
+                <strong>
+                    <%= message.result.nameEnglish %>
+                </strong>
+            </h5>
+            <h5>Section &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
+                <strong>
+                    <%= message.result.nameEnglish %>
+                </strong>
+            </h5>
+            <h5>Shift
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
+                <strong>
+                    <%= message.result.nameEnglish %>
+                </strong>
+            </h5>
+            <h5>Department &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
+                <strong>
+                    <%= message.result.nameEnglish %>
+                </strong>
+            </h5>
+        </td>
+    </tr>
