@@ -1,29 +1,41 @@
-<body
-  id="allStudents"
-  style="
-    background: url(/img/allstudents.jpg) no-repeat center fixed;
-    background-size: cover;
-  "
->
+<body>
   <%- include("./partials/header.ejs") %>
 
   <div class="container f p-3 text-center">
-    <%  if(locals.cid == 99){%>
-       <h1 class="welcomeMsg">Nursery</h1>
-        <%} else  if(locals.cid == 100) {%> 
-          <h1 class="welcomeMsg">Play</h1>
-        <%} else {%>
-          <h1 class="welcomeMsg">Class <% if (locals.cid != null) { %><%=cid%><%}%></h1>
-          <% } %> 
+    <%  if(locals.class_name){%>
+       <h1 class="welcomeMsg"><%=locals.class_name%></h1>
+      <% } %> 
   </div>
   
-
-  <div class="container f pb-5">
-    <div class="container">
-    <a href="/classActivities" class="btn btn-outline-info">Class activities</a>
-    <button id="mShift" class="btn btn-outline-dark" type="button">Morning Shift</button>
-    <button id="aShift" class="btn btn-outline-dark" type="button">Afternoon Shift</button>
+  <div class="container d-flex justify-content-end">
+    <a href="/teachers/classActivities" class="btn btn-outline-info">Class activities</a>
   </div>
+  <div class="container pb-5">
+    <div style="max-width: 400px;" class="p-4">
+      <div class="container">
+        <h6>Generate Student List</h6>
+        <input type="hidden" id="class_name" name="class_name" value="<%=locals.class_name%>">
+        <input type="hidden" id="p" name="p">
+        <input type="hidden" id="a" name="a">
+      </div>
+      <div class="form-group">
+        <select class="form-control" id="section_name" name="section_name">
+            <option value="">Select Section</option>
+            <% if (locals.section_name != null) { section_name.forEach(c => {%>
+                <option value="<%= c.section_name %>"><%= c.section_name %></option>
+            <%}) }%>
+        </select>
+      </div>
+      <div class="form-group">
+      <select class="form-control" id="shift_name" name="shift_name">
+          <option value="">Select Shift</option>
+          <% if (locals.shift_name != null) {shift_name.forEach(c => {%>
+              <option value="<%= c.shift_name %>"><%= c.shift_name %></option>
+          <% }) }%>
+      </select>
+    </div>
+    <button class="btn btn-outline-dark" id="generate">Generate</button>
+    </div>
     <div class="container p-3 f">
       <table class="table">
         <thead class="thead-light">
@@ -38,120 +50,14 @@
             <th>TA</th>
           </tr>
         </thead>
-        <tbody id="morningShift">
-          <% if (locals.message != null) {let std = 1;
-          message.forEach(function(user) {
-            if (user.shift == "Morning Shift") {
-          %>
-          <tr>
-            <td>
-              <img
-                style="border-radius: 8px; max-height: 70px; max-width: 70px"
-                src="/uploadedFiles/<%= user.file %>"
-                alt="Avatar"
-              />
-            </td>
-            <td><%= user.sid %></td>
-            <td>
-              <form action="/students/login" method="post">
-                <input
-                  type="hidden"
-                  name="name"
-                  value="<%= user.nameEnglish %>"
-                />
-                <input
-                  type="hidden"
-                  name="campus"
-                  value="<%= locals.campus %>"
-                />
-                <input
-                  type="hidden"
-                  name="password"
-                  value="<%= user.password %>"
-                />
-                <input
-                  class="btn btn-outline-dark"
-                  type="submit"
-                  name="submit"
-                  value="<%= user.nameEnglish %>"
-                />
-              </form>
-            </td>
-            <td><%= user.emergencyContact %></td>
-            <td>
-              <div class="form-check-inline">
-                <label class="form-check-label" for="radio1">
-                    <input type="radio" attdType="present" name="attendance<%= std %>" class="form-check-input" id="radio1"
-                      value="<%=user.sid%>">Present
-                </label>
-              </div>
-            </td>
-            <td>
-              <div class="form-check-inline">
-                <label class="form-check-label" for="radio2">
-                    <input type="radio" attdType="absent" name="attendance<%= std %>" class="form-check-input" id="radio2"
-                    value="<%=user.sid%>">Absent
-                </label>
-            </div>
-            </td>
-            <td><%= user.presence %></td>
-            <td><%= user.absence%></td>
-          </tr>
-          <% std++ }})} %>
-        </tbody>
-        <tbody id="afternoonShift">
-          <% if (locals.message !=null) {let std=1; message.forEach(function(user) { 
-            if (user.shift == "Afternoon Shift") {
-            %>
-            <tr>
-              <td>
-                <img style="border-radius: 8px; max-height: 70px; max-width: 70px" src="/uploadedFiles/<%= user.file %>"
-                  alt="Avatar" />
-              </td>
-              <td>
-                <%= user.sid %>
-              </td>
-              <td>
-                <form action="/students/login" method="post">
-                  <input type="hidden" name="name" value="<%= user.nameEnglish %>" />
-                  <input type="hidden" name="campus" value="<%= locals.campus %>" />
-                  <input type="hidden" name="password" value="<%= user.password %>" />
-                  <input class="btn btn-outline-dark" type="submit" name="submit" value="<%= user.nameEnglish %>" />
-                </form>
-              </td>
-              <td>
-                <%= user.emergencyContact %>
-              </td>
-              <td>
-                <div class="form-check-inline">
-                  <label class="form-check-label" for="radio1">
-                    <input type="radio" attdType="present" name="attendance<%= std %>" class="form-check-input" id="radio1"
-                      value="<%=user.sid%>">Present
-                  </label>
-                </div>
-              </td>
-              <td>
-                <div class="form-check-inline">
-                  <label class="form-check-label" for="radio2">
-                    <input type="radio" attdType="absent" name="attendance<%= std %>" class="form-check-input" id="radio2"
-                      value="<%=user.sid%>">Absent
-                  </label>
-                </div>
-              </td>
-              <td>
-                <%= user.presence %>
-              </td>
-              <td>
-                <%= user.absence%>
-              </td>
-            </tr>
-            <% std++ }})} %>
+        <tbody>
+
         </tbody>
       </table>
      
       <div id="hideAfterSubmission">
         <div class="container d-flex justify-content-end">
-        <button name="submit" campus="<%= locals.campus %>" cls="<% if (locals.cid != null) { %><%=cid%><%}%>" class="btn btn-outline-success submitBox">Submit attendance</button>
+        <button name="submit" class="btn btn-outline-success submitBox">Submit attendance</button>
         </div>
       </div>
     </div>
@@ -185,17 +91,75 @@ function checkCookie() {
 
 }
   $(document).ready(() => {
-     $("#morningShift").hide()
-    $("#afternoonShift").hide()
-
-    $("#mShift").click(() => {
-    $("#afternoonShift").hide()
-     $("#morningShift").show()
-    })
-
-    $("#aShift").click(() => {
-     $("#morningShift").hide()
-      $("#afternoonShift").show()
+    $("#generate").click(() => {
+      let class_name = $("#class_name").val()
+      let section_name = $("#section_name").val()
+      let shift_name = $("#shift_name").val()
+      $.ajax({
+        url: `/students/getstudents`,
+        type: "post",
+        data: {
+          class_name: class_name,
+          section_name: section_name,
+          shift_name: shift_name
+        },
+        success: (data) => {
+          if (data == `No student available in this section!`) {
+            alert(data)
+          } else {
+            $("tbody").empty()
+            let std = 1;
+            data.forEach(user => {
+              $("tbody").prepend(`
+          <tr>
+              <td>
+                <img style="border-radius: 8px; max-height: 70px; max-width: 70px" src="/uploadedFiles/${user.file}"
+                  alt="Avatar" />
+              </td>
+              <td class="text-center">
+                ${user.sid}
+              </td>
+              <td>
+                <form action="/students/login" method="post">
+                  <input type="hidden" name="name" value="${user.nameEnglish}" />
+                  <input type="hidden" name="password" value="${user.password}" />
+                  <input class="btn btn-outline-dark" type="submit" name="submit" value="${user.nameEnglish}" />
+                </form>
+              </td>
+              <td class="text-center">
+                ${user.emergencyContact}
+              </td>
+              <td class="text-center">
+                <div class="form-check-inline">
+                  <label class="form-check-label" for="radio1">
+                    <input type="radio" attdType="present" id="" name="attendance${std}" class="form-check-input" value="${user.sid}">
+                    Present
+                  </label>
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="form-check-inline">
+                  <label class="form-check-label" for="radio2">
+                    <input type="radio" attdType="absent" name="attendance${std}" class="form-check-input" value="${user.sid}">
+                    Absent
+                  </label>
+                </div>
+              </td>
+              <td class="text-center">
+                ${user.presence}
+              </td>
+              <td class="text-center">
+                ${user.absence}
+              </td>
+            </tr>
+          `)
+            std++
+            });
+            
+          }
+         
+        }
+      })
     })
 
      let present = [];
@@ -211,47 +175,45 @@ function checkCookie() {
       present = present.splice(indexOfid,indexOfid)
      }
 
-     $(":radio").click((event) => {
-    let val = event.target.getAttribute("value");
-    let attdType = event.target.getAttribute("attdType");
-    if (attdType == 'present') {
-      if (absent.includes(val) == true) {
-        removeTheIdFromAbsent(val)
+     $("body").on("click", `input[type="radio"]`, (e) => {
+      let val = event.target.getAttribute("value");
+      let attdType = event.target.getAttribute("attdType");
+        if (attdType == 'present') {
+        if (absent.includes(val) == true) {
+          removeTheIdFromAbsent(val)
+        }
+        present.push(val);
+      } else if (attdType == 'absent') {
+        if (present.includes(val) == true) {
+          removeTheIdFromPresent(val)
+        }
+        absent.push(val);
       }
-       present.push(val);
-     } else if (attdType == 'absent') {
-      if (present.includes(val) == true) {
-        removeTheIdFromPresent(val)
-      }
-       absent.push(val);
-     }
-  })  
+     })
 
    $("button").click(function (event) {
      let name = event.target.getAttribute("name");
-     let id = event.target.getAttribute("value");
-     let cid = event.target.getAttribute("cls");
-     Number(name);
-     Number(cid);
-
+     let class_name = $("#class_name").val()
+      $("#p").val(present)
+      $("#a").val(absent)
      if (name == "submit") {
       document.getElementById("hideAfterSubmission").style.display = 'none';
       event.target.classList.add('bg-success')
        event.target.classList.add('text-light')
-      let campus = event.target.getAttribute("campus");
-
+      let present_ = $("#p").val()
+      let absent_ = $("#a").val()
        alert('Attendance submitted successfully!')
        $.ajax({
          url: "/attendance/submit",
          type: 'POST',
          data: {
-           present: JSON.stringify ({ present }),
-           absent: JSON.stringify ({ absent }),
-           cls: JSON.stringify ({ cid }),
-           campus: campus
+           present: present_,
+           absent: absent_,
+           class_name: class_name
          },
-         dataType: 'json',
-         success: function (result) {},
+         success: (data) => {
+          alert(data)
+         },
        });
      }
    });

@@ -12,7 +12,7 @@
   </div>
   <div class="container p-3">
     <a class="btn btn-outline-info" href="/register/new">Add a new student</a>
-    <a class="btn btn-outline-info admin-button" href="/alhera2023admin">Admin Panel</a>
+    <a class="btn btn-outline-info admin-button" href="/admin">Admin Panel</a>
   </div>
   <div class="row">
     <div class="col-sm">
@@ -78,8 +78,8 @@
               />
               <input
                 type="hidden"
-                name="campus"
-                value="<%= locals.campus %>"
+                name="campus_key"
+                value="<%= locals.campus_key %>"
               />
               <input type="hidden" name="password" value="<%= user.password %>" />
               <input
@@ -91,37 +91,7 @@
             </form>
           </td>
           <td><%= user.preferredSection %></td>
-          <!-- <td><%= user.preferredClass %></td> -->
-          <td>
-            <% let Pclass= ""; 
-                                                switch (user.preferredClass) {
-                                                    case "Class 6":
-                                                        Pclass = "Class Six";
-                                                        break;
-                                                    case "Class 5":
-                                                        Pclass = "Standard V";
-                                                        break;
-                                                    case "Class 4":
-                                                        Pclass = "Standard IV";
-                                                        break;
-                                                    case "Class 3":
-                                                        Pclass = "Standard III";
-                                                        break;
-                                                    case "Class 2":
-                                                        Pclass = "Standard II";
-                                                        break;
-                                                    case "Class 1":
-                                                        Pclass = "Standard I";
-                                                        break;
-                                                    case "Nursery":
-                                                        Pclass = "Nursery";
-                                                        break;
-                                                    case "K.G":
-                                                        Pclass = "K.G";
-                                                        break;                
-                                                    } %>
-                                                    <%= Pclass %>
-          </td>
+          <td><%= user.preferredClass %></td>
           <td><%= user.fNameEnglish %></td>
           <td><%= user.emergencyContact %></td>
           <td><%= user.presence %></td>
@@ -129,21 +99,20 @@
           <td>
             <form action="/students/updateProfile" method="POST">
               <input type="hidden" name="sid" value="<%= user.sid %>">
-              <input type="hidden" name="campus" value="<%= locals.campus %>">
               <button class="btn btn-outline-info" type="submit">Edit</button>
             </form>
           </td>
           <td>
-            <input type="hidden" id="campus" value="<%= locals.campus %>">
-            <button class="btn btn-outline-danger remove" name="remove" sid="<%= user.sid %>" sname="<%= user.nameEnglish %>" campus="<%= user.campus %>">Remove</button>
+            <input type="hidden" id="campus_key" value="<%= locals.campus_key %>">
+            <button class="btn btn-outline-danger remove" name="remove" sid="<%= user.sid %>" sname="<%= user.nameEnglish %>" campus_key="<%= locals.campus_key %>">Remove</button>
           </td>
           <% if (user.shift == "") { %>
           <td>
             <div class="container-fluid d-flex">
               <form action="/register/changeshift" method="POST">
                 <input type="hidden" name="sid" value="<%= user.sid %>">
-                <input type="hidden" name="campus" value="<%= locals.campus %>">
-                <select class="form-control" id="sel1" name="shift">
+                <input type="hidden" name="campus_key" value="<%= locals.campus_key %>">
+                <select class="form-control" name="shift">
                   <option>Morning Shift</option>
                   <option>Afternoon Shift</option>
                 </select>

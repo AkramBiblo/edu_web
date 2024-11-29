@@ -8,28 +8,31 @@ background-size: cover;">
   <div class="container">
     <div class="container p-3">
       <a class="btn btn-outline-info" href="/teachers/add">Add a new teacher</a>
-      <a class="btn btn-outline-info admin-button" href="/alhera2023admin">Admin Panel</a>
+      <a class="btn btn-outline-info admin-button" href="/admin">Admin Panel</a>
   </div>
-    
+  <%- include("./partials/successMsg.ejs") %>
+  <%- include("./partials/error.ejs") %>
     <div class="container">
       <% if (locals.message != null) {%> 
       <table class="table bg-dark text-light">
         <thead class="thead-light">
           <tr class="">
-            <th>Avatar</th>
+            <th>Profile Picture</th>
             <th>Name</th>
             <th>Address</th>
             <th>Qualification</th>
             <th>Email</th>
             <th>Mobile</th>
-            <th>Courses</th>
             <th>Remove teacher</th>
           </tr>
         </thead>
         <tbody>
             <% for (let teacher of message) {%>
             <tr>
-                <td><img style="border-radius: 8px; max-height: 70px;max-width: 70px;" src="/uploadedFiles/<%= teacher.file %>" alt="Avatar"></td>
+                <td><% if (teacher.file){%>
+                      <img style="border-radius: 8px; max-height: 70px;max-width: 70px;" src="/uploadedFiles/<%= teacher.file %>" alt="Avatar">
+                    <% } %>
+                </td>
                 <td>
                   <form action="/teachers/login" method="post">
                     <input type="hidden" name="email" value="<%= teacher.email %>">
@@ -42,7 +45,7 @@ background-size: cover;">
                 <td><%= teacher.qualifications %></td>
                 <td><%= teacher.email %></td>
                 <td><%= teacher.mobile %></td>
-                <td><a class="btn btn-outline-danger" href="/teachers/remove/<%= teacher.campus %>/<%= teacher.id %>">Remove</a></td>
+                <td><a class="btn btn-outline-danger" href="/teachers/remove/<%= teacher.id %>">Remove</a></td>
             </tr>
            <% } }%> 
         </tbody>

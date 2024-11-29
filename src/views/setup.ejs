@@ -1,7 +1,8 @@
 <body>
     <div>
         <div class="container text-center mt-4">
-            <h3>Application Setup Wizard</h3>
+            <h4>Welcome to Application Setup Wizard</h4>
+            <h6>Kindly input the correct information and proceed with the next button</h6>
         </div>
         <hr>
         <hr>
@@ -61,6 +62,10 @@
                         <input type="text" class="form-control" placeholder="How many terms does it has...?" id="termsQtyInput">
                         <div id="termsQtyIpDiv"></div>
                     </div>
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="How many sections does it has...?" id="sectionQtyInput">
+                        <div id="sectionQtyIpDiv"></div>
+                    </div>
                 </div>
                     <div class="container d-flex justify-content-end">
                         <button id="prv_2" class="btn btn-outline-dark nextRevBtn">Back</button>
@@ -81,6 +86,7 @@
                     <input type="hidden" name="classArrData" id="classArrData">
                     <input type="hidden" name="shiftArrData" id="shiftArrData">
                     <input type="hidden" name="termsArrData" id="termsArrData">
+                    <input type="hidden" name="sectionArrData" id="sectionArrData">
                     <input type="hidden" name="subjectArrData" id="subjectArrData">
                     <input type="hidden" name="database" id="database" value="<%= locals.database %>">
                     <button id="installButton" class="btn btn-outline-dark">Install</button>
@@ -192,7 +198,27 @@
                 
             })
         
-
+            $("#sectionQtyInput").focusout(()=> {
+                $("#sectionQtyIpDiv").empty()
+                let qty = $("#sectionQtyInput").val()
+                let q = Number(qty)
+                if (q > 0) {
+                    $("#sectionQtyIpDiv").append(
+                    `<div class="container-fluid text-center p-0 mt-2">
+                        <h6>Add Section</h6>`)
+                    let count = 1
+                for (let i = 0; i < q; i++) {
+                    $("#sectionQtyIpDiv").append(
+                        `<input type="text" class="form-control" placeholder="Name of Section ${count}" id="section_${count}">`) 
+                    count++
+                }
+                $("#sectionQtyIpDiv").append(
+                    `</div>`
+                )  
+                }
+                
+            })
+        
             $(`body`).on("click", `button[id="next_2"]`, () => {
                 $(".next_3").removeClass("hide")
                 $(".next_2").addClass("hide")
@@ -272,10 +298,12 @@
                 let shiftQty = $("#shift").val()
                 let classQty = $("#classQtyInput").val()
                 let termQty = $("#termsQtyInput").val()
+                let sectionQty = $("#sectionQtyInput").val()
                 // let campus = []
                 let shift = []
                 let _class = []
                 let terms = []
+                let sections = []
                 
 
                 function generateData(qty, idName, arr) {
@@ -293,6 +321,7 @@
                 generateData(shiftQty, `shift_count`, shift)
                 generateData(classQty, `class_count`, _class)
                 generateData(termQty, `term_count`, terms)
+                generateData(sectionQty, `section_count`, sections)
 
 
                 // class_${count}_sub_qty
@@ -332,18 +361,20 @@
                 $("#classArrData").val(_class)
                 $("#shiftArrData").val(shift)
                 $("#termsArrData").val(terms)
+                $("#sectionArrData").val(sections)
                 $("#subjectArrData").val(subjectArray)
                 setTimeout(()=>{
                         // let data = {cName : name, cAddress: addr, campus: campusName, shift: shift, _class: _class, terms: terms, subject: subjectArray}
                         let classArrData = $("#classArrData").val()
                         let shiftArrData = $("#shiftArrData").val()
                         let termsArrData = $("#termsArrData").val()
+                        let sectionArrData = $("#sectionArrData").val()
                         let subject = $("#subjectArrData").val()
                         let database = $("#database").val()
                         $.ajax({
                         url: "/setup/enroll_Institute",
                         type: "post",
-                        data: {cName : name, cAddress: addr, campus: campusName, shift: shiftArrData, _class: classArrData, terms: termsArrData, subject: subject, database: database},
+                        data: {cName : name, cAddress: addr, campus: campusName, shift: shiftArrData, _class: classArrData, terms: termsArrData, subject: subject, database: database, sections: sectionArrData},
                         success: () => {
 
                         }

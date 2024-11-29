@@ -6,7 +6,16 @@ setup.use(cookieParser());
 
 setup.post("/", (req, res) => {
     let key = req.body.setupKey
-    res.render("setup", {title: "App Setup", database: key})
+    const getDBInfo = require("../../db");
+    let con = getDBInfo.connectToDatabase(key)
+    con.connect(function(err) {
+      if (err) {
+        res.send("Wrong setup key provided! Kindly input correct setup key or collect setup key from WebDev Solution.")
+      } else {
+        res.render("setup", {title: "App Setup", database: key})
+      }
+    });
+    
 })
 
 setup.post("/enroll_Institute", (req, res) => {
@@ -19,6 +28,7 @@ setup.post("/enroll_Institute", (req, res) => {
   let shift = req.body.shift;
   let _class = req.body._class;
   let terms = req.body.terms;
+  let sections = req.body.sections;
   let subject = req.body.subject;
   let subjectArr = subject.split(",+,") // class devided
 
@@ -29,39 +39,44 @@ setup.post("/enroll_Institute", (req, res) => {
       console.log("Admin table created!")
     })
   })
-
+ 
+  let teachersTable = `CREATE TABLE teachers (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), address VARCHAR(255), qualifications VARCHAR(255), email VARCHAR(255), password VARCHAR(255), mobile VARCHAR(255), file VARCHAR(255))`
   let paymentsTable = `CREATE TABLE payments (id INT AUTO_INCREMENT PRIMARY KEY, sid INT(11), cid INT(11), date VARCHAR(10), month VARCHAR(255), year INT(4), name VARCHAR(255), amount INT(11), paymentDisc VARCHAR(255), status VARCHAR(255))`
   let announceTable = `CREATE TABLE announcements (id INT AUTO_INCREMENT PRIMARY KEY, heading TEXT(100000), description TEXT(100000), fromDate VARCHAR(10), tillDate VARCHAR(10), campus VARCHAR(255), file VARCHAR(255), noticeType VARCHAR(255))`
   let studentTable = `CREATE TABLE allstudents (id INT AUTO_INCREMENT PRIMARY KEY, sid VARCHAR(255), cid INT(11), roll VARCHAR(255), nameEnglish VARCHAR(255), nameBangla VARCHAR(255), previousClass VARCHAR(255), preferredClass VARCHAR(255),
   preferredSection VARCHAR(255), gradePoint INT, previousInstitute VARCHAR(255), dateOfBirth VARCHAR(255),
   bloodGroup VARCHAR(255), residentialService VARCHAR(255), transportService VARCHAR(255),
   deasesQuery VARCHAR(255), deasesDetailes VARCHAR(255), fNameEnglish VARCHAR(255), fNameBangla VARCHAR(255), fNID VARCHAR(255), fOccupation VARCHAR(255), fBloodGroup VARCHAR(255),
-  fEQualification VARCHAR(255), fMobile VARCHAR(255), mNameBangla VARCHAR(255), mNameEnglish VARCHAR(255), mNID VARCHAR(255), mOccupation VARCHAR(255),
-  mBloodGroup VARCHAR(255), mEQualification VARCHAR(255), mMobile VARCHAR(255), vlg VARCHAR(255), po VARCHAR(255), ps VARCHAR(255), dist VARCHAR(255), addressAreSame VARCHAR(255),
-  pvlg VARCHAR(255), ppo VARCHAR(255), pps VARCHAR(255), pdist VARCHAR(255), password VARCHAR(255), editButton VARCHAR(255), shift VARCHAR(255))`
+  fEQualification VARCHAR(255), fMobile VARCHAR(255), FPIC VARCHAR(255), mNameBangla VARCHAR(255), mNameEnglish VARCHAR(255), mNID VARCHAR(255), mOccupation VARCHAR(255),
+  mBloodGroup VARCHAR(255), mEQualification VARCHAR(255), mMobile VARCHAR(255), MPIC VARCHAR(255), vlg VARCHAR(255), po VARCHAR(255), ps VARCHAR(255), dist VARCHAR(255), addressAreSame VARCHAR(255),
+  pvlg VARCHAR(255), ppo VARCHAR(255), pps VARCHAR(255), pdist VARCHAR(255), emergencyContact VARCHAR(255), password VARCHAR(255), editButton VARCHAR(255), presence INT(11), absence INT(11), shift VARCHAR(255), file VARCHAR(255))`
   con.query(studentTable, (err, result) => {
     console.log("Student table created successfully!")
   }) 
   con.query(paymentsTable, (err, result) => {
     console.log("Payment table created successfully!")
   }) 
+  con.query(teachersTable, (err, result) => {
+    console.log("Teachers table created successfully!")
+  }) 
   con.query(announceTable, (err, result) => {
     console.log("Notice table created successfully!")
   }) 
   
-  createTables(_class, shift, terms, subjectArr, database)
+  createTables(_class, shift, terms, subjectArr, database, sections)
 
-  function createTables(c, s, t, sub) {
+  function createTables(c, s, t, sub, db, sect) {
     let classArr = c.split(",")
     let shiftArr = s.split(",")
     let termsArr = t.split(",")
+    let sectionArr = sect.split(",")
     let subject = sub;
   
-    let varArr = ['class', 'shift', 'term']
-    let dataArr = [classArr, shiftArr, termsArr]
+    let varArr = ['class', 'shift', 'term', 'section']
+    let dataArr = [classArr, shiftArr, termsArr, sectionArr]
     let sql;
     const getDBInfo = require("../../db");
-  let con = getDBInfo.connectToDatabase(database)
+    let con = getDBInfo.connectToDatabase(db)
      
       con.connect(function(err) {
        

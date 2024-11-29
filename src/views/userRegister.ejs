@@ -1,0 +1,123 @@
+<body>
+    <%- include('./partials/header.ejs') %> 
+
+    <div class="container p-5 f mt-4" style="max-width: 800px;">
+        <!-- Form  -->
+        <div class="container text-center">
+            <h4 class="welcomeMsg">Register</h4>
+        </div>
+
+        <%- include('./partials/error.ejs') %>
+        <%- include('./partials/successMsg.ejs') %>
+        
+            <form action="/register/addNewStudent" method="POST" enctype="multipart/form-data">
+                <div class="container p-3">
+                    <div class="row ip mt-3">
+                        <div class="col-lg-4 ip">
+                            <h6><label for="file">Upload Profile Picture</label></h6>
+                        </div>
+                        <div class="col-lg-8 ip">
+                            <input type="file" name="avatar">
+                        </div>
+                    </div>
+                    <div class="row ip mt-3">
+                        <div class="col-lg-4 ip">
+                            <h6><label for="sid">Student ID</label></h6>
+                        </div>
+                        <div class="col-lg-8 ip">
+                            <input type="text" id="sid" class="form-control ip" name="sid" required>
+                        </div>
+                    </div>
+                    <div class="row ip mt-3">
+                        <div class="col-lg-4 ip">
+                            <h6><label for="roll">Roll No</label></h6>
+                        </div>
+                        <div class="col-lg-8 ip">
+                            <input type="text" id="roll" class="form-control ip" name="roll">
+                        </div>
+                    </div>
+                    <div class="row ip mt-3">
+                        <div class="col-lg-4 ip">
+                            <h6><label for="nameEnglish">Full name in English</label></h6>
+                        </div>
+                        <div class="col-lg-8 ip">
+                            <input type="text" id="nameEnglish" class="form-control ip" name="nameEnglish" placeholder="" required>
+                        </div>
+                    </div>
+                    <div class="row ip mt-3">
+                        <div class="col-lg-4 ip">
+                            <h6><label for="fNameEnglish">Fathers name in English</label></h6>
+                        </div>
+                        <div class="col-lg-8 ip">
+                            <input type="text" class="form-control ip" name="fNameEnglish"required>
+                        </div>
+                    </div>
+                    <div class="row ip mt-3">
+                        <div class="col-lg-4 ip">
+                            <h6><label for="preferredClass">Preferred Class of Admission</label></h6>
+                        </div>
+                        <div class="col-lg-8 ip">
+                            <div class="form-group">
+                                <select class="form-control" id="sel1" name="preferredClass">
+                                    <option value="">Select Class</option>
+                                    <% if (locals.class_name != null) { class_name.forEach(c => {%>
+                                        <option value="<%= c.class_name %>"><%= c.class_name %></option>
+                                    <% })} %>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-3 ip">
+                        <div class="col-lg-4 ip">
+                            <h6><label for="preferredSection">Preferred Section</label></h6>
+                        </div>
+                        <div class="col-lg-8 ip">
+                            <div class="form-group">
+                                <select class="form-control" name="preferredSection">
+                                    <option value="">Select Section</option>
+                                    <% if (locals.section_name != null) { section_name.forEach(c => {%>
+                                        <option value="<%= c.section_name %>"><%= c.section_name %></option>
+                                    <%}) }%>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3 ip">
+                        <div class="col-lg-4 ip">
+                            <h6><label for="shift">Shift Preference</label></h6>
+                        </div>
+                        <div class="col-lg-8 ip">
+                            <div class="form-group">
+                                <select class="form-control" name="shift">
+                                    <option value="">Select Shift</option>
+                                    <% if (locals.shift_name != null) {shift_name.forEach(c => {%>
+                                        <option value="<%= c.shift_name %>"><%= c.shift_name %></option>
+                                    <% }) }%>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row ip mt-3">
+                        <div class="col-lg-4 ip">
+                            <h6><label for="emergencyContact">Emergency contact number</label></h6>
+                        </div>
+                        <div class="col-lg-8 ip">
+                            <input type="text" class="form-control ip" name="emergencyContact" required>
+                        </div>
+                    </div>
+                    <div class="row mt-3 ip">
+                        <div class="col-lg-4 ip">
+                            <h6><label for="password">Password</label></h6>
+                        </div>
+                        <div class="col-lg-8 ip">
+                            <input type="password" class="form-control ip pass" name="password" required>
+                        </div>
+                    </div>
+                    <div class="row d-flex justify-content-end mt-4 mr-3">
+                        <input class="btn btn-success mr-2" name="submit" type="submit" value="Ragister">
+                    </div>
+            </form>
+    </div>
+
+</body>

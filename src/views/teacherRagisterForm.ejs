@@ -1,11 +1,11 @@
 <body>
     <%- include('./partials/header.ejs') %> 
     <div class="container p-3">
-        <a class="btn btn-outline-info admin-button" href="/alhera2023admin">Admin Panel</a>
+        <a class="btn btn-outline-info admin-button" href="/admin">Admin Panel</a>
       </div>
     <!-- Form  -->
-<div style="max-width: 600px;" class="container text-white mt-5 border p-4">
-    <div class="container text-warning">
+<div style="max-width: 600px;" class="container border p-4">
+    <div class="container">
         <h1>Teachers Ragister Form</h1>
     </div>
 
@@ -13,30 +13,15 @@
     
     
     <form action="/register/addNewTeacher" method="POST" enctype="multipart/form-data">
-        <div class="container text-dark mt-5">
+        <div class="container mt-5 p-3">
             <div class="row mt-3">
-                <div class="col">
-                    <div class="flex-column justify-content-end">
-                        <div>
-                            <img style="border-radius: 50%; max-height: 100px;max-width: 100px;" src="/img/profile.png" alt="pic">
-                        </div>
-                        <div class="mt-2">
-                            <input type="file" name="avatar" required>
-                        </div>
-                    </div>
-                    
+                <div class="col-lg-4">
+                    <h6><label for="file">Upload Image</label></h6>
+                </div>
+                <div class="col-lg-8">
+                    <input type="file" name="avatar">
                 </div>
             </div>
-            <div class="row mt-3">
-                        <div class="form-group p-0">
-                        <select class="form-control" name="campus">
-                            <option value="">Select Campus</option>
-                            <option value="khulshi_campus">Khulshi Campus</option>
-                            <option value="kadamtali_campus">Kadamtali Campus</option>
-                            <option value="majhirghat_campus">Majhirghat Campus</option>
-                        </select>
-                        </div>
-                    </div>
             <div class="row mt-3">
                 <div class="col-lg-4">
                     <h6><label for="name">Full name</label></h6>
@@ -92,6 +77,6 @@
     </form>
     
 </div>
-
+<div style="height: 100px;"></div>
 
 </body>

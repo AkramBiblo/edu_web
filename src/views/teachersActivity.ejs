@@ -73,25 +73,20 @@
                 <h6><label for="paid">Select class</label></h6>
               </div>
               <div class="col-lg-8 p-0 f">
-                <div class="form-group f">
-                  <select class="form-control" id="cid" name="cls">
-                    <option value="">Select class</option>
-                    <option value="99">Play</option>
-                    <option value="100">Nursery</option>
-                    <option value="1">Class 1</option>
-                    <option value="2">Class 2</option>
-                    <option value="3">Class 3</option>
-                    <option value="4">Class 4</option>
-                    <option value="5">Class 5</option>
+                <div class="form-group">
+                  <select class="form-control" name="class_name" id="class_name">
+                      <option value="">Select class</option>
+                      <% if (locals.class_name != null) {class_name.forEach(c => {%>
+                          <option value="<%= c.class_name %>"><%= c.class_name %></option>
+                      <% }) }%>
                   </select>
-                </div>
+              </div>
               </div>
             </div>
 
             <div class="row mt-3 f">
-              <button type="button" campus="<%= locals.campus %>" name="AttdQSubmit" class="btn btn-success m-1">Search</button>
+              <button type="button" name="AttdQSubmit" class="btn btn-success m-1">Search</button>
               <button type="button" class="btn btn-success m-1" name="reset">Reset</button>
-              <input type="hidden" name="campus" value="<%= locals.campus %>">
             </div>
           </form>
         </div>
@@ -101,15 +96,10 @@
           <h4>Attendance</h4>
         </div>
         <div class="list-group">
-          <a href="/teachers/<%= locals.campus %>/class/99" class="list-group-item list-group-item-action list-group-item-info">Nursery</a>
-          <a href="/teachers/<%= locals.campus %>/class/100" class="list-group-item list-group-item-action list-group-item-warning">K.G</a>
-          <a href="/teachers/<%= locals.campus %>/class/1" class="list-group-item list-group-item-action list-group-item-primary">Class 1</a>
-          <a href="/teachers/<%= locals.campus %>/class/2" class="list-group-item list-group-item-action list-group-item-success">Class 2</a>
-          <a href="/teachers/<%= locals.campus %>/class/3" class="list-group-item list-group-item-action list-group-item-secondary">Class 3</a>
-          <a href="/teachers/<%= locals.campus %>/class/4" class="list-group-item list-group-item-action list-group-item-info">Class 4</a>
-          <a href="/teachers/<%= locals.campus %>/class/5" class="list-group-item list-group-item-action list-group-item-warning">Class 5</a>
-          <a href="/teachers/<%= locals.campus %>/class/6" class="list-group-item list-group-item-action list-group-item-primary">Class 6</a>
-        </div>
+          <% if (locals.class_name != null) {class_name.forEach(c => {%>
+            <a href="/teachers/attendance/<%= c.class_name %>" class="list-group-item list-group-item-action list-group-item-info"><%= c.class_name %></a>
+        <% }) }%>
+         </div>
       </div>
     </div>
   </div>
@@ -134,23 +124,22 @@
 
       $('button').click((event) => {
         let name = event.target.getAttribute('name')
-        let campus = event.target.getAttribute('campus')
         if (name == 'AttdQSubmit') {
           let date = $('#QDate').val()
           let sid = $('#sid').val()
-          let cid = $('#cid').val()
+          let class_name = $('#class_name').val()
           let month = $('#mSelect').val()
           let year = $('#ySelect').val()
+
           $.ajax({
             url: "/attendance/query",
             type: "POST",
             data: {
               date: date,
               sid: sid,
-              cid: cid,
+              class_name: class_name,
               m: month,
               y: year,
-              campus: campus
             },
             async: false,
             success: (data) => {

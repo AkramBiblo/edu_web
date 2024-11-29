@@ -12,13 +12,12 @@
         <div class="row p-3 mt-3">
             <div class="col">
                 <div class="flex-column justify-content-end">
-                    <img style="border-radius: 8px; max-height: 150px;max-width: 150px;" src="/uploadedFiles/<%= message.result.file %>" alt="Profile picture">
+                    <img style="border-radius: 8px; max-height: 150px;max-width: 150px;" src="/uploadedFiles/<%= message.file %>" alt="Profile picture">
                 </div>
             </div>
         </div>
         <% } %> 
     <form id="form" action="/register/new" method="POST">
-        <input type="hidden" name="campus" value="<%= message.result.campus %>">
       <div class="row p-3 bg-info text-light">
           <div class="col">
             <div class="contianer text-center p-1">
@@ -29,7 +28,7 @@
                     <h6><label for="sid">SID</label></h6>
                 </div>
                 <div class="col-lg-8 ip">
-                    <input type="text" id="sid" class="form-control ip" name="sid" value="<%if (locals.message != null) {%><%= message.result.sid%><% } %>" readonly>
+                    <input type="text" id="sid" class="form-control ip" name="sid" value="<%if (locals.message != null) {%><%= message.sid%><% } %>" readonly>
                 </div>
             </div>
             <div class="row ip mt-3">
@@ -37,7 +36,7 @@
                     <h6><label for="roll">roll</label></h6>
                 </div>
                 <div class="col-lg-8 ip">
-                    <input type="text" id="roll" class="form-control ip" name="roll" value="<%if (locals.message != null) {%><%= message.result.roll%><% } %>">
+                    <input type="text" id="roll" class="form-control ip" name="roll" value="<%if (locals.message != null) {%><%= message.roll%><% } %>">
                 </div>
             </div>
             <div class="row ip mt-3">
@@ -45,7 +44,7 @@
                     <h6><label for="nameEnglish">Full name in English</label></h6>
                 </div>
                 <div class="col-lg-8 ip">
-                    <input type="text" id="nameEnglish" class="form-control ip" name="nameEnglish" value="<%if (locals.message != null) {%><%= message.result.nameEnglish %><% } %>">
+                    <input type="text" id="nameEnglish" class="form-control ip" name="nameEnglish" value="<%if (locals.message != null) {%><%= message.nameEnglish %><% } %>">
                 </div>
             </div>
             <div class="row ip mt-3">
@@ -53,7 +52,7 @@
                     <h6><label for="nameBangla">Full name in Bangla</label></h6>
                 </div>
                 <div class="col-lg-8 ip">
-                    <input type="text" class="form-control ip" name="nameBangla" value="<%= message.result.nameBangla %>">
+                    <input type="text" class="form-control ip" name="nameBangla" value="<%= message.nameBangla %>">
                 </div>
             </div>
             <div class="row mt-3 ip">
@@ -61,7 +60,7 @@
                     <h6><label for="previousClass">Previous Class</label></h6>
                 </div>
                 <div class="col-lg-8 ip">
-                    <input type="text" class="form-control ip" name="previousClass" value="<%= message.result.previousClass %>">
+                    <input type="text" class="form-control ip" name="previousClass" value="<%= message.previousClass %>">
                 </div>
             </div>
             <div class="row ip mt-3">
@@ -69,7 +68,7 @@
                     <h6><label for="gradePoint">Previous Grade Point</label></h6>
                 </div>
                 <div class="col-lg-8 ip">
-                    <input type="text" class="form-control ip" name="gradePoint" value="<%= message.result.gradePoint %>">
+                    <input type="text" class="form-control ip" name="gradePoint" value="<%= message.gradePoint %>">
                 </div>
             </div>
             <div class="row ip mt-3">
@@ -77,7 +76,7 @@
                     <h6><label for="previousInstitute">Previous Institute</label></h6>
                 </div>
                 <div class="col-lg-8 ip">
-                    <input type="text" class="form-control ip" name="previousInstitute" value="<%= message.result.previousInstitute %>">
+                    <input type="text" class="form-control ip" name="previousInstitute" value="<%= message.previousInstitute %>">
                 </div>
             </div>
             <div class="row ip mt-3">
@@ -86,25 +85,16 @@
                 </div>
                 <div class="col-lg-8 ip">
                     <div class="container-fluid p-0 d-flex">
-                        <input type="text" class="form-control ip" name="updatedPreferredClass" value="<%if (locals.message != null) {%><%= message.result.preferredClass %><% } %>" readonly>
+                        <input type="text" class="form-control ip" name="updatedPreferredClass" value="<%if (locals.message != null) {%><%= message.preferredClass %><% } %>" readonly>
                         <input type="button" class="btn btn-outline-light" id="changeClass" value="Change Class">
-                        <input type="hidden" name="cid" value="<%= message.result.cid %>">
+                        <input type="hidden" name="cid" value="<%= message.cid %>">
                     </div>
                     <div class="form-group hide" id="changeClassDiv">
                         <select class="form-control" id="sel1" name="preferredClass">
-                            <option></option>
-                            <option>Nursery</option>
-                            <option>K.G</option>
-                            <option>Class 1</option>
-                            <option>Class 2</option>
-                            <option>Class 3</option>
-                            <option>Class 4</option>
-                            <option>Class 5</option>
-                            <option>Class 6</option>
-                            <option>Class 7</option>
-                            <option>Class 8</option>
-                            <option>Class 9</option>
-                            <option>Class 10</option>
+                            <option value="">Select Class</option>
+                            <% if (locals.class_name != null) { class_name.forEach(c => {%>
+                                <option value="<%= c.class_name %>"><%= c.class_name %></option>
+                            <% })} %>
                         </select>
                     </div>
                 </div>
@@ -115,14 +105,15 @@
                 </div>
                 <div class="col-lg-8 ip">
                     <div class="container-fluid p-0 d-flex">
-                        <input type="text" class="form-control ip" name="updatedPreferredSection" value="<%if (locals.message != null) {%><%= message.result.preferredSection %><% } %>" readonly>
+                        <input type="text" class="form-control ip" name="updatedPreferredSection" value="<%if (locals.message != null) {%><%= message.preferredSection %><% } %>" readonly>
                         <input type="button" class="btn btn-outline-light" id="changeSection" value="Change Section">
                     </div>
                     <div class="form-group hide" id="changeSectionDiv">
-                        <select class="form-control" id="sel1" name="preferredSection">
-                            <option></option>
-                            <option>Hifz</option>
-                            <option>Academic</option>
+                        <select class="form-control" name="preferredSection">
+                            <option value="">Select Section</option>
+                            <% if (locals.section_name != null) { section_name.forEach(c => {%>
+                                <option value="<%= c.section_name %>"><%= c.section_name %></option>
+                            <%}) }%>
                         </select>
                     </div>
                 </div>
@@ -134,14 +125,15 @@
                 <div class="col-lg-8 ip">
                     <div class="container-fluid p-0 d-flex">
                         <input type="text" class="form-control ip" name="updatedShift"
-                            value="<%if (locals.message != null) {%><%= message.result.shift %><% } %>" readonly>
+                            value="<%if (locals.message != null) {%><%= message.shift %><% } %>" readonly>
                         <input type="button" class="btn btn-outline-light" id="changeShift" value="Change Section">
                     </div>
                     <div class="form-group hide" id="changeShiftDiv">
-                        <select class="form-control" id="sel1" name="shift">
-                            <option></option>
-                            <option>Morning Shift</option>
-                            <option>Afternoon Shift</option>
+                        <select class="form-control" name="shift">
+                            <option value="">Select Shift</option>
+                            <% if (locals.shift_name != null) {shift_name.forEach(c => {%>
+                                <option value="<%= c.shift_name %>"><%= c.shift_name %></option>
+                            <% }) }%>
                         </select>
                     </div>
                 </div>
@@ -151,7 +143,7 @@
                     <h6><label for="dateOfBirth">Date of Birth</label></h6>
                 </div>
                 <div class="col-lg-8 ip">
-                    <input type="text" class="form-control ip" name="dateOfBirth" value="<%= message.result.dateOfBirth %>">
+                    <input type="text" class="form-control ip" name="dateOfBirth" value="<%= message.dateOfBirth %>">
                 </div>
             </div>
             <div class="row mt-3 ip">
@@ -159,7 +151,7 @@
                     <h6><label for="bloodGroup">Blood Group</label></h6>
                 </div>
                 <div class="col-lg-8 ip">
-                    <input type="text" class="form-control ip" name="bloodGroup" value="<%= message.result.bloodGroup %>">
+                    <input type="text" class="form-control ip" name="bloodGroup" value="<%= message.bloodGroup %>">
                 </div>
             </div>
           </div>
@@ -173,7 +165,7 @@
                     <h6><label for="vlg">Village</label></h6>
                 </div>
                 <div class="col-lg-8">
-                    <input type="text" class="form-control" name="vlg" placeholder="Village" value="<%= message.result.vlg %>">
+                    <input type="text" class="form-control" name="vlg" placeholder="Village" value="<%= message.vlg %>">
                 </div>
             </div>
             <div class="row mt-3">
@@ -181,7 +173,7 @@
                     <h6><label for="po">Post Office</label></h6>
                 </div>
                 <div class="col-lg-8">
-                    <input type="text" class="form-control" name="po" placeholder="Post Office" value="<%= message.result.po %>">
+                    <input type="text" class="form-control" name="po" placeholder="Post Office" value="<%= message.po %>">
                 </div>
             </div>
             <div class="row mt-3">
@@ -189,7 +181,7 @@
                     <h6><label for="ps">Upozilla/P.S</label></h6>
                 </div>
                 <div class="col-lg-8">
-                    <input type="text" class="form-control" name="ps" placeholder="Upozilla/P.S" value="<%= message.result.ps %>">
+                    <input type="text" class="form-control" name="ps" placeholder="Upozilla/P.S" value="<%= message.ps %>">
                 </div>
             </div>
             <div class="row mt-3">
@@ -197,7 +189,7 @@
                     <h6><label for="dist">District</label></h6>
                 </div>
                 <div class="col-lg-8">
-                    <input type="text" class="form-control" name="dist" placeholder="District" value="<%= message.result.dist %>">
+                    <input type="text" class="form-control" name="dist" placeholder="District" value="<%= message.dist %>">
                 </div>
             </div>
             <div class="row mt-3">
@@ -221,7 +213,7 @@
                         <h6><label for="pvlg">Village</label></h6>
                     </div>
                     <div class="col-lg-8">
-                        <input type="text" class="form-control" name="pvlg" placeholder="Village" value="<%= message.result.pvlg %>">
+                        <input type="text" class="form-control" name="pvlg" placeholder="Village" value="<%= message.pvlg %>">
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -229,7 +221,7 @@
                         <h6><label for="ppo">Post Office</label></h6>
                     </div>
                     <div class="col-lg-8">
-                        <input type="text" class="form-control" name="ppo" placeholder="Post Office" value="<%= message.result.ppo %>">
+                        <input type="text" class="form-control" name="ppo" placeholder="Post Office" value="<%= message.ppo %>">
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -237,7 +229,7 @@
                         <h6><label for="pps">Upozilla/P.S</label></h6>
                     </div>
                     <div class="col-lg-8">
-                        <input type="text" class="form-control" name="pps" placeholder="Upozilla/P.S" value="<%= message.result.pps %>">
+                        <input type="text" class="form-control" name="pps" placeholder="Upozilla/P.S" value="<%= message.pps %>">
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -245,7 +237,7 @@
                         <h6><label for="pdist">District</label></h6>
                     </div>
                     <div class="col-lg-8">
-                        <input type="text" class="form-control" name="pdist" placeholder="District" value="<%= message.result.pdist %>">
+                        <input type="text" class="form-control" name="pdist" placeholder="District" value="<%= message.pdist %>">
                     </div>
                 </div>
             </div>
@@ -263,7 +255,7 @@
                     <h6><label for="fNameBangla">Fathers name in Bangla</label></h6>
                 </div>
                 <div class="col-lg-8 ip">
-                    <input type="text" class="form-control ip" name="fNameBangla" value="<%= message.result.fNameBangla %>">
+                    <input type="text" class="form-control ip" name="fNameBangla" value="<%= message.fNameBangla %>">
                 </div>
             </div>
             <div class="row ip mt-3">
@@ -271,7 +263,7 @@
                     <h6><label for="fNameEnglish">Fathers name in English</label></h6>
                 </div>
                 <div class="col-lg-8 ip">
-                    <input type="text" class="form-control ip" name="fNameEnglish" value="<%if (locals.message != null) {%><%= message.result.fNameEnglish %><% } %>">
+                    <input type="text" class="form-control ip" name="fNameEnglish" value="<%if (locals.message != null) {%><%= message.fNameEnglish %><% } %>">
                 </div>
             </div>
             <div class="row ip mt-3">
@@ -279,7 +271,7 @@
                     <h6><label for="fNID">Fathers NID number</label></h6>
                 </div>
                 <div class="col-lg-8 ip">
-                    <input type="text" class="form-control ip" name="fNID" value="<%= message.result.fNID %>">
+                    <input type="text" class="form-control ip" name="fNID" value="<%= message.fNID %>">
                 </div>
             </div>
             <div class="row mt-3 ip">
@@ -287,7 +279,7 @@
                     <h6><label for="fOccupation">Fathers occupation</label></h6>
                 </div>
                 <div class="col-lg-8 ip">
-                    <input type="text" class="form-control ip" name="fOccupation" value="<%= message.result.fOccupation %>">
+                    <input type="text" class="form-control ip" name="fOccupation" value="<%= message.fOccupation %>">
                 </div>
             </div>
             <!-- <div class="row mt-3 ip">
@@ -303,7 +295,7 @@
                     <h6><label for="fBloodGroup">Fathers blood group</label></h6>
                 </div>
                 <div class="col-lg-8 ip">
-                    <input type="text" class="form-control ip" name="fBloodGroup" value="<%= message.result.fBloodGroup %>">
+                    <input type="text" class="form-control ip" name="fBloodGroup" value="<%= message.fBloodGroup %>">
                 </div>
             </div>
             <div class="row mt-3 ip">
@@ -311,7 +303,7 @@
                     <h6><label for="fEQualification">Fathers educational qualification</label></h6>
                 </div>
                 <div class="col-lg-8 ip">
-                    <input type="text" class="form-control ip" name="fEQualification" value="<%= message.result.fEQualification %>">
+                    <input type="text" class="form-control ip" name="fEQualification" value="<%= message.fEQualification %>">
                 </div>
             </div>
             <div class="row ip mt-3">
@@ -319,7 +311,7 @@
                     <h6><label for="fMobile">Fathers mobile number</label></h6>
                 </div>
                 <div class="col-lg-8 ip">
-                    <input type="text" class="form-control ip" name="fMobile" value="<%= message.result.fMobile %>">
+                    <input type="text" class="form-control ip" name="fMobile" value="<%= message.fMobile %>">
                 </div>
             </div>
           </div>
@@ -329,7 +321,7 @@
                     <h6><label for="mNameBangla">Mothers name in Bangla</label></h6>
                 </div>
                 <div class="col-lg-8 ip">
-                    <input type="text" class="form-control ip" name="mNameBangla" value="<%= message.result.mNameBangla %>">
+                    <input type="text" class="form-control ip" name="mNameBangla" value="<%= message.mNameBangla %>">
                 </div>
             </div>
             <div class="row mt-3 ip">
@@ -337,7 +329,7 @@
                     <h6><label for="mNameEnglish">Mothers name in English</label></h6>
                 </div>
                 <div class="col-lg-8 ip">
-                    <input type="text" class="form-control ip" name="mNameEnglish" value="<%= message.result.mNameEnglish %>">
+                    <input type="text" class="form-control ip" name="mNameEnglish" value="<%= message.mNameEnglish %>">
                 </div>
             </div>
             <div class="row mt-3 ip">
@@ -345,7 +337,7 @@
                     <h6><label for="mNID">Mothers NID number</label></h6>
                 </div>
                 <div class="col-lg-8 ip">
-                    <input type="text" class="form-control ip" name="mNID" value="<%= message.result.mNID %>">
+                    <input type="text" class="form-control ip" name="mNID" value="<%= message.mNID %>">
                 </div>
             </div>
             <div class="row mt-3 ip">
@@ -353,7 +345,7 @@
                     <h6><label for="mOccupation">Mothers occupation</label></h6>
                 </div>
                 <div class="col-lg-8 ip">
-                    <input type="text" class="form-control ip" name="mOccupation" value="<%= message.result.mOccupation %>">
+                    <input type="text" class="form-control ip" name="mOccupation" value="<%= message.mOccupation %>">
                 </div>
             </div>
             <!-- <div class="row mt-3 ip">
@@ -369,7 +361,7 @@
                     <h6><label for="mBloodGroup">Mothers blood group</label></h6>
                 </div>
                 <div class="col-lg-8 ip">
-                    <input type="text" class="form-control ip" name="mBloodGroup" value="<%= message.result.mBloodGroup %>">
+                    <input type="text" class="form-control ip" name="mBloodGroup" value="<%= message.mBloodGroup %>">
                 </div>
             </div>
             <div class="row mt-3">
@@ -377,7 +369,7 @@
                     <h6><label for="mEQualification">Mothers educational qualification</label></h6>
                 </div>
                 <div class="col-lg-8 ip">
-                    <input type="text" class="form-control ip" name="mEQualification" value="<%= message.result.mEQualification %>">
+                    <input type="text" class="form-control ip" name="mEQualification" value="<%= message.mEQualification %>">
                 </div>
             </div>
             <div class="row mt-3 ip">
@@ -385,7 +377,7 @@
                     <h6><label for="mMobile">Mothers mobile number</label></h6>
                 </div>
                 <div class="col-lg-8 ip">
-                    <input type="text" class="form-control ip" name="mMobile" value="<%= message.result.mMobile %>">
+                    <input type="text" class="form-control ip" name="mMobile" value="<%= message.mMobile %>">
                 </div>
             </div>
         </div>
@@ -461,7 +453,7 @@
                     <h6><label for="emergencyContact">Emergency contact number</label></h6>
                 </div>
                 <div class="col-lg-8 ip">
-                    <input type="text" class="form-control ip" name="emergencyContact" value="<%if (locals.message != null) {%><%= message.result.emergencyContact %><% } %>" >
+                    <input type="text" class="form-control ip" name="emergencyContact" value="<%if (locals.message != null) {%><%= message.emergencyContact %><% } %>" >
                 </div>
             </div>
 
@@ -473,7 +465,7 @@
                     <h6><label for="password">Password</label></h6>
                 </div>
                 <div class="col-lg-8 ip">
-                    <input type="text" class="form-control ip pass" id="password" name="password" value="<%if (locals.message != null) {%><%= message.result.password %><% } %>" >
+                    <input type="text" class="form-control ip pass" id="password" name="password" value="<%if (locals.message != null) {%><%= message.password %><% } %>" >
                 </div>
             </div>
             <div class="row mt-3 ip">
@@ -504,6 +496,17 @@
     
 
     <script>
+        $(document).ready(() => {
+            $("#changeClass").click(function () {
+                $("#changeClassDiv").toggle();
+            });
+            $("#changeSection").click(function () {
+                $("#changeSectionDiv").toggle();
+            });
+            $("#changeShift").click(function () {
+                $("#changeShiftDiv").toggle();
+            });
+        })
         document.getElementById('nameEnglish').addEventListener('blur', () => {
             let val = $('#nameEnglish').val()
             $('#uid').val(val)

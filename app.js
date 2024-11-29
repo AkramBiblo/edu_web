@@ -24,13 +24,26 @@ app.use('/uploadedFiles', express.static(__dirname + 'public/uploadedFiles'));
 const router = require('./src/routes/router.js');
 const setup = require('./src/routes/setup.js');
 const admin = require('./src/routes/admin.js');
+const students = require('./src/routes/students.js');
+const register = require('./src/routes/register.js');
+const payment = require('./src/routes/payment.js');
+const teachers = require('./src/routes/teachers.js');
+const attendance = require('./src/routes/attendance.js');
 
 // Using routers
 app.use('/', router);
 app.use('/setup', setup);
 app.use('/admin', admin);
+app.use('/students', students);
+app.use('/register', register);
+app.use('/payment', payment);
+app.use('/teachers', teachers);
+app.use('/attendance', attendance);
 
 app.listen(PORT, (err) => {
     if (err) console.log(err)
     else console.log(`Server is listening on port ${PORT}`)
 })
+
+
+

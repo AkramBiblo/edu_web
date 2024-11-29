@@ -158,7 +158,9 @@ payment.get("/payQuery/:m/:y", (req, res) => {
 
 payment.post('/info', (req, res) => {
   let sid = req.body.sid;
-  let campus = req.body.campus;
+  let campus_key = req.cookies.campus_key
+  const getDBInfo = require("../../db");
+  let con = getDBInfo.connectToDatabase(campus_key)
   let m;
   switch (new Date().getMonth()) {
     case 0:
@@ -197,17 +199,7 @@ payment.post('/info', (req, res) => {
     case 11:
     m = 12;
   }
-  let con;
-  if (campus == "khulshi_campus") {
-    const getDBInfo = require("../../db");
-    con = getDBInfo.con.con_for_khulshi;
-  } else if (campus == "kadamtali_campus") {
-    const getDBInfo = require("../../db");
-    con = getDBInfo.con.con_for_kadamtali;
-  } else if (campus == "majhirghat_campus") {
-    const getDBInfo = require("../../db");
-    con = getDBInfo.con.con_for_majhirghat;
-  }
+  
   con.connect(function(err) {
         var sql = `SELECT * FROM payments WHERE sid = '${sid}'`;
         con.query(sql, function (err, result) {
