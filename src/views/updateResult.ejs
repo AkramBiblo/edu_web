@@ -1,0 +1,33 @@
+<body>
+  <%- include('./partials/header.ejs') %> 
+  <div class="container p-3">
+    <a class="btn btn-outline-info admin-button" href="/admin">Admin Panel</a>
+  </div>
+    <div class="container f text-center" style="max-width: 400px;">
+        <div class="container text-center mb-3">
+          <h4>Update result</h4>
+        </div>
+      <%- include('./partials/error.ejs') %>
+        
+        <div class="row">
+          <div class="col-md">
+            <div class="list-group">
+              
+              <!-- <a
+                href="/result/class/99"
+                class="list-group-item list-group-item-action list-group-item-dark"
+                >Nursery</a
+              > -->
+                  <a href="/result/resultSheets" class="list-group-item list-group-item-action list-group-item-info">Result Sheets</a>
+                  <a href="/result/file_upload" class="list-group-item list-group-item-action list-group-item-info">Direct File Upload</a>
+                  <% if (locals.class_name != null) { class_name.forEach(c => {%>
+                    <a href="/result/form/<%= c.class_name %>" class="list-group-item list-group-item-action list-group-item-info"><%= c.class_name %></a>
+                  <% })} %>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+      
+</body>

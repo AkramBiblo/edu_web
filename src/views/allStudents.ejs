@@ -39,6 +39,7 @@
     </table>
   </div>
   <div class="container p-3 f">
+  <%- include("./partials/successMsg.ejs") %>
     <table class="table bg-dark text-light">
       <thead class="thead-light">
         <tr class="text-center">
@@ -70,17 +71,13 @@
             <%= user.sid %>
           </td>
           <td>
-            <form action="/student_login" method="post">
+            <form action="/students/login" method="post">
               <input
                 type="hidden"
                 name="sid"
                 value="<%= user.sid %>"
               />
-              <input
-                type="hidden"
-                name="campus_key"
-                value="<%= locals.campus_key %>"
-              />
+              <input type="hidden" name="campus_key" value="<%= locals.campus_key %>" />
               <input type="hidden" name="password" value="<%= user.password %>" />
               <input
                 class="btn btn-info"
@@ -103,8 +100,7 @@
             </form>
           </td>
           <td>
-            <input type="hidden" id="campus_key" value="<%= locals.campus_key %>">
-            <button class="btn btn-outline-danger remove" name="remove" sid="<%= user.sid %>" sname="<%= user.nameEnglish %>" campus_key="<%= locals.campus_key %>">Remove</button>
+            <button class="btn btn-outline-danger remove" name="remove" sid="<%= user.sid %>">Remove</button>
           </td>
           <% if (user.shift == "") { %>
           <td>
@@ -135,41 +131,12 @@
             let campus = getCookie('campus')
 
             $.ajax({
-                url: `/students/search/${campus}/${searchIP}`,
-                type: "GET",
-                async: false,
+                url: `/students/search`,
+                type: "post",
+                data: {searchIP : searchIP},
                 success: (data) => {
                     if (data.sid) {
                         let user = data
-
-                        let Pclass = "";
-                      switch (user.preferredClass) {
-                        case "Class Six":
-                          Pclass = "Class Six";
-                          break;
-                        case "Class 5":
-                          Pclass = "Standard V";
-                          break;
-                        case "Class 4":
-                          Pclass = "Standard IV";
-                          break;
-                        case "Class 3":
-                          Pclass = "Standard III";
-                          break;
-                        case "Class 2":
-                          Pclass = "Standard II";
-                          break;
-                        case "Class 1":
-                          Pclass = "Standard I";
-                          break;
-                        case "Nursery":
-                          Pclass = "Nursery";
-                          break;
-                        case "K.G":
-                          Pclass = "K.G";
-                          break;
-                      }
-
                       $('#tBody').empty()
                         $('#tBody').append(`
                           <td>
@@ -216,15 +183,16 @@
             })
         } else if (name == 'remove') {
           let sid = e.target.getAttribute("sid")
-          let name = e.target.getAttribute("sname")
-          let c = e.target.getAttribute("campus")
           if (confirm(`Are you sure that you want to remove this student (Name: ${name} & SID: ${sid}) ?`)) {
             $.ajax({
               url: "/students/removeProfile",
               type: "post",
-              data: { sid: sid, campus: c }
+              data: { sid: sid },
+              success: () => {
+                location.reload();
+
+              }
             })
-            location.reload();
           }
         }
     })

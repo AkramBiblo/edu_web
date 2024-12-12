@@ -23,6 +23,7 @@ background-size: cover;">
             <th>Qualification</th>
             <th>Email</th>
             <th>Mobile</th>
+            <th>Edit</th>
             <th>Remove teacher</th>
           </tr>
         </thead>
@@ -45,6 +46,7 @@ background-size: cover;">
                 <td><%= teacher.qualifications %></td>
                 <td><%= teacher.email %></td>
                 <td><%= teacher.mobile %></td>
+                <td><a class="btn btn-outline-warning" href="/teachers/edit/<%= teacher.id %>">Edit</a></td>
                 <td><a class="btn btn-outline-danger" href="/teachers/remove/<%= teacher.id %>">Remove</a></td>
             </tr>
            <% } }%> 

@@ -12,7 +12,7 @@
   </div>
   <div class="container">
     <!-- <a class="btn btn-outline-info" href="/register/new">Add a new student</a> -->
-    <a class="btn btn-outline-info admin-button" href="/alhera2023admin">Admin Panel</a>
+    <a class="btn btn-outline-info admin-button" href="/admin">Admin Panel</a>
     <button onclick="takePrint()" class="btn btn-outline-info">Print</button>
     <button onclick="refresh()" class="btn btn-outline-info">Refresh</button>
   </div>
@@ -24,36 +24,35 @@
       <div class="form-group p-2">
         <select class="form-control" id="term" name="term">
             <option value="">Select Term</option>
-            <option value="First Term">First Term</option>
-            <option value="Mid Term">Mid Term</option>
-            <option value="Annual Term">Annual Term</option>
+            <% if (locals.term_name != null) { term_name.forEach(t => {%>
+                <option value="<%= t.term_name %>"><%= t.term_name %></option>
+            <% })} %>
         </select>
-        </div>
-        
-        <div class="form-group p-2">
-          <select class="form-control" id="class" name="class">
-              <option>Select Class</option>
-              <option value="N">Nursery</option>
-              <option value="KG">K.G</option>
-              <option value="C1">Standard I</option>
-              <option value="C2">Standard II</option>
-              <option value="C3">Standard III</option>
-              <option value="C4">Standard IV</option>
-              <option value="C5">Standard V</option>
-              <option value="C6">Class 6</option>
-              <!-- <option value="7">Class 7</option>
-              <option value="8">Class 8</option>
-              <option value="9">Class 9</option>
-              <option value="10">Class 10</option> -->
+    </div>
+      <div class="form-group p-2">
+          <select class="form-control" id="preferredClass" name="preferredClass">
+              <option value="">Select Class</option>
+              <% if (locals.class_name != null) { class_name.forEach(c => {%>
+                  <option value="<%= c.class_name %>"><%= c.class_name %></option>
+              <% })} %>
           </select>
       </div>
       <div class="form-group p-2">
-        <select class="form-control" id="shift" name="shift">
-            <option value="">Select Shift</option>
-            <option value="Morning Shift">Morning Shift</option>
-            <option value="Afternoon Shift">Afternoon Shift</option>
+        <select class="form-control" id="preferredSection" name="preferredSection">
+            <option value="">Select Section</option>
+            <% if (locals.section_name != null) { section_name.forEach(c => {%>
+                <option value="<%= c.section_name %>"><%= c.section_name %></option>
+            <%}) }%>
         </select>
-        </div>
+    </div>
+    <div class="form-group p-2">
+      <select class="form-control" id="shift" name="shift">
+          <option value="">Select Shift</option>
+          <% if (locals.shift_name != null) {shift_name.forEach(c => {%>
+              <option value="<%= c.shift_name %>"><%= c.shift_name %></option>
+          <% }) }%>
+      </select>
+  </div>
 
       <div class="form-group p-2">
         <button class="btn btn-outline-dark" name="generateButton" type="button">Generate Result Sheet</button>
@@ -63,8 +62,9 @@
    
    <div id="resultSheetDiv" class="table-responsive">
     <div class="container text-center" style="margin-top: -10px;" id="nameDiv">
-      <h5 style="font-weight: bolder;font-size: 28px;font-family: poppins;color: rgb(219, 13, 205);">AL-HERA IDEAL
-          MADRASAH [AIM]</h5>
+    <% if (locals.admin != null) { %>
+      <h5 style="font-weight: bolder;font-size: 28px;font-family: poppins;color: rgb(219, 13, 205);"><%=admin.iName%></h5>
+    <%}%>
   </div>
     <div class="container text-center">
       <h4 id="resulHead"></h4>
@@ -91,16 +91,17 @@
           $("#subjectHead").empty()
           $("#studentData").empty()
             let term = $('#term').val()
-            let c = $('#class').val()
+            let section = $("#preferredSection").val()
+            let c = $('#preferredClass').val()
             let shift = $('#shift').val()
             let year = $('#year').val()
-            let campus = getCookie('campus')
+            let campus = getCookie('campus_key')
 
             $.ajax({
                 url: `/result/getResultSheet`,
                 type: "POST",
                 data: {
-                  // year: year,
+                  year: year,
                   term: term,
                   class: c,
                   shift: shift,

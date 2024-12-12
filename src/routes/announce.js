@@ -10,6 +10,10 @@ var urlencodedParser = bodyParser.urlencoded({ extended: true })
 let cookieParser = require("cookie-parser");
 announce.use(cookieParser());
 
+// let campus_key = req.cookies.campus_key;
+//     const getDBInfo = require("../../db");
+//     let con = getDBInfo.connectToDatabase(campus_key)
+
 announce.get('/form', (req, res) => {
     res.render('announceForm', {title: 'Announce Form'})
 }) 
@@ -62,18 +66,10 @@ announce.get('/noticeBoard/:campus/:sid', (req, res) => {
 }) 
 
 announce.get('/all', (req, res) => {
-          let campus = req.cookies.campus;
-          let con;
-          if (campus == "khulshi_campus") {
-            const getDBInfo = require("../../db");
-            con = getDBInfo.con.con_for_khulshi;
-          } else if (campus == "kadamtali_campus") {
-            const getDBInfo = require("../../db");
-            con = getDBInfo.con.con_for_kadamtali;
-          } else if (campus == "majhirghat_campus") {
-            const getDBInfo = require("../../db");
-            con = getDBInfo.con.con_for_majhirghat;
-          }
+  let campus_key = req.cookies.campus_key;
+  const getDBInfo = require("../../db");
+  let con = getDBInfo.connectToDatabase(campus_key)
+
           con.connect(function(err) {
           var sql = 'SELECT * FROM announcements';
           con.query(sql, function (err, result) {
@@ -95,25 +91,16 @@ announce.get('/all', (req, res) => {
 announce.post("/new", function (req, res) {
     let header = req.body.heading; 
     let desc = req.body.description;
-    let announcedOn = req.body.date;
-    let ApplUntil = req.body.end;
+    let announcedOn = req.body.fromDate;
+    let ApplUntil = req.body.tillDate;
 
-    let campus = req.cookies.campus;
-    let con;
-    if (campus == "khulshi_campus") {
-      const getDBInfo = require("../../db");
-      con = getDBInfo.con.con_for_khulshi;
-    } else if (campus == "kadamtali_campus") {
-      const getDBInfo = require("../../db");
-      con = getDBInfo.con.con_for_kadamtali;
-    } else if (campus == "majhirghat_campus") {
-      const getDBInfo = require("../../db");
-      con = getDBInfo.con.con_for_majhirghat;
-    }
+    let campus_key = req.cookies.campus_key;
+    const getDBInfo = require("../../db");
+    let con = getDBInfo.connectToDatabase(campus_key)
 
       con.connect(function (err) {
         
-        var sql = `INSERT INTO announcements (heading, description, date, end, campus) VALUES ("${header}", "${desc}", "${announcedOn}", "${ApplUntil}", "${campus}")`;
+        var sql = `INSERT INTO announcements (heading, description, fromDate, tillDate, campus) VALUES ("${header}", "${desc}", "${announcedOn}", "${ApplUntil}", "${campus_key}")`;
         con.query(sql, function (err, result) {
         });
 
@@ -154,18 +141,9 @@ announce.post("/publicPost", function (req, res) {
   let announcedOn = req.body.date;
   let ApplUntil = req.body.end;
 
-  let campus = req.cookies.campus;
-  let con;
-  if (campus == "khulshi_campus") {
+  let campus_key = req.cookies.campus_key;
     const getDBInfo = require("../../db");
-    con = getDBInfo.con.con_for_khulshi;
-  } else if (campus == "kadamtali_campus") {
-    const getDBInfo = require("../../db");
-    con = getDBInfo.con.con_for_kadamtali;
-  } else if (campus == "majhirghat_campus") {
-    const getDBInfo = require("../../db");
-    con = getDBInfo.con.con_for_majhirghat;
-  }
+    let con = getDBInfo.connectToDatabase(campus_key)
 
     con.connect(function (err) {
       
@@ -229,19 +207,9 @@ announce.post(
   function (req, res) {
     let file = req.file.filename;
     let heading = req.body.heading
-    let campus = req.cookies.campus;
-
-    let con;
-    if (campus == "khulshi_campus") {
-      const getDBInfo = require("../../db");
-      con = getDBInfo.con.con_for_khulshi;
-    } else if (campus == "kadamtali_campus") {
-      const getDBInfo = require("../../db");
-      con = getDBInfo.con.con_for_kadamtali;
-    } else if (campus == "majhirghat_campus") {
-      const getDBInfo = require("../../db");
-      con = getDBInfo.con.con_for_majhirghat;
-    }
+    let campus_key = req.cookies.campus_key;
+    const getDBInfo = require("../../db");
+    let con = getDBInfo.connectToDatabase(campus_key)
     con.connect((err) => {
       let sql = `INSERT INTO announcements (file, heading) VALUES ("${file}", "${heading}")`
       con.query(sql, (err, result) => {
@@ -274,19 +242,10 @@ announce.post(
     function (req, res) {
       let heading = req.body.heading
       let file = req.file.filename;
-      let campus = req.cookies.campus;
-  
-      let con;
-      if (campus == "khulshi_campus") {
-        const getDBInfo = require("../../db");
-        con = getDBInfo.con.con_for_khulshi;
-      } else if (campus == "kadamtali_campus") {
-        const getDBInfo = require("../../db");
-        con = getDBInfo.con.con_for_kadamtali;
-      } else if (campus == "majhirghat_campus") {
-        const getDBInfo = require("../../db");
-        con = getDBInfo.con.con_for_majhirghat;
-      }
+      let campus_key = req.cookies.campus_key;
+    const getDBInfo = require("../../db");
+    let con = getDBInfo.connectToDatabase(campus_key)
+
       con.connect((err) => {
         let p_sql = `INSERT INTO publicnotice (file, heading) VALUES ("${file}", "${heading}")`
         con.query(p_sql, (err, result) => {})

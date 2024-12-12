@@ -2,6 +2,7 @@ const express = require("express");
 const teachers = express.Router();
 var bodyParser = require("body-parser");
 const fs = require('fs')
+const multer = require("multer");
 const path = require('path');
 const { resolve } = require("path");
 const { rejects } = require("assert");
@@ -183,27 +184,14 @@ teachers.get("/remove/:id", (req, res) => {
   
       var sql = "SELECT * FROM teachers WHERE id = ?";
       con.query(sql, [id], function (err, result) {
-        if (result.length <= 0) {
-          var sql_ = "SELECT * FROM teachers";
-          con.query(sql_, function (err, result) {
-            if (result.length <= 0) {
-              res.render("allTeachers", {errorMessage: "This email has already been taken.",});
-              // res.send("No students available. <a href='/register'>Add new student</a>");
-            } else {
-              res.render("allTeachers", {
-                message: result,
-                errorMessage: "This email has already been taken.",
-              });
-            }
-          });
-        } else {
-          for (const data of result) {
-            let file = data.file
-            String(file)
-          const sql = `DELETE FROM teachers WHERE id = "${id}"`
-              con.query(sql, function (err, result) {})
-              let f = path.join(__dirname,"../../public/uploadedFiles/"+`${file}`);
+
+        let file = result[0].file
+          if (file !== "") {
+            let f = path.join(__dirname,"../../public/uploadedFiles/"+`${file}`);
               fs.unlinkSync(f)
+          }
+            const sql = `DELETE FROM teachers WHERE id = "${id}"`
+              con.query(sql, function (err, result) {})
               var sql_2 = "SELECT * FROM teachers";
               con.query(sql_2, function (err, result) {
                 if (result.length <= 0) {
@@ -216,13 +204,78 @@ teachers.get("/remove/:id", (req, res) => {
                   });
                 }
               });
-          }
-          
-        }
         
       });
   
     });
   });
+teachers.get("/edit/:id", (req, res) => {
+    const id = req.params.id;
+    let campus_key = req.cookies.campus_key
+    const getDBInfo = require("../../db");
+    let con = getDBInfo.connectToDatabase(campus_key)
+  
+    con.connect(function (err) {
+  
+      var sql = "SELECT * FROM teachers WHERE id = ?";
+      con.query(sql, [id], function (err, result) {
+        res.render("teacherEdit", {title: "Edit Teacher", teacher: result[0]})
+      });
+  
+    });
+});
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./public/uploadedFiles/");
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + file.originalname;
+    cb(null, uniqueSuffix);
+  },
+});
+const upload = multer({ storage: storage });
+
+  teachers.post("/editUpdate", urlencodedParser,
+    upload.single("PP"), (req, res) => {
+    let tid = req.body.tid;
+    let name = req.body.name;
+    let address = req.body.address;
+    let qualifications = req.body.qualifications;
+    let email = req.body.email;
+    let mobile = req.body.mobile;
+    let oldFile = req.body.oldFile;
+    let file = "";
+    if (req.file) {
+      file = req.file.filename;
+      let f = path.join(__dirname,"../../public/uploadedFiles/"+`${oldFile}`);
+      const { unlink } = require('node:fs');
+        unlink(`${f}`, (err) => {});
+    } else {
+      file = oldFile;
+    }
+    let password = req.body.password;
+    let campus_key = req.cookies.campus_key
+    const getDBInfo = require("../../db");
+    let con = getDBInfo.connectToDatabase(campus_key)
+    con.connect(function (err) {
+      let sql = `UPDATE teachers SET name="${name}",address="${address}",qualifications="${qualifications}",email="${email}",password="${password}",mobile="${mobile}",file="${file}" WHERE id="${tid}"`
+      con.query(sql, (err, result) => {
+        var sql_2 = "SELECT * FROM teachers";
+              con.query(sql_2, function (err, result) {
+                if (result.length <= 0) {
+                  res.render("allTeachers", {successMsg: "Teacher updated successfully!",});
+                  // res.send("No students available. <a href='/register'>Add new student</a>");
+                } else {
+                  res.render("allTeachers", {
+                    message: result,
+                    successMsg: "Teacher updated successfully!",
+                  });
+                }
+              });
+      })
+    })
+  })
+
 
 module.exports = teachers

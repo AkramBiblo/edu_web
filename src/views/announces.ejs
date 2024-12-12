@@ -30,7 +30,11 @@
                 <td><%= announceData.description %></td>
                 <td><%= announceData.date %></td>
                 <td><%= announceData.end %></td>
-                <td><a href="/uploadedFiles/<%= announceData.file %>" download>Download - <%= announceData.file %></a></td>
+                <td><% if (announceData.file !== null) {%>
+                  <a href="/uploadedFiles/<%= announceData.file %>" download>Download - <%= announceData.file %></a>
+                <% } else {%>
+                  <td></td>
+                  <% } %></td>
             </tr>
             <% } %> 
         </tbody>

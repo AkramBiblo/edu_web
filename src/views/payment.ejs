@@ -2,10 +2,10 @@
   <%- include("./partials/header.ejs") %>
 
     <div class="container text-dark text-center p-3 p">
-        <h3 class="welcomeMsg">Payment Info</h3>
+        <h3 class="welcomeMsg">Cash Collection</h3>
     </div>
     <div class="container-fluid p-5">
-        <a class="btn btn-outline-info admin-button" href="/alhera2023admin">Admin Panel</a>
+        <a class="btn btn-outline-info admin-button" href="/admin">Admin Panel</a>
     </div>
     <div class="row">
         <div class="col">
@@ -13,7 +13,7 @@
                 <div class="col-xl-12 col-lg-6 col-md-6">
                     <div class="container-fluid f bg-warning border p-4 mb-2 payment_form" style="max-width: 400px;">
                         <div class="container text-light">
-                            <h4>Payment form</h4>
+                            <h4>Collection form</h4>
                         </div>
 
                         <%- include('./partials/error.ejs') %>
@@ -21,34 +21,10 @@
                             <form action="/payment/pay" method="POST">
                                 <div class="container mt-5">
                                   <div class="row mt-3">
-                                    <input type="text" class="form-control" name="name" placeholder="name" required />
-                                  </div>
-                                  <div class="row mt-3">
                                     <input type="text" class="form-control" name="sid" placeholder="SID" required />
                                   </div>
                                   <div class="row mt-3">
-                                    <div class="col-lg-4 p-0">
-                                      <h6><label for="">Select class</label></h6>
-                                    </div>
-                                    <div class="col-lg-8 p-0">
-                                      <div class="form-group">
-                                        <select class="form-control" id="sel1" name="cls">
-                                          <option value="">Select class</option>
-                                          <option value="99">Nursery</option>
-                                          <option value="100">K.G</option>
-                                          <option value="1">Class 1</option>
-                                          <option value="2">Class 2</option>
-                                          <option value="3">Class 3</option>
-                                          <option value="4">Class 4</option>
-                                          <option value="5">Class 5</option>
-                                          <option value="6">Class 6</option>
-                                          <!-- <option value="7">Class 7</option> -->
-                                          <!-- <option value="8">Class 8</option> -->
-                                          <!-- <option value="9">9</option>
-                                                  <option value="10">10</option> -->
-                                        </select>
-                                      </div>
-                                    </div>
+                                    <input type="text" class="form-control" name="name" placeholder="Name" readonly />
                                   </div>
                                   <div class="row mt-3">
                                     <input type="text" class="form-control" name="paymentDisc" placeholder="Description" required />
@@ -103,7 +79,7 @@
                 <div class="col">
                     <div class="container p-5 f bg-warning p-4 mt-2 mb-2" style="max-width: 400px;">
                         <div class="container f text-center">
-                            <h6>Query payments</h6>
+                            <h6>Receiving Query</h6>
                         </div>
                         <form>
                             <div class="row mt-3">
@@ -149,14 +125,14 @@
             </div>
         </div>
 
-        <div class="col-xl-8 p-4 border text-center">
-
+        <div class="col-xl-8 p-4 border">
+            <div class="container-fluid text-center" id="collectionTitle">
+            </div>
             <table class="table table-bordered table-striped">
                 <thead class="thead-dark">
-                    <tr>
-                        <th>CID</th>
-                        <th>SID</th>
+                    <tr class="text-center">
                         <th>Date</th>
+                        <th>SID</th>
                         <th>Description</th>
                         <th>Amount</th>
                         <th>Status</th>
@@ -168,15 +144,16 @@
 
             </table>
             <div class="container">
-                <h4>Total payments : <span id="tExp"></span></h4>
+                <h4>Total Received : <span id="tExp"></span></h4>
             </div>
-            <div class="container" id="noExpMsg">
+            <div class="container text-center" id="noExpMsg">
 
             </div>
         </div>
     </div>
 
     <script>
+      $(document).ready(() => {
         $('button').click((event) => {
             let name = event.target.getAttribute('name')
             if (name == 'payQuery') {
@@ -187,6 +164,9 @@
                     type: "GET",
                     async: false,
                     success: (data) => {
+              
+                      $("#collectionTitle").empty()
+                      $("#collectionTitle").append(`<h5>Collection Info From 01/${month}/${year} To 31/${month}/${year}</h5>`)
                         if (data.length > 1) {
                             let queryData = data[0]
                             let tPay = data[1]
@@ -208,6 +188,28 @@
                 })
             }
         })
+      
+      $(`input[name="sid"]`).focusout(() => {
+        $(`input[name="name"]`).val("")
+        let sid = $(`input[name="sid"]`).val()
+        $.ajax({
+          url: `/students/search`,
+          type: "post",
+          data: {searchIP: sid},
+          success: (data) => {
+            if (data == "No student found! Please input correct information and search again.") {
+              alert(data)
+            } else {
+              $(`input[name="name"]`).val(data.nameEnglish)
+            }
+          }
+        })
+      })
+      
+      
+      
+      })
+       
     </script>
 
 </body>

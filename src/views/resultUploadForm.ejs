@@ -1,0 +1,94 @@
+<body>
+    <div class="container p-3">
+            <a class="btn btn-outline-info admin-button" href="/admin">Admin Panel</a>
+          </div>
+    <div class="container d-flex justify-content-center p-2 f">
+        <h4>Nursery</h4>
+    </div>
+      <%- include('./partials/error.ejs') %>
+      <%- include('./partials/successMsg.ejs') %>
+    <form action="/result/update" method="post">
+        <div class="container border f p-3 mb-3" style="max-width: 500px;">
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="year">Year</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="year" class="form-control ip" name="year" maxlength="4">
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="term">Select Term</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <div class="form-group">
+                        <select class="form-control" id="term" name="term">
+                            <% if (locals.term_name != null) { term_name.forEach(t => {%>
+                                <option value="<%= t.term_name %>"><%= t.term_name %></option>
+                            <% })} %>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row ip mt-3">
+                <div class="col-lg-4 ip">
+                    <h6><label for="sid">SID</label></h6>
+                </div>
+                <div class="col-lg-8 ip">
+                    <input type="text" id="sid" class="form-control ip" name="sid">
+                </div>
+            </div>
+            
+            <% if (locals.subjects != null) {subjects.forEach(s => { %>
+                <div class="row ip mt-3">
+                    <div class="col-lg-4 ip">
+                        <h6><label for="<%= s.subject_name %>"><%= s.subject_name %></label></h6>
+                    </div>
+                    <div class="col-lg-8 ip">
+                        <input type="text" id="<%= s.subject_name %>" class="form-control ip" name="<%= s.subject_name %>">
+                    </div>
+                </div>
+            <% })} %>
+            <div id="resultSubmitDiv">
+                <div class="container-fluid d-flex justify-content-end">
+                    <h6 class="text-success">Result Submit Buttons</h6>
+                </div>
+                <div class="container-fluid mt-2 p-0 ip d-flex justify-content-end">
+                    <input type="hidden" name="class_name" value="<%= locals.class_name %>">
+                    <button type="submit" class="btn btn-success m-1">Submit Result</button>
+                    <!-- <button type="submit" formaction="/result/update/secondTerm" class="btn btn-success m-1">2nd term</button> -->
+                    <!-- <button type="submit" formaction="/result/update/thirdTerm" class="btn btn-success m-1">3rd term</button> -->
+                    <!-- <button type="submit" formaction="/result/update/annualTerm" class="btn btn-success m-1">Annual term</button> -->
+                    
+                </div>
+            </div>
+            
+            <div id="revisedSubmitButton">
+                <div class="container-fluid d-flex justify-content-end">
+                    <h6 class="text-dark">Revised Result Submit Buttons</h6>
+                </div>
+                
+                <div class="container-fluid mt-2 p-0 ip d-flex justify-content-end">
+                    <button formaction="/result/updateRevisedResult/First Term" class="btn btn-outline-dark m-1">1st Term</button>
+                    <button formaction="/result/updateRevisedResult/Mid Term" class="btn btn-outline-dark m-1">2nd term</button>
+                    <button formaction="/result/updateRevisedResult/Annual Term" class="btn btn-outline-dark m-1">Annual term</button>
+                </div>
+            </div>
+            
+        </div>
+    </form>
+    
+    <div class="container">
+        <button id="RevisedSwitchButton" class="btn btn-danger m-1">Revised</button>
+    </div>
+        <script>
+            $(document).ready(() => {
+                $("#revisedSubmitButton").hide()
+                $("#RevisedSwitchButton").click(() => {
+                    $("#revisedSubmitButton").toggle()
+                    $("#resultSubmitDiv").toggle()
+                })
+            })
+        </script>
+</body>

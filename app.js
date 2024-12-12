@@ -29,6 +29,8 @@ const register = require('./src/routes/register.js');
 const payment = require('./src/routes/payment.js');
 const teachers = require('./src/routes/teachers.js');
 const attendance = require('./src/routes/attendance.js');
+const announce = require('./src/routes/announce.js');
+const result = require('./src/routes/result.js');
 
 // Using routers
 app.use('/', router);
@@ -39,6 +41,8 @@ app.use('/register', register);
 app.use('/payment', payment);
 app.use('/teachers', teachers);
 app.use('/attendance', attendance);
+app.use('/announce', announce);
+app.use('/result', result);
 
 app.listen(PORT, (err) => {
     if (err) console.log(err)

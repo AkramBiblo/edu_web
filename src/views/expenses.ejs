@@ -8,7 +8,7 @@
             <h3 class="welcomeMsg">Expense Info</h3>
         </div>
         <div class="container-fluid p-5">
-            <a class="btn btn-outline-info admin-button" href="/alhera2023admin">Admin Panel</a>
+            <a class="btn btn-outline-info admin-button" href="/admin">Admin Panel</a>
           </div>
         <div class="row">
             <div class="col">
@@ -27,7 +27,7 @@
                                 <form action="/payment/expense" method="POST">
                                     <div class="container mt-5">
                                         <div class="row mt-3">
-                                            <input type="text" class="form-control" name="expName" placeholder="Description" required>
+                                            <input type="text" class="form-control" name="description" placeholder="Description" required>
                                         </div>
                                         
                                         <div class="row mt-3"> 
@@ -35,15 +35,7 @@
                                                 <h6><label for="paid">Total expenses</label></h6>
                                             </div>
                                             <div class="col-lg-8 p-0">
-                                                <input type="text" class="form-control paid" name="expAmount" placeholder="Amount" required>
-                                            </div>
-                                        </div>
-                                        <div class="row mt-3"> 
-                                            <div class="col-lg-4 p-0">
-                                                <h6><label for="paid">Issue Date</label></h6>
-                                            </div>
-                                            <div class="col-lg-8 p-0">
-                                                <input type="date" class="form-control paid" name="issuedate" required>
+                                                <input type="number" class="form-control paid" name="amount" placeholder="Amount" required>
                                             </div>
                                         </div>
                                         <div class="row mt-3">
@@ -53,12 +45,12 @@
                                             <div class="col-lg-8">
                                                 <div class="form-check-inline">
                                                     <label class="form-check-label">
-                                                      <input type="radio" class="form-check-input" value="cash" name="paymentStatus">Cash
+                                                      <input type="radio" class="form-check-input" value="Cash" name="paymentStatus">Cash
                                                     </label>
                                                   </div>
                                                   <div class="form-check-inline">
                                                     <label class="form-check-label">
-                                                      <input type="radio" class="form-check-input" value="mobilebanking" name="paymentStatus">Mobile Banking
+                                                      <input type="radio" class="form-check-input" value="Mobile Banking" name="paymentStatus">Mobile Banking
                                                     </label>
                                                   </div>
                                             </div>
@@ -125,14 +117,13 @@
                 </div>
             </div>
     
-            <div class="col-xl-8 p-4 border text-center">
-                
+            <div class="col-xl-8 p-4 border">
+                <div class="container-fluid text-center" id="expenseTitle">
+                </div>
                 <table class="table table-bordered table-striped">
                     <thead class="thead-dark">
-                        <tr>
-                            <th>SL</th>
-                            <th>Issue Date</th>
-                            <th>Entry Date</th>
+                        <tr class="text-center">
+                            <th>Date</th>
                             <th>Description</th>
                             <th>Amount</th>
                             <th>Status</th>
@@ -168,6 +159,8 @@
            type: "GET",
            async: false,
            success: (data) => {
+            $("#expenseTitle").empty()
+            $("#expenseTitle").append(`<h5>Expense Info From 01/${month}/${year} To 31/${month}/${year}</h5>`)
                if (data.length > 1) {
                    let queryData = data[0]
                    let tExp = data[1]

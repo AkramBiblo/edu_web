@@ -6,20 +6,29 @@
     <!-- Form  -->
 <div style="max-width: 600px;" class="container border p-4">
     <div class="container">
-        <h1>Teachers Ragister Form</h1>
+        <h1>Teachers Edit Form</h1>
     </div>
 
     <%- include('./partials/error.ejs') %>
     
-    
-    <form action="/register/addNewTeacher" method="POST" enctype="multipart/form-data">
+    <% if (locals.teacher !== null) { let t = teacher %>
+        <form action="/teachers/editUpdate" method="POST" enctype="multipart/form-data">
         <div class="container mt-5 p-3">
             <div class="row mt-3">
                 <div class="col-lg-4">
-                    <h6><label for="file">Upload Image</label></h6>
+                    <img src="/uploadedFiles/<%=t.file%>" alt="">
                 </div>
                 <div class="col-lg-8">
-                    <input type="file" name="avatar">
+                    <input type="hidden" class="form-control" name="oldFile" value="<%= t.file %>">
+                    <input type="hidden" class="form-control" name="tid" value="<%= t.id %>">
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-lg-4">
+                    <h6><label for="file">Change Image</label></h6>
+                </div>
+                <div class="col-lg-8">
+                    <input type="file" name="PP">
                 </div>
             </div>
             <div class="row mt-3">
@@ -27,7 +36,7 @@
                     <h6><label for="name">Full name</label></h6>
                 </div>
                 <div class="col-lg-8">
-                    <input type="text" class="form-control" name="name" placeholder="First name" value="<% if (locals.message != null) {%><%= message.name %><% } %>" required>
+                    <input type="text" class="form-control" name="name" placeholder="First name" value="<%= t.name %>" required>
                 </div>
             </div>
             <div class="row mt-3">
@@ -35,7 +44,7 @@
                     <h6><label for="address">Address</label></h6>
                 </div>
                 <div class="col-lg-8">
-                    <input type="text" class="form-control address" name="address" placeholder="address" value="<% if (locals.message != null) {%><%= message.address %><% } %>" required>
+                    <input type="text" class="form-control address" name="address" placeholder="address" value="<%= t.address %>" required>
                 </div>
             </div>
             <div class="row mt-3">
@@ -43,7 +52,7 @@
                     <h6><label for="qualifications">Qualifications</label></h6>
                 </div>
                 <div class="col-lg-8">
-                    <input type="text" class="form-control institute" name="qualifications" placeholder="College/University" value="<% if (locals.message != null) {%><%= message.qualifications %><% } %>" required>
+                    <input type="text" class="form-control institute" name="qualifications" placeholder="College/University" value="<%= t.qualifications %>" required>
                 </div>
             </div>
             <div class="row mt-3">
@@ -51,15 +60,15 @@
                     <h6><label for="email">Email</label></h6>
                 </div>
                 <div class="col-lg-8">
-                    <input type="text" class="form-control email" name="email" placeholder="email" value="<% if (locals.message != null) {%><%= message.email %><% } %>" required>
+                    <input type="text" class="form-control email" name="email" placeholder="email" value="<%= t.email %>" required>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col-lg-4">
-                    <h6><label for="mobile">Contact</label></h6>
+                    <h6><label for="mobile">Mobile</label></h6>
                 </div>
                 <div class="col-lg-8">
-                    <input type="text" class="form-control email" name="mobile" placeholder="Contact Nr." value="<% if (locals.message != null) {%><%= message.mobile %><% } %>" required>
+                    <input type="text" class="form-control email" name="mobile" placeholder="Contact" value="<%= t.mobile %>" required>
                 </div>
             </div>
             <div class="row mt-3">
@@ -67,14 +76,16 @@
                     <h6><label for="tel">Password</label></h6>
                 </div>
                 <div class="col-lg-8">
-                    <input type="text" class="form-control email" name="password" placeholder="password" value="<% if (locals.message != null) {%><%= message.password %><% } %>" required>
+                    <input type="text" class="form-control email" name="password" placeholder="password" value="<%= t.password %>" required>
                 </div>
             </div>
             <div class="row d-flex justify-content-end mt-4 mr-3">
-                <input class="btn btn-success mr-2" name="submit" type="submit" value="Ragister">
+                <input class="btn btn-success mr-2" name="submit" type="submit" value="Update">
             </div>
         </div>
     </form>
+    <%}%>
+    
     
 </div>
 <div style="height: 100px;"></div>

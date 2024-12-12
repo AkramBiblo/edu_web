@@ -1,0 +1,52 @@
+<body>
+    <%- include('./partials/header.ejs') %> 
+    <div class="container-fluid p-5">
+        <a class="btn btn-outline-info admin-button" href="/admin">Admin Panel</a>
+    </div>
+    <div class="container-fluid border p-4" style="max-width: 400px;border-radius: 10px;">
+        <!-- Form  -->
+            <div class="container">
+                <h4>Result file upload form</h4>
+            </div>
+             
+                <%- include('./partials/error.ejs') %>
+                <%- include('./partials/successMsg.ejs') %>
+            
+            <form action="/result/result_file_upload" method="POST" enctype="multipart/form-data">
+                <div class="container mt-3">
+                    <div class="row mt-3">
+                        <input class="form-control" type="number" name="year" id="year" placeholder="Year">
+                    </div>
+                      <div class="row mt-4">
+                        <div class="form-group">
+                            <select class="form-control" id="term" name="term">
+                                <option value="">Select Term</option>
+                                <% if (locals.term_name != null) { term_name.forEach(t => {%>
+                                    <option value="<%= t.term_name %>"><%= t.term_name %></option>
+                                <% })} %>
+                            </select>
+                        </div>
+                      </div>
+                     <div class="row mt-3">
+                        <div class="form-group">
+                            <select class="form-control" id="preferredClass" name="preferredClass">
+                                <option value="">Select Class</option>
+                                <% if (locals.class_name != null) { class_name.forEach(c => {%>
+                                    <option value="<%= c.class_name %>"><%= c.class_name %></option>
+                                <% })} %>
+                            </select>
+                        </div>
+                     </div>
+                      <div class="row mt-3">
+                        <input type="text" class="form-control" name="sid" placeholder="Student ID" required>
+                    </div>
+                    <div class="row mt-3">
+                        <input type="file" name="Result" required>
+                    </div>
+                    <div class="row d-flex justify-content-start mt-4">
+                        <input class="btn btn-success mr-2" name="submit" type="submit" value="Upload">
+                    </div>
+                </div>
+            </form>
+        </div> 
+</body>

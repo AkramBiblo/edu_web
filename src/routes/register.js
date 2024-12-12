@@ -17,11 +17,6 @@ register.get('/new', (req, res) => {
     const getDBInfo = require("../../db");
     let dataQuery = getDBInfo.getDataFrom(campus_key, ["class_name", "section_name", "shift_name"])
     setTimeout(() => {
-      // let dataObj = {
-      //   class_name : dataQuery[0],
-      //   section_name : dataQuery[1],
-      //   shift_name : dataQuery[2],
-      // }
       let class_name = dataQuery[0]
       let section_name = dataQuery[1]
       let shift_name = dataQuery[2]
@@ -185,35 +180,6 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-register.post(
-  "/result_file_upload",
-  urlencodedParser,
-  upload.single("Result"),
-  // upload.array('photos', 4),
-  function (req, res) {
-    let F = file = req.file.filename;
-    let sid = req.body.sid;
-    let campus = req.body.campus;
-
-    let con;
-    if (campus == "khulshi_campus") {
-      const getDBInfo = require("../../db");
-      con = getDBInfo.con.con_for_khulshi;
-    } else if (campus == "kadamtali_campus") {
-      const getDBInfo = require("../../db");
-      con = getDBInfo.con.con_for_kadamtali;
-    } else if (campus == "majhirghat_campus") {
-      const getDBInfo = require("../../db");
-      con = getDBInfo.con.con_for_majhirghat;
-    }
-    con.connect((err) => {
-      let sql = `UPDATE allstudents SET f_t_result_file = "${F}" WHERE sid = "${sid}"`
-      con.query(sql, (err, result) => {
-        res.render("result_file_upload", {successMsg: "Result uploaded successfully!"})
-      })
-    })
-
-  })
 
 register.post(
   "/new",

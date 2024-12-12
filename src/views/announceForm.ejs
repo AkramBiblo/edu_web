@@ -2,7 +2,7 @@
   <%- include("./partials/header.ejs") %>
 
     <div class="container p-3">
-        <a class="btn btn-outline-info admin-button" href="/alhera2023admin">Admin Panel</a>
+        <a class="btn btn-outline-info admin-button" href="/admin">Admin Panel</a>
       </div>
 
     <div style="max-width: 500px;" class="container bg-warning mt-2 mb-2 border p-4">
@@ -60,18 +60,18 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col-lg-4">
-                        <h6><label for="date">Applicable from</label></h6>
+                        <h6><label for="fromDate">Applicable from</label></h6>
                     </div>
                     <div class="col-lg-8">
-                        <input type="text" class="form-control" name="date" required>
+                        <input type="date" class="form-control" name="fromDate" required>
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-lg-4">
-                        <h6><label for="end">Applicable until</label></h6>
+                        <h6><label for="tillDate">Applicable until</label></h6>
                     </div>
                     <div class="col-lg-8">
-                        <input type="text" class="form-control" name="end">
+                        <input type="date" class="form-control" name="tillDate">
                     </div>
                 </div>
                 

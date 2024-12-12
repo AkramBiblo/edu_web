@@ -42,6 +42,7 @@ setup.post("/enroll_Institute", (req, res) => {
  
   let teachersTable = `CREATE TABLE teachers (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), address VARCHAR(255), qualifications VARCHAR(255), email VARCHAR(255), password VARCHAR(255), mobile VARCHAR(255), file VARCHAR(255))`
   let paymentsTable = `CREATE TABLE payments (id INT AUTO_INCREMENT PRIMARY KEY, sid INT(11), cid INT(11), date VARCHAR(10), month VARCHAR(255), year INT(4), name VARCHAR(255), amount INT(11), paymentDisc VARCHAR(255), status VARCHAR(255))`
+  let expenseTable = `CREATE TABLE expenses (id INT AUTO_INCREMENT PRIMARY KEY, date VARCHAR(10), month VARCHAR(255), year INT(4), description VARCHAR(255), amount INT(11), status VARCHAR(255))`
   let announceTable = `CREATE TABLE announcements (id INT AUTO_INCREMENT PRIMARY KEY, heading TEXT(100000), description TEXT(100000), fromDate VARCHAR(10), tillDate VARCHAR(10), campus VARCHAR(255), file VARCHAR(255), noticeType VARCHAR(255))`
   let studentTable = `CREATE TABLE allstudents (id INT AUTO_INCREMENT PRIMARY KEY, sid VARCHAR(255), cid INT(11), roll VARCHAR(255), nameEnglish VARCHAR(255), nameBangla VARCHAR(255), previousClass VARCHAR(255), preferredClass VARCHAR(255),
   preferredSection VARCHAR(255), gradePoint INT, previousInstitute VARCHAR(255), dateOfBirth VARCHAR(255),
@@ -49,13 +50,16 @@ setup.post("/enroll_Institute", (req, res) => {
   deasesQuery VARCHAR(255), deasesDetailes VARCHAR(255), fNameEnglish VARCHAR(255), fNameBangla VARCHAR(255), fNID VARCHAR(255), fOccupation VARCHAR(255), fBloodGroup VARCHAR(255),
   fEQualification VARCHAR(255), fMobile VARCHAR(255), FPIC VARCHAR(255), mNameBangla VARCHAR(255), mNameEnglish VARCHAR(255), mNID VARCHAR(255), mOccupation VARCHAR(255),
   mBloodGroup VARCHAR(255), mEQualification VARCHAR(255), mMobile VARCHAR(255), MPIC VARCHAR(255), vlg VARCHAR(255), po VARCHAR(255), ps VARCHAR(255), dist VARCHAR(255), addressAreSame VARCHAR(255),
-  pvlg VARCHAR(255), ppo VARCHAR(255), pps VARCHAR(255), pdist VARCHAR(255), emergencyContact VARCHAR(255), password VARCHAR(255), editButton VARCHAR(255), presence INT(11), absence INT(11), shift VARCHAR(255), file VARCHAR(255))`
+  pvlg VARCHAR(255), ppo VARCHAR(255), pps VARCHAR(255), pdist VARCHAR(255), emergencyContact VARCHAR(255), password VARCHAR(255), notify INT(11), editButton VARCHAR(255), presence INT(11), absence INT(11), shift VARCHAR(255), file VARCHAR(255))`
   con.query(studentTable, (err, result) => {
     console.log("Student table created successfully!")
   }) 
   con.query(paymentsTable, (err, result) => {
     console.log("Payment table created successfully!")
   }) 
+  con.query(expenseTable, (err, result) => {
+    console.log("Expense table created successfully!")
+  })
   con.query(teachersTable, (err, result) => {
     console.log("Teachers table created successfully!")
   }) 
@@ -127,7 +131,7 @@ setup.post("/enroll_Institute", (req, res) => {
               let subjectArr = subj.split(",#,")
               sqlForSubjectTable = `CREATE TABLE subjects_of_class_${_counter} (id INT AUTO_INCREMENT PRIMARY KEY, subject_name VARCHAR(255), full_mark INT, pass_mark INT)`; 
               con.query(sqlForSubjectTable, (err, result) => {
-                let sqlForResultTable = `CREATE TABLE class_${_counter}_result (id INT AUTO_INCREMENT PRIMARY KEY, term VARCHAR(255), year INT(4))`; 
+                let sqlForResultTable = `CREATE TABLE class_${_counter}_result (id INT AUTO_INCREMENT PRIMARY KEY, sid VARCHAR(255), term VARCHAR(255), year INT(4))`; 
                 con.query(sqlForResultTable, (err, result) => {
                   console.log("Result table added successfully!")
                 })
